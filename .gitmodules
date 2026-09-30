@@ -1,0 +1,3 @@
+[submodule "external/rue"]
+	path = external/rue
+	url = git@github.com:mtreanor/rue.git
