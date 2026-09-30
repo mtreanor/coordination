@@ -9,7 +9,7 @@ The grant proposal (submitted Aug 4 2026) is `context/schmidt-proposal-submitted
 ## Layout
 
 - `external/rue/` — the RUE engine, as a git submodule (`git@github.com:mtreanor/rue.git`). Treat it as an upstream dependency: don't edit it from this repo unless asked.
-- `context/` — source documents (the proposal).
+- `context/` — source documents (the proposal). Gitignored: it contains collaborators' personal details.
 - `CONTEXT.md` — domain glossary. Use its terms.
 - `docs/adr/` — architecture decision records (created as needed).
 
