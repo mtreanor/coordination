@@ -2,22 +2,82 @@
   "predicates": {
     "energy": {
       "type": "numeric",
-      "args": ["agent"],
-      "minValue": 0, "maxValue": 10, "default": 5,
-      "tiers": { "low": [0, 3], "ok": [3, 7], "high": [7, 10] }
+      "args": [
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 10,
+      "default": 5,
+      "tiers": {
+        "low": [
+          0,
+          3
+        ],
+        "ok": [
+          3,
+          7
+        ],
+        "high": [
+          7,
+          10
+        ]
+      },
+      "toString": {
+        "briefing": "{args[0]} has {tier} energy ({value} out of 10)."
+      }
     },
     "wood": {
       "type": "numeric",
-      "args": ["agent"],
-      "minValue": 0, "maxValue": 100, "default": 0
+      "args": [
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 100,
+      "default": 0,
+      "toString": {
+        "briefing": "{args[0]} has {value} wood."
+      }
     },
     "warmth": {
       "type": "numeric",
-      "args": ["agent", "agent"],
-      "minValue": 0, "maxValue": 10, "default": 5
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 10,
+      "default": 5,
+      "toString": {
+        "briefing": "{args[0]}'s warmth toward {args[1]} is {value} out of 10."
+      }
     },
-    "urge-rest":   { "type": "numeric", "args": ["agent"], "annotations": { "ephemeral": true } },
-    "urge-gather": { "type": "numeric", "args": ["agent"], "annotations": { "ephemeral": true } },
-    "urge-share":  { "type": "numeric", "args": ["agent", "agent"], "annotations": { "ephemeral": true } }
+    "urge-rest": {
+      "type": "numeric",
+      "args": [
+        "agent"
+      ],
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "urge-gather": {
+      "type": "numeric",
+      "args": [
+        "agent"
+      ],
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "urge-share": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "annotations": {
+        "ephemeral": true
+      }
+    }
   }
 }

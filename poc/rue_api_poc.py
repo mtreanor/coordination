@@ -15,6 +15,10 @@ Then pick who chooses:
     uv run poc/rue_api_poc.py --chooser ask         # you pick at the prompt
     uv run poc/rue_api_poc.py --chooser qwen-9b     # any profile in models.toml
 
+Or give each principal its own chooser (the rest use --chooser):
+
+    uv run poc/rue_api_poc.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
+
 Every decision is "controlled": RUE scores the candidates and pauses, and the
 chooser picks, telling RUE who chose and why (recorded on the ActionRecord).
 The script also pushes a fact into RUE mid-run (the way the game will mirror
@@ -36,7 +40,6 @@ from coordination.agents import (
 from coordination.rue_client import RueClient
 
 SCENARIO = "poc"
-AGENTS = ["alice", "bob", "carol"]
 INSTRUCTIONS = "Keep the camp going through the night: keep yourself rested, gather wood, and look after the others."
 
 
@@ -53,30 +56,26 @@ def make_chooser(name: str, seed: int) -> Chooser:
     return LLMChooser(profiles[name])
 
 
-def campfire_briefing(facts: list[dict], agent: str) -> str:
-    """What the agent sees: everyone's energy and wood, and how warmly it feels toward each other agent."""
-    values = {(f["name"], tuple(f["args"])): f["value"] for f in facts if f["value"] is not None}
-    lines = [f"It is night at the campfire. You are {agent}. Energy runs from 0 (exhausted) to 10."]
-    for other in AGENTS:
-        who = "You have" if other == agent else f"{other} has"
-        lines.append(f"- {who} energy {values.get(('energy', (other,)), 5)} and {values.get(('wood', (other,)), 0)} wood.")
-    for other in AGENTS:
-        if other != agent:
-            lines.append(f"- Your warmth toward {other}: {values.get(('warmth', (agent, other)), 5)} out of 10.")
+def campfire_briefing(rue: RueClient, agent: str) -> str:
+    """What the agent sees: the world's facts, rendered by RUE through each predicate's
+    "briefing" template. No language model is involved."""
+    lines = [f"It is night at the campfire. You are {agent}."]
+    lines += [f"- {text}" for text in rue.render("briefing")]
     return "\n".join(lines)
 
 
-def run_tick(rue: RueClient, chooser: Chooser, log: DecisionLog, show_scores: bool, stats: list[dict]) -> int:
-    """Step one tick, answering every pending choice. Returns the finished tick number."""
+def run_tick(rue: RueClient, choosers: dict[str, Chooser], log: DecisionLog, show_scores: bool, stats: list[dict]) -> int:
+    """Step one tick, answering every pending choice with that agent's own chooser."""
     result = rue.step()
     while result["status"] == "awaiting-choice":
         pending = result["request"]
         agent = pending["binding"]["SELF"]
+        chooser = choosers[agent]
         candidates = [c for c in pending["candidates"] if not c["belowFloor"]]
         request = DecisionRequest(
             agent=agent,
             instructions=INSTRUCTIONS,
-            briefing=campfire_briefing(rue.facts(), agent),
+            briefing=campfire_briefing(rue, agent),
             options=[Option(id=c["index"], label=c["label"], score=c["score"], is_default=c["isDefault"]) for c in candidates],
             show_scores=show_scores,
         )
@@ -84,13 +83,14 @@ def run_tick(rue: RueClient, chooser: Chooser, log: DecisionLog, show_scores: bo
         log.write(request, decision, tick=pending["tick"])
 
         default = next((o.id for o in request.options if o.is_default), None)
-        stats.append({"passed": decision.passed, "agreed": decision.choice_id == default, "latency": decision.latency_s})
+        stats.append({"agent": agent, "passed": decision.passed, "agreed": decision.choice_id == default,
+                      "latency": decision.latency_s, "cost": (decision.usage or {}).get("cost")})
         if decision.passed:
             print(f"  {agent} passes ({(decision.error or 'no reason given').splitlines()[0][:80]})")
         else:
             label = next(o.label for o in request.options if o.id == decision.choice_id)
             marker = "" if decision.choice_id == default else "  [against RUE's ranking]"
-            print(f"  {label}{marker}")
+            print(f"  {label}{marker}   ({decision.model or chooser.__class__.__name__})")
             if decision.rationale:
                 print(f'      "{decision.rationale}"')
 
@@ -109,6 +109,7 @@ def print_proof(node: dict, depth: int = 0) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--chooser", default="rue", help="rue, random, ask, or a profile name from models.toml")
+    parser.add_argument("--principals", default="", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
     parser.add_argument("--ticks", type=int, default=3)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--hide-scores", action="store_true", help="don't show RUE's utilities to the chooser")
@@ -116,13 +117,22 @@ def main() -> None:
     args = parser.parse_args()
 
     load_dotenv()
-    chooser = make_chooser(args.chooser, args.seed)
-    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-poc-{args.chooser}"
-    log = DecisionLog(run_dir / "decisions.jsonl")
     rue = RueClient(SCENARIO, args.server)
-
     rue.reset()
-    rue.start(controlled_agents=AGENTS)
+    rue.start(controlled_agents=[])
+    agents = rue.entities("agent")
+    assigned = dict(pair.split("=", 1) for pair in args.principals.split(",") if pair)
+    unknown = set(assigned) - set(agents)
+    if unknown:
+        raise SystemExit(f"No agent named {sorted(unknown)} in the scenario (agents: {agents})")
+    names = {agent: assigned.get(agent, args.chooser) for agent in agents}
+    choosers = {agent: make_chooser(name, args.seed) for agent, name in names.items()}
+    label = "mixed" if len(set(names.values())) > 1 else args.chooser
+    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-poc-{label}"
+    log = DecisionLog(run_dir / "decisions.jsonl")
+
+    print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in names.items()))
+    rue.start(controlled_agents=agents)
     stats: list[dict] = []
     for i in range(args.ticks):
         if i == 1:
@@ -130,13 +140,17 @@ def main() -> None:
             print("\nPython pushes a state change into RUE: energy(carol) = 1")
             rue.assert_fact("energy(carol) = 1")
         print(f"\nTick {i + 1}:")
-        run_tick(rue, chooser, log, not args.hide_scores, stats)
+        run_tick(rue, choosers, log, not args.hide_scores, stats)
 
-    latencies = [s["latency"] for s in stats if s["latency"] is not None]
-    print(f"\n{len(stats)} decisions by {args.chooser}: "
-          f"{sum(s['agreed'] for s in stats)} agreed with RUE's top-ranked move, "
-          f"{sum(s['passed'] for s in stats)} passed"
-          + (f", {mean(latencies):.1f}s per decision" if latencies else ""))
+    print()
+    for agent, name in names.items():
+        mine = [s for s in stats if s["agent"] == agent]
+        latencies = [s["latency"] for s in mine if s["latency"] is not None]
+        cost = sum(s["cost"] or 0 for s in mine)
+        print(f"{agent} ({name}): {len(mine)} decisions, {sum(s['agreed'] for s in mine)} agreed with RUE, "
+              f"{sum(s['passed'] for s in mine)} passed"
+              + (f", {mean(latencies):.1f}s each" if latencies else "")
+              + (f", ${cost:.4f}" if cost else ""))
 
     print("\nWhy does warmth(bob, alice) have its value?")
     print_proof(rue.explain("warmth", ["bob", "alice"])["proof"])

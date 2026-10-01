@@ -2,4 +2,9 @@ world
   energy(alice) = 8
   energy(bob) = 2
   energy(carol) = 5
+  energy(dave) = 5
+  wood(alice) = 0
+  wood(bob) = 0
+  wood(carol) = 0
+  wood(dave) = 0
   warmth(alice, bob) = 7
