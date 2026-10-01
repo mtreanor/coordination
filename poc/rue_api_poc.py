@@ -6,7 +6,11 @@
 
 Start the RUE server first (from the repo root):
 
-    cd external/rue/tools/action-rule-set-tool && npm run server
+    cd external/rue && npm run server
+
+or start it with the authoring tool mounted, to watch the run in the Play tab:
+
+    cd external/rue/tools/action-rule-set-tool && npm run dev
 
 Then:
 
