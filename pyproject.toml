@@ -1,0 +1,22 @@
+[project]
+name = "coordination"
+version = "0.1.0"
+description = "A testbed where LLM agents for different principals coordinate within an auditable RUE social world"
+authors = [
+    { name = "Mike Treanor", email = "treanor@american.edu" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "httpx>=0.28.1",
+    "pydantic-ai-slim[anthropic,google,openai]>=2.52.0",
+    "python-dotenv>=1.2.4",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.19,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]

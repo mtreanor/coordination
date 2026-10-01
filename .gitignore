@@ -1,3 +1,6 @@
 .DS_Store
 .env
 context/
+runs/
+.venv/
+__pycache__/

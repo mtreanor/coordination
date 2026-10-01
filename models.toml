@@ -1,0 +1,37 @@
+# Model profiles. A Run assigns each principal a profile by name.
+#
+# Keys: provider, model (required); base_url, temperature, max_tokens, seed,
+# thinking (false | true | "minimal" | "low" | "medium" | "high" | "xhigh"),
+# output_mode ("native" | "tool" | "prompted"). Unknown keys are rejected.
+#
+# API keys never go here: put them in .env (gitignored), e.g. ANTHROPIC_API_KEY.
+
+# ── Local, through Ollama (http://localhost:11434) ─────────────────────────────
+
+[profiles.qwen-9b]
+provider = "ollama"
+model = "qwen3.5:9b"
+temperature = 0.7
+
+[profiles.gemma-12b]
+provider = "ollama"
+model = "gemma4:12b"
+temperature = 0.7
+
+[profiles.granite-8b]
+provider = "ollama"
+model = "granite4.1:8b"
+temperature = 0.7
+
+# ── Hosted APIs ────────────────────────────────────────────────────────────────
+
+[profiles.claude-sonnet]
+provider = "anthropic"
+model = "claude-sonnet-5"
+
+[profiles.claude-haiku]
+provider = "anthropic"
+model = "claude-haiku-4-5-20251001"
+
+# For OpenAI or Google, use provider = "openai" or "google" with that
+# provider's current model id, and set OPENAI_API_KEY or GOOGLE_API_KEY in .env.
