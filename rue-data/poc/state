@@ -1,0 +1,5 @@
+world
+  energy(alice) = 8
+  energy(bob) = 2
+  energy(carol) = 5
+  warmth(alice, bob) = 7

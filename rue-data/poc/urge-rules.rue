@@ -1,0 +1,24 @@
+ruleset "urge-rules"
+  # Priming: turns each agent's situation into the ephemeral urges the
+  # campfire actions read as utility.
+
+  rule "resting is always a little appealing"
+    energy(?SELF) >= 0
+    => urge-rest(?SELF) += 1
+
+  rule "tired agents want to rest"
+    energy.low(?SELF)
+    => urge-rest(?SELF) += 4
+
+  rule "energetic agents want to gather wood"
+    energy.high(?SELF)
+    => urge-gather(?SELF) += 4
+
+  rule "agents with some energy will gather"
+    energy.ok(?SELF)
+    => urge-gather(?SELF) += 2
+
+  rule "share with a tired friend"
+    energy.low(?OTHER)
+    ^ warmth(?SELF, ?OTHER) >= 6
+    => urge-share(?SELF, ?OTHER) += 5

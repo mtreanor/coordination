@@ -1,0 +1,29 @@
+actionset "campfire"
+  # Three things an agent can do on its turn at the campfire.
+
+  action "rest"
+    roles: ?SELF: agent
+    utility
+      urge-rest(?SELF)
+    content text: "?SELF rests"
+    effects
+      energy(?SELF) += 3
+
+  action "gather wood"
+    roles: ?SELF: agent
+    utility
+      urge-gather(?SELF)
+    content text: "?SELF gathers wood"
+    effects
+      energy(?SELF) -= 2
+      wood(?SELF) += 1
+
+  action "share food"
+    roles: ?SELF: agent, ?OTHER: agent
+    utility
+      urge-share(?SELF, ?OTHER)
+    content text: "?SELF shares food with ?OTHER"
+    effects
+      energy(?SELF) -= 1
+      energy(?OTHER) += 2
+      warmth(?OTHER, ?SELF) += 2

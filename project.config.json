@@ -1,0 +1,6 @@
+{
+  "active": "poc",
+  "scenarios": {
+    "poc": "rue-data/poc"
+  }
+}
