@@ -5,5 +5,5 @@ RUE is JavaScript, so the path of least friction would be a Node harness calling
 ## Consequences
 
 - Changes to the RUE server API are expected to require changes here; pin the RUE submodule to a known commit.
-- Parallel Runs use one RUE server process per Run.
+- There is one RUE server, and every agent in a Run interfaces with the same RUE. Runs execute one at a time; parallel Runs are out of scope.
 - Bulk provenance export and a seed parameter are needed upstream.
