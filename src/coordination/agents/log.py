@@ -20,4 +20,4 @@ class DecisionLog:
             "decision": decision.model_dump(),
         }
         with self.path.open("a") as f:
-            f.write(json.dumps(record) + "\n")
+            f.write(json.dumps(record, default=str) + "\n")

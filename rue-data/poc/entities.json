@@ -2,6 +2,7 @@
   "agent": {
     "alice": {},
     "bob": {},
-    "carol": {}
+    "carol": {},
+    "dave": {}
   }
 }

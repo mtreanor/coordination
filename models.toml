@@ -33,5 +33,13 @@ model = "claude-sonnet-5"
 provider = "anthropic"
 model = "claude-haiku-4-5-20251001"
 
-# For OpenAI or Google, use provider = "openai" or "google" with that
-# provider's current model id, and set OPENAI_API_KEY or GOOGLE_API_KEY in .env.
+[profiles.gemini-flash]
+provider = "google"
+model = "gemini-3.8-flash"
+
+[profiles.gemini-flash-lite]
+provider = "google"
+model = "gemini-3.5-flash-lite"
+
+# For OpenAI, use provider = "openai" with OpenAI's current model id, and set
+# OPENAI_API_KEY in .env.

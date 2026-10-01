@@ -1,5 +1,6 @@
 """Model profiles: named, validated model configurations loaded from models.toml."""
 
+import os
 import tomllib
 from pathlib import Path
 from typing import Literal
@@ -55,6 +56,10 @@ class ModelProfile(BaseModel):
             effort = OLLAMA_REASONING_EFFORT[self.thinking]
             if effort is not None:
                 settings["extra_body"] = {"reasoning_effort": effort}
+        if self.provider == "anthropic" and os.getenv("ANTHROPIC_WORKSPACE_ID"):
+            # An organization-level API key (not scoped to one workspace) must name
+            # the workspace to use on every request.
+            settings["extra_headers"] = {"anthropic-workspace-id": os.environ["ANTHROPIC_WORKSPACE_ID"]}
         if self.temperature is not None:
             settings["temperature"] = self.temperature
         if self.max_tokens is not None:

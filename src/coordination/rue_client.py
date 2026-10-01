@@ -42,5 +42,16 @@ class RueClient:
     def explain(self, name: str, args: list[str]) -> dict:
         return self._post("/explain", {"name": name, "args": args})
 
+    def render(self, template: str, owner: str | None = None) -> list[str]:
+        """The text of every active fact whose predicate has the named template, from the
+        world store or one entity's private store (RUE's predicate toString templates)."""
+        body = {"template": template, **({"owner": owner} if owner else {})}
+        return [r["text"] for r in self._post("/render", body)["rendered"]]
+
+    def entities(self, entity_type: str) -> list[str]:
+        """The names of every entity of one type in the running session."""
+        groups = self._get("/entities")["entities"]
+        return next((g["names"] for g in groups if g["type"] == entity_type), [])
+
     def facts(self) -> list[dict]:
         return self._get("/facts")["facts"]
