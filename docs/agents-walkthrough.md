@@ -10,9 +10,9 @@ Three processes are involved:
 
 ```
 ┌──────────────────────────────┐        HTTP (localhost:5174)        ┌──────────────────────────────┐
-│ Python: poc/rue_api_poc.py   │ ──── step / choose / assert ──────► │ RUE server                   │
+│ Python: scripts/campfire.py   │ ──── step / choose / assert ──────► │ RUE server                   │
 │  uses src/coordination/      │ ◄─── ranked candidates, facts ───── │  external/rue/src/server/    │
-│   agents/  (choosers)        │                                      │  scenario: rue-data/poc/     │
+│   agents/  (choosers)        │                                      │  scenario: rue-data/campfire/     │
 │   rue_client.py              │                                      └──────────────────────────────┘
 │                              │
 │  LLMChooser ── Pydantic AI ──┼──► Ollama (localhost:11434) ── qwen3.5:9b, gemma4:12b, granite4.1:8b
@@ -27,11 +27,11 @@ Three processes are involved:
 
 ### One decision, end to end
 
-1. Python asks RUE to run a tick: `POST /api/play/poc/step`.
+1. Python asks RUE to run a tick: `POST /api/play/campfire/step`.
 2. RUE runs its tick plan. Alice's turn comes up. Her priming rules compute urges, her actions are scored, and because Alice is *controlled*, RUE pauses and returns `awaiting-choice` with the ranked candidates.
 3. Python turns the candidates into a **DecisionRequest**: the principal's instructions, a **briefing** (the situation as text), and the **options** (the menu).
 4. Alice's **chooser** answers with a **Decision**: a choice id and a rationale. For an LLM chooser, that is one model call with a strict answer schema.
-5. Python logs the request and decision, then sends the pick to RUE: `POST /api/play/poc/choose` with `{indexes: [0], chooser: {kind: "agent", id: "alice", note: "<rationale>"}}`.
+5. Python logs the request and decision, then sends the pick to RUE: `POST /api/play/campfire/choose` with `{indexes: [0], chooser: {kind: "agent", id: "alice", note: "<rationale>"}}`.
 6. RUE executes the action and records the chooser on the action's **ActionRecord**, so any fact it changed can later be explained back to "chosen by agent alice, because…".
 7. RUE moves on to the next agent's turn and pauses again, until the tick is complete.
 
@@ -46,9 +46,9 @@ Prerequisites: the RUE server, Ollama with the local models pulled, and API keys
 cd external/rue && npm run server
 
 # Terminal 2: from the repo root
-uv run poc/rue_api_poc.py                          # RUE's own top pick, no LLM
-uv run poc/rue_api_poc.py --chooser qwen-9b        # every agent uses one profile
-uv run poc/rue_api_poc.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
+uv run scripts/campfire.py                          # RUE's own top pick, no LLM
+uv run scripts/campfire.py --chooser qwen-9b        # every agent uses one profile
+uv run scripts/campfire.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
 ```
 
 Other flags: `--ticks N` (default 3), `--seed N` (for the random chooser), `--hide-scores` (don't show RUE's utilities to the model).
@@ -66,7 +66,7 @@ Ollama runs as a background service (`brew services start ollama`), so it is nor
 
 ## 3. The RUE side
 
-### The scenario: `rue-data/poc/`
+### The scenario: `rue-data/campfire/`
 
 A deliberately tiny world: four agents at a campfire.
 
@@ -103,7 +103,7 @@ action "share food"
 
 So because bob's energy is low and alice's warmth toward him is 7, "alice shares food with bob" scores 5, above "gather wood" (4) and "rest" (1).
 
-RUE finds this scenario through `project.config.json` at the repo root (`"poc": "rue-data/poc"`). The server reads scenario files on first use, so **after editing scenario files, restart the server.**
+RUE finds this scenario through `project.config.json` at the repo root (`"campfire": "rue-data/campfire"`). The server reads scenario files on first use, so **after editing scenario files, restart the server.**
 
 ### The Play API
 
@@ -417,7 +417,7 @@ They return the same `Decision` as the LLM chooser, so the harness treats them i
 
 ### 4.7 The decision log (`agents/log.py`)
 
-Every decision is appended as one JSON line to `runs/<time>-poc-<label>/decisions.jsonl` (the `runs/` folder is gitignored). A real record, trimmed:
+Every decision is appended as one JSON line to `runs/<time>-campfire-<label>/decisions.jsonl` (the `runs/` folder is gitignored). A real record, trimmed:
 
 ```json
 {
@@ -456,7 +456,7 @@ A thin wrapper over the Play API using `httpx`. Each method is one endpoint (`re
 
 ---
 
-## 5. The proof-of-concept script (`poc/rue_api_poc.py`)
+## 5. The campfire script (`scripts/campfire.py`)
 
 ### Setup: one chooser per principal
 
@@ -500,7 +500,7 @@ def run_tick(rue, choosers, log, show_scores, stats):
 
 Option ids are RUE's own candidate indexes, so a choice goes straight back to `/choose` with no translation.
 
-`campfire_briefing` builds the situation text entirely in RUE, with no language model. Each predicate in `rue-data/poc/predicates.json` declares a `briefing` text template:
+`campfire_briefing` builds the situation text entirely in RUE, with no language model. Each predicate in `rue-data/campfire/predicates.json` declares a `briefing` text template:
 
 ```json
 "energy": { ..., "toString": { "briefing": "{args[0]} has {tier} energy ({value} out of 10)." } },
@@ -516,7 +516,7 @@ def campfire_briefing(rue: RueClient, agent: str) -> str:
     return "\n".join(lines)
 ```
 
-`rue.render` calls `POST /api/play/poc/render {template: "briefing"}`. Templates can use `{args[N]}`, `{value}`, and `{tier}`; anything else stays as written. Only facts that exist in RUE's store render, so the scenario's `state` file sets every agent's energy and wood explicitly rather than relying on defaults.
+`rue.render` calls `POST /api/play/campfire/render {template: "briefing"}`. Templates can use `{args[N]}`, `{value}`, and `{tier}`; anything else stays as written. Only facts that exist in RUE's store render, so the scenario's `state` file sets every agent's energy and wood explicitly rather than relying on defaults.
 
 Still to come with the game design: rendering each agent's *own* view (its private store, through `render(..., owner=agent)`) instead of the shared world store.
 

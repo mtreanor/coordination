@@ -6,6 +6,10 @@ A neurosymbolic testbed where multi-principal LLM agents play a resource-coordin
 
 The grant proposal (submitted Aug 4 2026) is `context/schmidt-proposal-submitted-8-4-26.pdf`. The proposal calls the engine "RUSE"; it is now named **RUE**.
 
+## Current status
+
+Read `docs/status.md` first: where the build stands, what's next, and the decisions made so far.
+
 ## Layout
 
 - `external/rue/` — the RUE engine, as a git submodule (`git@github.com:mtreanor/rue.git`). Treat it as an upstream dependency: don't edit it from this repo unless asked.
@@ -14,7 +18,7 @@ The grant proposal (submitted Aug 4 2026) is `context/schmidt-proposal-submitted
   - `rue_client.py` — client for the RUE server's Play API.
 - `models.toml` — named model profiles (local via Ollama, hosted via API). API keys go in `.env`, never in the file.
 - `rue-data/` — this project's RUE scenarios, found by RUE through `project.config.json`.
-- `poc/` — throwaway proofs of concept.
+- `scripts/` — runnable entry points (`campfire.py` drives the campfire scenario).
 - `runs/` — Run output, gitignored.
 - `context/` — source documents (the proposal). Gitignored: it contains collaborators' personal details.
 - `CONTEXT.md` — domain glossary. Use its terms.

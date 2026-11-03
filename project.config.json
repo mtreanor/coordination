@@ -1,6 +1,6 @@
 {
-  "active": "poc",
+  "active": "campfire",
   "scenarios": {
-    "poc": "rue-data/poc"
+    "campfire": "rue-data/campfire"
   }
 }

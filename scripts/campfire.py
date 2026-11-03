@@ -1,4 +1,4 @@
-"""Proof of concept: agents choose campfire actions in RUE, driven entirely from Python.
+"""Agents choose campfire actions in RUE, driven entirely from Python.
 
 Start the RUE server first (from the repo root):
 
@@ -10,20 +10,20 @@ or start it with the authoring tool mounted, to watch the run in the Play tab:
 
 Then pick who chooses:
 
-    uv run poc/rue_api_poc.py                       # RUE's top-ranked move, no LLM
-    uv run poc/rue_api_poc.py --chooser random      # random (seeded)
-    uv run poc/rue_api_poc.py --chooser ask         # you pick at the prompt
-    uv run poc/rue_api_poc.py --chooser qwen-9b     # any profile in models.toml
+    uv run scripts/campfire.py                       # RUE's top-ranked move, no LLM
+    uv run scripts/campfire.py --chooser random      # random (seeded)
+    uv run scripts/campfire.py --chooser ask         # you pick at the prompt
+    uv run scripts/campfire.py --chooser qwen-9b     # any profile in models.toml
 
 Or give each principal its own chooser (the rest use --chooser):
 
-    uv run poc/rue_api_poc.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
+    uv run scripts/campfire.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
 
 Every decision is "controlled": RUE scores the candidates and pauses, and the
 chooser picks, telling RUE who chose and why (recorded on the ActionRecord).
 The script also pushes a fact into RUE mid-run (the way the game will mirror
 state changes) and asks RUE to explain a fact at the end. Every decision is
-logged to runs/<time>-poc-<chooser>/decisions.jsonl.
+logged to runs/<time>-campfire-<chooser>/decisions.jsonl.
 """
 
 import argparse
@@ -39,7 +39,7 @@ from coordination.agents import (
 )
 from coordination.rue_client import RueClient
 
-SCENARIO = "poc"
+SCENARIO = "campfire"
 INSTRUCTIONS = "Keep the camp going through the night: keep yourself rested, gather wood, and look after the others."
 
 
@@ -128,7 +128,7 @@ def main() -> None:
     names = {agent: assigned.get(agent, args.chooser) for agent in agents}
     choosers = {agent: make_chooser(name, args.seed) for agent, name in names.items()}
     label = "mixed" if len(set(names.values())) > 1 else args.chooser
-    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-poc-{label}"
+    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-campfire-{label}"
     log = DecisionLog(run_dir / "decisions.jsonl")
 
     print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in names.items()))
