@@ -1,0 +1,17 @@
+{
+  "entityType": "agent",
+  "phases": [
+    {
+      "actionGraph": "record-work-events",
+      "loop": [],
+      "bindings": {}
+    },
+    {
+      "actionGraph": "social-actions",
+      "loop": [
+        "SELF"
+      ],
+      "bindings": {}
+    }
+  ]
+}

@@ -11,7 +11,10 @@ Then:
     uv run scripts/play.py --chooser claude-haiku --situation grudge
     uv run scripts/play.py --principals alice=claude-haiku,bob=qwen-9b --chooser gemini-flash-lite
     uv run scripts/play.py --rue-judgement                   # RUE's ranking picks the judgement actions
-    uv run scripts/play.py --no-judgement                    # social actions, but nothing is judged
+    uv run scripts/play.py --plan no-judgement               # social actions, but nothing is judged
+
+The social round is one tick of the RUE scenario's tick plan (--plan), so conditions
+are tick plans in rue-data/<scenario>/tickplans/.
 
 Works are listed in coordination.work.WORKS and social layers in
 coordination.social.SOCIAL_LAYERS. Output goes to runs/<time>-<work>-<social>-<situation>/.
@@ -51,9 +54,8 @@ def main() -> None:
     parser.add_argument("--chooser", default="random", help="rue, random, ask, or a profile name from models.toml")
     parser.add_argument("--principals", default="", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
     parser.add_argument("--rounds", type=int, default=4)
-    parser.add_argument("--social-passes", type=int, default=2, help="most social actions per agent per round")
+    parser.add_argument("--plan", default="full", help="the RUE tick plan for the social round (e.g. full, no-judgement)")
     parser.add_argument("--rue-judgement", action="store_true", help="RUE's ranking picks judgement actions instead of the agents")
-    parser.add_argument("--no-judgement", action="store_true", help="skip work judgement and social judgement")
     parser.add_argument("--hide-scores", action="store_true", help="don't show RUE's utilities to the agents")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--server", default="http://localhost:5174")
@@ -63,8 +65,7 @@ def main() -> None:
     situation = Situation.load(args.situation)
     work = WORKS[args.work](AGENTS, rounds=args.rounds)
     social = (NoSocial() if args.social == "off" else
-              RueSocial(args.scenario, args.server, social_passes=args.social_passes,
-                        judgement=not args.no_judgement, llm_judgement=not args.rue_judgement))
+              RueSocial(args.scenario, args.server, plan=args.plan, rue_judgement=args.rue_judgement))
 
     assigned = dict(pair.split("=", 1) for pair in args.principals.split(",") if pair)
     unknown = set(assigned) - set(work.agents)
@@ -73,7 +74,8 @@ def main() -> None:
     names = {agent: assigned.get(agent, args.chooser) for agent in work.agents}
     choosers = {agent: make_chooser(name, args.seed + i) for i, (agent, name) in enumerate(names.items())}
 
-    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-{args.work}-{args.social}-{args.situation}"
+    social_label = args.social if args.social == "off" else f"{args.social}-{args.plan}"
+    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-{args.work}-{social_label}-{args.situation}"
     print(f"Work: {args.work}  Social: {args.social}  Situation: {args.situation}")
     print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in names.items()))
 

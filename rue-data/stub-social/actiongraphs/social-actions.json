@@ -1,12 +1,12 @@
 {
   "name": "social-actions",
   "notes": "Each agent picks one social action.",
-  "entry": "main",
+  "entry": "social-actions",
   "selectionStrategy": "highestUtility",
   "preHooks": [],
   "postHooks": [],
   "stages": {
-    "main": {
+    "social-actions": {
       "actionset": "social-actions",
       "routing": "branch",
       "routesTo": null,

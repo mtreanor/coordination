@@ -6,10 +6,8 @@ Each round:
    a work move. Work moves are unscored; the agent deliberates freely.
 2. Resolve: the work applies all work moves at once and reports work events.
 3. Mirror: the work state is copied into the social world as it is. Nothing is judged.
-4. Record: the work events are recorded so their witnesses can judge them.
-5. Work judgement: witnesses judge the work events that happened to them.
-6. Social actions: agents take social actions.
-7. Social judgement: listeners judge what was said to them.
+4. The social round, run by the social layer (for RUE, one tick of its tick plan):
+   record the work events, work judgement, social actions, social judgement.
 
 The work and the social layer are both swappable (Work, SocialLayer); the Run only
 sequences them and builds every Decision Request.
@@ -73,10 +71,7 @@ class Run:
             events = self.work.resolve(choices)
             self._write("events.jsonl", {"round": self.round, "events": [e.model_dump() for e in events]})
             self.social.mirror(self.work.state())
-            self.social.record(events)
-            self.social.work_judgement(self.ask)
-            self.social.social_actions(self.ask)
-            self.social.social_judgement(self.ask)
+            self.social.social_round(events, self.ask)
             self._write("rounds.jsonl", {
                 "round": self.round,
                 "scores": self.work.scores(),

@@ -1,12 +1,12 @@
 {
   "name": "work-judgement",
   "notes": "Work judgement: each witness picks a judgement action for one work occurrence (looped over JUDGE x OCC).",
-  "entry": "main",
+  "entry": "work-judgement",
   "selectionStrategy": "highestUtility",
   "preHooks": [],
   "postHooks": [],
   "stages": {
-    "main": {
+    "work-judgement": {
       "actionset": "work-judgement-actions",
       "routing": "branch",
       "routesTo": null,

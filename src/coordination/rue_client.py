@@ -22,12 +22,17 @@ class RueClient:
     def reset(self) -> None:
         self._post("/reset")
 
-    def start(self, controlled_agents: list[str]) -> dict:
-        return self._post("/start", {"controlled": {"agents": controlled_agents, "stages": []}})
+    def start(self, controlled_agents: list[str], plan: str | None = None) -> dict:
+        """Start a session on the named tick plan (None: the scenario's default)."""
+        body = {"controlled": {"agents": controlled_agents, "stages": []}}
+        if plan:
+            body["planName"] = plan
+        return self._post("/start", body)
 
-    def set_controlled(self, agents: list[str]) -> None:
-        """Which agents' selections pause for an outside choice; [] lets RUE choose everything."""
-        self._post("/config", {"controlled": {"agents": agents, "stages": []}})
+    def set_controlled(self, agents: list[str], stages: list[str] | None = None) -> None:
+        """Which selections pause for an outside choice: those made by these agents, at these
+        stages ([] or None: any stage). With no agents and no stages, RUE chooses everything."""
+        self._post("/config", {"controlled": {"agents": agents, "stages": stages or []}})
 
     def set_plan(self, phases: list[dict] | None) -> None:
         """Replace what the next tick runs: [{actionGraph, loop?, bindings?} | {ruleset}], or None

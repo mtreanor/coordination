@@ -1,12 +1,12 @@
 {
   "name": "record-work-events",
   "notes": "Records each reported work event as an occurrence its witnesses can judge. Runs without asking anyone.",
-  "entry": "main",
+  "entry": "record-work-events",
   "selectionStrategy": "highestUtility",
   "preHooks": [],
   "postHooks": [],
   "stages": {
-    "main": {
+    "record-work-events": {
       "actionset": "work-events",
       "routing": "collect",
       "routesTo": null,

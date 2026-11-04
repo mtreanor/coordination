@@ -1,12 +1,12 @@
 {
   "name": "social-judgement",
   "notes": "Social judgement: each listener picks a judgement action for one social occurrence (looped over JUDGE x OCC).",
-  "entry": "main",
+  "entry": "social-judgement",
   "selectionStrategy": "highestUtility",
   "preHooks": [],
   "postHooks": [],
   "stages": {
-    "main": {
+    "social-judgement": {
       "actionset": "social-judgement-actions",
       "routing": "branch",
       "routesTo": null,

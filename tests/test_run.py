@@ -47,17 +47,8 @@ class RecordingSocial(NoSocial):
     def mirror(self, state):
         self.calls.append(("mirror", tuple((f.name, *f.args, f.value) for f in state)))
 
-    def record(self, events):
-        self.calls.append(("record", len(events)))
-
-    def work_judgement(self, ask):
-        self.calls.append("work_judgement")
-
-    def social_actions(self, ask):
-        self.calls.append("social_actions")
-
-    def social_judgement(self, ask):
-        self.calls.append("social_judgement")
+    def social_round(self, events, ask):
+        self.calls.append(("social_round", len(events)))
 
 
 def test_run_sequences_phases_and_logs(tmp_path):
@@ -70,8 +61,8 @@ def test_run_sequences_phases_and_logs(tmp_path):
     assert set(scores) == set(AGENTS)
     assert social.calls[0] == ("start", ("alice.likes(alice, bob) = 1",))
     steps = [c if isinstance(c, str) else c[0] for c in social.calls[1:]]
-    assert steps == ["mirror", "record", "work_judgement", "social_actions", "social_judgement"] * 2
-    mirrored = dict((name_agent[1], name_agent[2]) for name_agent in social.calls[-5][1])
+    assert steps == ["mirror", "social_round"] * 2
+    mirrored = dict((name_agent[1], name_agent[2]) for name_agent in social.calls[-2][1])
     assert mirrored == scores
     records = [json.loads(line) for line in (tmp_path / "decisions.jsonl").read_text().splitlines()]
     assert len(records) == 8 and {r["phase"] for r in records} == {"work"}
@@ -101,15 +92,35 @@ def rue_server_up() -> bool:
         return False
 
 
-@pytest.mark.skipif(not rue_server_up(), reason="needs the RUE server (cd external/rue && npm run server)")
-def test_rue_social_round(tmp_path):
+def play_rue(tmp_path, **social_options):
     choosers = {agent: RandomChooser(i) for i, agent in enumerate(AGENTS)}
     work = StubWork(AGENTS, rounds=2)
-    social = RueSocial("stub-social")
+    social = RueSocial("stub-social", **social_options)
     run = Run(work, social, choosers, Situation(name="t", facts=["alice.likes(alice, bob) = 1"]), tmp_path)
     run.play()
-
     phases = {json.loads(line)["phase"] for line in (tmp_path / "decisions.jsonl").read_text().splitlines()}
+    return work, social, phases
+
+
+needs_rue = pytest.mark.skipif(not rue_server_up(), reason="needs the RUE server (cd external/rue && npm run server)")
+
+
+@needs_rue
+def test_rue_no_judgement_plan_skips_judgement(tmp_path):
+    _, _, phases = play_rue(tmp_path, plan="no-judgement")
+    assert phases == {"work", "social actions"}
+
+
+@needs_rue
+def test_rue_judgement_by_ranking_never_asks(tmp_path):
+    _, social, phases = play_rue(tmp_path, rue_judgement=True)
+    assert "work judgement" not in phases and "social judgement" not in phases
+    assert social.rue.query("judged(?j, ?o)")["count"] > 0
+
+
+@needs_rue
+def test_rue_social_round(tmp_path):
+    work, social, phases = play_rue(tmp_path)
     assert {"work", "social actions"} <= phases
     assert social.rue.query(f"points(alice) = {work.scores()['alice']}")["count"] == 1
     assert "You like bob" in social.briefing("alice")
