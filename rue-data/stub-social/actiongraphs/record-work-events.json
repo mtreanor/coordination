@@ -1,0 +1,28 @@
+{
+  "name": "record-work-events",
+  "notes": "Records each reported work event as an occurrence its witnesses can judge. Runs without asking anyone.",
+  "entry": "main",
+  "selectionStrategy": "highestUtility",
+  "preHooks": [],
+  "postHooks": [],
+  "stages": {
+    "main": {
+      "actionset": "work-events",
+      "routing": "collect",
+      "routesTo": null,
+      "perActionRouting": false,
+      "actionRoutes": {},
+      "primingRules": [],
+      "preHooks": [],
+      "postHooks": [],
+      "salienceFloor": 0,
+      "selectionStrategy": {
+        "type": "highestUtility",
+        "groupBy": [
+          "SELF",
+          "OTHER"
+        ]
+      }
+    }
+  }
+}

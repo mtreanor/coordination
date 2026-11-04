@@ -1,0 +1,79 @@
+actionset "work-judgement-actions"
+  # Work judgement: a witness picks one judgement action for a work
+  # occurrence. A stub: Mike authors the real ones. Each marks the occurrence
+  # judged and shifts the witness's own dispositions toward the actor.
+
+  action "resent being taken from"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?ACTOR: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ actionType(?OCC, "took from")
+      ^ role(?OCC, SELF, ?ACTOR)
+    utility
+      3 + (5 - ?JUDGE.likes(?JUDGE, ?ACTOR)) / 2
+    content text: "?JUDGE resents ?ACTOR for taking from them"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.likes(?JUDGE, ?ACTOR) -= 2
+      ?JUDGE.trusts(?JUDGE, ?ACTOR) -= 2
+
+  action "give the benefit of the doubt"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?ACTOR: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ actionType(?OCC, "took from")
+      ^ role(?OCC, SELF, ?ACTOR)
+    utility
+      1 + ?JUDGE.likes(?JUDGE, ?ACTOR) / 3
+    content text: "?JUDGE gives ?ACTOR the benefit of the doubt for taking from them"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.trusts(?JUDGE, ?ACTOR) -= 1
+
+  action "be grateful for help"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?ACTOR: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ actionType(?OCC, "helped")
+      ^ role(?OCC, SELF, ?ACTOR)
+    utility
+      3
+    content text: "?JUDGE is grateful that ?ACTOR helped them"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.likes(?JUDGE, ?ACTOR) += 2
+      ?JUDGE.trusts(?JUDGE, ?ACTOR) += 1
+
+  action "suspect the help"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?ACTOR: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ actionType(?OCC, "helped")
+      ^ role(?OCC, SELF, ?ACTOR)
+    utility
+      1 + (5 - ?JUDGE.trusts(?JUDGE, ?ACTOR)) / 2
+    content text: "?JUDGE suspects ?ACTOR helped them for their own ends"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.trusts(?JUDGE, ?ACTOR) -= 1
+
+  action "no real opinion of the work"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?ACTOR: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ role(?OCC, SELF, ?ACTOR)
+    utility
+      1
+    content text: "?JUDGE has no real opinion about what ?ACTOR did"
+    effects
+      judged(?JUDGE, ?OCC)

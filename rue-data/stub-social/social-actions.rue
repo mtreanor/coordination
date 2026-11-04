@@ -1,0 +1,33 @@
+actionset "social-actions"
+  # Social actions between work moves. A stub: Mike authors the real ones.
+  # Gossip carries opinions, not facts (docs/experiment.md, round 2).
+
+  action "complain about someone"
+    roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
+    preconditions
+      ?SELF.likes(?SELF, ?OTHER) < 5
+    utility
+      (5 - ?SELF.likes(?SELF, ?OTHER)) + ?SELF.trusts(?SELF, ?Y) / 5
+    content text: "?SELF tells ?Y they don't like ?OTHER"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      witnessed(?occ, ?Y)
+
+  action "speak well of someone"
+    roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
+    preconditions
+      ?SELF.likes(?SELF, ?OTHER) > 5
+    utility
+      (?SELF.likes(?SELF, ?OTHER) - 5) + ?SELF.trusts(?SELF, ?Y) / 5
+    content text: "?SELF tells ?Y they like ?OTHER"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      witnessed(?occ, ?Y)
+
+  action "stay quiet"
+    roles: ?SELF: agent
+    utility
+      1
+    content text: "?SELF says nothing"

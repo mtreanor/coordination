@@ -1,6 +1,7 @@
 {
   "active": "campfire",
   "scenarios": {
-    "campfire": "rue-data/campfire"
+    "campfire": "rue-data/campfire",
+    "stub-social": "rue-data/stub-social"
   }
 }

@@ -1,0 +1,33 @@
+{
+  "entityType": "agent",
+  "phases": [
+    {
+      "actionGraph": "record-work-events",
+      "loop": [],
+      "bindings": {}
+    },
+    {
+      "actionGraph": "work-judgement",
+      "loop": [
+        "JUDGE",
+        "OCC"
+      ],
+      "bindings": {}
+    },
+    {
+      "actionGraph": "social-actions",
+      "loop": [
+        "SELF"
+      ],
+      "bindings": {}
+    },
+    {
+      "actionGraph": "social-judgement",
+      "loop": [
+        "JUDGE",
+        "OCC"
+      ],
+      "bindings": {}
+    }
+  ]
+}

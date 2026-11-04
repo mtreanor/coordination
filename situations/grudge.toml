@@ -1,0 +1,6 @@
+description = "Alice and Carol already dislike Bob; nothing in the work has happened yet."
+facts = [
+  "alice.likes(alice, bob) = 2",
+  "alice.trusts(alice, bob) = 3",
+  "carol.likes(carol, bob) = 3",
+]

@@ -25,6 +25,15 @@ class RueClient:
     def start(self, controlled_agents: list[str]) -> dict:
         return self._post("/start", {"controlled": {"agents": controlled_agents, "stages": []}})
 
+    def set_controlled(self, agents: list[str]) -> None:
+        """Which agents' selections pause for an outside choice; [] lets RUE choose everything."""
+        self._post("/config", {"controlled": {"agents": agents, "stages": []}})
+
+    def set_plan(self, phases: list[dict] | None) -> None:
+        """Replace what the next tick runs: [{actionGraph, loop?, bindings?} | {ruleset}], or None
+        for the scenario's default tick plan."""
+        self._post("/plan", {"plan": phases})
+
     def step(self) -> dict:
         """Run one tick: {status: tick-complete, ...} or {status: awaiting-choice, request}."""
         return self._post("/step")

@@ -14,6 +14,7 @@ os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
 logging.getLogger("google_genai.models").setLevel(logging.ERROR)
 
 from .decision import Decision, DecisionRequest, Option
+from .factory import make_chooser
 from .llm import LLMChooser
 from .log import DecisionLog
 from .profiles import ModelProfile, load_profiles
@@ -28,5 +29,5 @@ class Chooser(Protocol):
 
 __all__ = [
     "Chooser", "Decision", "DecisionLog", "DecisionRequest", "HumanChooser", "LLMChooser",
-    "ModelProfile", "Option", "RandomChooser", "TopRankedChooser", "load_profiles",
+    "ModelProfile", "Option", "RandomChooser", "TopRankedChooser", "load_profiles", "make_chooser",
 ]

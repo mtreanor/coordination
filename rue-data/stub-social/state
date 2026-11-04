@@ -1,0 +1,31 @@
+private alice
+  likes(alice, bob) = 5
+  trusts(alice, bob) = 5
+  likes(alice, carol) = 5
+  trusts(alice, carol) = 5
+  likes(alice, dave) = 5
+  trusts(alice, dave) = 5
+
+private bob
+  likes(bob, alice) = 5
+  trusts(bob, alice) = 5
+  likes(bob, carol) = 5
+  trusts(bob, carol) = 5
+  likes(bob, dave) = 5
+  trusts(bob, dave) = 5
+
+private carol
+  likes(carol, alice) = 5
+  trusts(carol, alice) = 5
+  likes(carol, bob) = 5
+  trusts(carol, bob) = 5
+  likes(carol, dave) = 5
+  trusts(carol, dave) = 5
+
+private dave
+  likes(dave, alice) = 5
+  trusts(dave, alice) = 5
+  likes(dave, bob) = 5
+  trusts(dave, bob) = 5
+  likes(dave, carol) = 5
+  trusts(dave, carol) = 5

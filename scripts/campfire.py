@@ -33,27 +33,11 @@ from statistics import mean
 
 from dotenv import load_dotenv
 
-from coordination.agents import (
-    Chooser, DecisionLog, DecisionRequest, HumanChooser, LLMChooser, Option,
-    RandomChooser, TopRankedChooser, load_profiles,
-)
+from coordination.agents import Chooser, DecisionLog, DecisionRequest, Option, make_chooser
 from coordination.rue_client import RueClient
 
 SCENARIO = "campfire"
 INSTRUCTIONS = "Keep the camp going through the night: keep yourself rested, gather wood, and look after the others."
-
-
-def make_chooser(name: str, seed: int) -> Chooser:
-    if name == "rue":
-        return TopRankedChooser()
-    if name == "random":
-        return RandomChooser(seed)
-    if name == "ask":
-        return HumanChooser()
-    profiles = load_profiles()
-    if name not in profiles:
-        raise SystemExit(f"Unknown chooser {name!r}: use rue, random, ask, or one of {sorted(profiles)}")
-    return LLMChooser(profiles[name])
 
 
 def campfire_briefing(rue: RueClient, agent: str) -> str:
