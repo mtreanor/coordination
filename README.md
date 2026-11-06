@@ -6,7 +6,7 @@ The research question: does a social layer like this improve coordination among 
 
 ## Hackathon entry: Swarm Alignment Hackathon, Nov 6–8 2026
 
-This repo is being entered in the Swarm Alignment Hackathon. **Everything up to the git tag `hackathon-start` existed before the hackathon.** That tag is in both this repo and the RUE submodule (`external/rue`). Only commits after it are weekend work.
+This repo is being entered in the Swarm Alignment Hackathon. **Everything up to the git tag `hackathon-start` existed before the hackathon.** Only commits after it are weekend work. RUE (`external/rue`) is a separate, pre-existing project.
 
 ### What existed before the hackathon
 
