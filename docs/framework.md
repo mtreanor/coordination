@@ -9,12 +9,12 @@ How a Run is put together, and how to slot in a new version of the work or the s
 | 1 | Work moves | Work | Each agent gets its Briefing and picks a work move from an unscored menu |
 | 2 | Resolve | Work | All work moves apply at once; the work reports work events (kind, actor, target, witnesses) |
 | 3 | Mirror | Social layer | The work state (`Work.state()`, e.g. points) is copied into the social world as it is. Nothing is judged |
-| 4 | Record | RUE (`record-work-events`) | Each work event becomes an occurrence its witnesses can judge |
+| 4 | Record | Social layer → RUE | Each work event is registered as an external action: an occurrence its witnesses can judge |
 | 5 | Work judgement | RUE (`work-judgement`) | Each witness picks a judgement action for each work occurrence |
 | 6 | Social actions | RUE (`social-actions`) | Each agent picks a social action (once per time the tick plan lists the phase) |
 | 7 | Social judgement | RUE (`social-judgement`) | Each listener picks a judgement action for what was said |
 
-Every Briefing has two parts: the work's text (`Work.briefing`) and the social world's text (`SocialLayer.briefing`, every `briefing` template in the agent's private store). With `--social off` (the work-only condition), phases 3–7 do nothing and the Briefing has only the work. Phases 4–7 are **one RUE tick of the scenario's tick plan**, as in reception: the plan decides which phases run and in what order, so you can add rulesets between them or step a whole social round in the authoring tool's Play tab. Conditions are tick plans, chosen with `--plan`: stub-social has `full` and `no-judgement` (phases 5 and 7 left out). With `--rue-judgement`, RUE's ranking picks the judgement actions instead of the agents. Agents are asked only at the stages they choose in; the record stage always runs unasked.
+Every Briefing has two parts: the work's text (`Work.briefing`) and the social world's text (`SocialLayer.briefing`, every `briefing` template in the agent's private store). With `--social off` (the work-only condition), phases 3–7 do nothing and the Briefing has only the work. Phases 5–7 are **one RUE tick of the scenario's tick plan**, as in reception: the plan decides which phases run and in what order, so you can add rulesets between them or step a whole social round in the authoring tool's Play tab. Conditions are tick plans, chosen with `--plan`: stub-social has `full` and `no-judgement` (phases 5 and 7 left out). With `--rue-judgement`, RUE's ranking picks the judgement actions instead of the agents. Agents are asked only at the stages they choose in.
 
 ## Files
 
@@ -34,15 +34,15 @@ A Run writes `decisions.jsonl` (every Decision Request and answer, with round an
 1. Write a class with the `Work` methods: `briefing`, `options`, `state`, `resolve`, `over`, `scores`, plus `name` and `agents`. Its briefing shows only what that agent may know (ADR 0003).
 2. Report every work move another agent should be able to judge as a `WorkEvent`, with its witnesses, and return the work state to mirror from `state()`.
 3. Register it in `WORKS` (`src/coordination/work/__init__.py`).
-4. In the RUE scenario, declare a predicate for each mirrored `WorkFact`, and a `report_<kind>` predicate and a `record-work-events` action for each work event kind.
+4. In the RUE scenario, declare a predicate for each mirrored `WorkFact`. Work events need nothing declared: each is registered as an external action whose actionType is the event's `kind` (for example `"took from"`), and the scenario's judgement actions match on that.
 
 ## Adding a new social world
 
 Usually this is a new RUE scenario, not new Python. Copy `rue-data/stub-social/`, add it to `project.config.json`, and run with `--scenario <name>`. `RueSocial` expects:
 
 - an `agent` type with private stores, matching the work's agents;
-- a predicate for each mirrored piece of work state, and `report_<kind>(actor, target)` predicates for the work's event kinds;
-- tick plans (one per condition), each a list of phases for the social round: first a phase that records each `report_<kind>` as an occurrence (stub-social: `record-work-events`), then the judgement and social action phases;
+- a predicate for each mirrored piece of work state, plus `witnessed(occurrence, agent)` and `work_occurrence(occurrence)`, which `RueSocial.register` writes for each work event (roles `SELF` for the actor, `OTHER` for the target);
+- tick plans (one per condition), each a list of phases for the social round: the judgement and social action phases. Work events are already occurrences when the tick starts;
 - stages with distinct names, because a stage's name decides whether agents are asked there and is the phase name in the logs. `RueSocial` asks agents at `work-judgement`, `social-actions` and `social-judgement` (configurable as `agent_stages`), with the acting agent bound as `?SELF` or `?JUDGE`; judgement stages loop over `?JUDGE` and `?OCC`;
 - a `briefing` text template on every predicate the agent should see.
 
@@ -57,7 +57,8 @@ Both stubs exist to exercise the loop, not to be studied.
 
 ## Known limits
 
-- A pair can have only one work event of each kind per round (recording groups by actor and target).
+- A work event reaches RUE with its actor (the `SELF` role) but not the reason for the work move; that is in `decisions.jsonl`, not in RUE.
+- Mirrored work state (points) still arrives through `/assert`, so it isn't attributed to the work event that changed it.
 - The rounds are visible in the stub's Briefing, which invites end-game defection; the real work decides whether the end is known.
 - Each social-actions phase is one pass. For more, list the phase more than once in the tick plan; there's no early stop when everyone stays quiet.
 - The agents see RUE's utilities beside social actions and judgement actions unless `--hide-scores`; at least one model said it followed them.

@@ -33,20 +33,6 @@
         "briefing": "You trust {args[1]} {value} out of 10."
       }
     },
-    "report_took_from": {
-      "type": "boolean",
-      "args": [
-        "agent",
-        "agent"
-      ]
-    },
-    "report_helped": {
-      "type": "boolean",
-      "args": [
-        "agent",
-        "agent"
-      ]
-    },
     "actionType": {
       "type": "boolean",
       "args": [

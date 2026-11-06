@@ -67,7 +67,7 @@ class StubWork:
                 self.points[target] -= 2
                 seen[agent].append(f"You took 2 points from {target}.")
                 seen[target].append(f"{agent} took 2 points from you.")
-                events.append(WorkEvent(kind="took_from", actor=agent, target=target, witnesses=[agent, target]))
+                events.append(WorkEvent(kind="took from", actor=agent, target=target, witnesses=[agent, target]))
         self.seen = seen
         self.round += 1
         return events

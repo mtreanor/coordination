@@ -24,7 +24,7 @@ def test_stub_work_moves_and_witnesses():
     })
     assert work.scores() == {"alice": 2, "bob": -2, "carol": 3, "dave": 0}
     assert [(e.kind, e.actor, e.target, e.witnesses) for e in events] == [
-        ("took_from", "alice", "bob", ["alice", "bob"]),
+        ("took from", "alice", "bob", ["alice", "bob"]),
         ("helped", "bob", "carol", ["bob", "carol"]),
     ]
     assert "alice took 2 points from you." in work.briefing("bob")
@@ -128,3 +128,11 @@ def test_rue_social_round(tmp_path):
     events = [e for line in (tmp_path / "events.jsonl").read_text().splitlines() for e in json.loads(line)["events"]]
     witnessed = social.rue.query("work_occurrence(?o) ^ witnessed(?o, ?w)")["rows"]
     assert len(witnessed) == len(events)
+    # Each was registered as an external action of its kind, with its actor as the SELF role.
+    takes = [e for e in events if e["kind"] == "took from"]
+    assert social.rue.query('actionType(?o, "took from")')["count"] == len(takes)
+    if takes:
+        occ = social.rue.query(f'actionType(?o, "took from") ^ role(?o, SELF, {takes[0]["actor"]})')["rows"][0]["o"]
+        target = takes[0]["target"]
+        proof = json.dumps(social.rue.explain("witnessed", [occ, target]))
+        assert "external, from work (round-" in proof and "chosen by" not in proof

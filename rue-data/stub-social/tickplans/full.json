@@ -2,11 +2,6 @@
   "entityType": "agent",
   "phases": [
     {
-      "actionGraph": "record-work-events",
-      "loop": [],
-      "bindings": {}
-    },
-    {
       "actionGraph": "work-judgement",
       "loop": [
         "JUDGE",

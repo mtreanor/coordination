@@ -26,7 +26,8 @@ class WorkEvent(BaseModel):
     an occurrence)."""
 
     kind: str
-    """What happened, e.g. "took_from". The social layer maps kinds to its own vocabulary."""
+    """What happened, in words, e.g. "took from". RueSocial registers it as the occurrence's
+    actionType, so the RUE scenario's rules match on it."""
     actor: str
     target: str | None = None
     witnesses: list[str]

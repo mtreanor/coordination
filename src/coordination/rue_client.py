@@ -47,6 +47,13 @@ class RueClient:
         """Answer the pending choice. chooser is {kind: player|agent, id?, note?}; RUE records it."""
         return self._post("/choose", {"indexes": indexes, "chooser": chooser})
 
+    def external(self, action_type: str, roles: dict | None = None, effects: list[str] | None = None,
+                 **context) -> str:
+        """Register something that happened outside RUE as an external action and return its
+        occurrence id. context: text, source, ref, data."""
+        body = {"actionType": action_type, "roles": roles or {}, "effects": effects or [], **context}
+        return self._post("/external", body)["occurrence"]
+
     def assert_fact(self, text: str) -> None:
         self._post("/assert", {"text": text})
 
