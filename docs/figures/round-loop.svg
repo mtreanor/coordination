@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="560" fill="#ffffff"/>
+
+  <!-- Work panel -->
+  <rect x="30" y="40" width="420" height="440" rx="14" fill="#eef4fb" stroke="#4a78b0" stroke-width="2"/>
+  <text x="240" y="76" text-anchor="middle" font-size="22" font-weight="bold" fill="#24476f">The work (outside RUE)</text>
+  <text x="240" y="100" text-anchor="middle" font-size="15" fill="#24476f">the LLM deliberates freely</text>
+
+  <rect x="70" y="130" width="340" height="96" rx="10" fill="#ffffff" stroke="#4a78b0" stroke-width="1.5"/>
+  <text x="240" y="164" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">1. Work moves</text>
+  <text x="240" y="190" text-anchor="middle" font-size="15" fill="#444">each agent reads its Briefing and</text>
+  <text x="240" y="210" text-anchor="middle" font-size="15" fill="#444">picks a move, all at once</text>
+
+  <rect x="70" y="270" width="340" height="96" rx="10" fill="#ffffff" stroke="#4a78b0" stroke-width="1.5"/>
+  <text x="240" y="304" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">2. Resolve</text>
+  <text x="240" y="330" text-anchor="middle" font-size="15" fill="#444">the work applies the moves and reports</text>
+  <text x="240" y="350" text-anchor="middle" font-size="15" fill="#444">work events and its state</text>
+
+  <line x1="240" y1="226" x2="240" y2="266" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Social panel -->
+  <rect x="610" y="40" width="560" height="440" rx="14" fill="#f6f0fa" stroke="#7b4fa0" stroke-width="2"/>
+  <text x="890" y="76" text-anchor="middle" font-size="22" font-weight="bold" fill="#4d2b6b">The social world (RUE)</text>
+  <text x="890" y="100" text-anchor="middle" font-size="15" fill="#4d2b6b">beliefs about others, with full provenance</text>
+
+  <rect x="650" y="130" width="230" height="96" rx="10" fill="#ffffff" stroke="#7b4fa0" stroke-width="1.5"/>
+  <text x="765" y="164" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">3. Mirror</text>
+  <text x="765" y="190" text-anchor="middle" font-size="15" fill="#444">work state copied in,</text>
+  <text x="765" y="210" text-anchor="middle" font-size="15" fill="#444">nothing judged</text>
+
+  <rect x="900" y="130" width="230" height="96" rx="10" fill="#ffffff" stroke="#7b4fa0" stroke-width="1.5"/>
+  <text x="1015" y="164" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">4. Record</text>
+  <text x="1015" y="190" text-anchor="middle" font-size="15" fill="#444">each work event becomes</text>
+  <text x="1015" y="210" text-anchor="middle" font-size="15" fill="#444">an external action</text>
+
+  <line x1="880" y1="178" x2="896" y2="178" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="650" y="262" width="480" height="190" rx="10" fill="#ffffff" stroke="#7b4fa0" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <text x="890" y="290" text-anchor="middle" font-size="16" font-style="italic" fill="#4d2b6b">one RUE tick: RUE ranks the options, the LLM picks</text>
+  <text x="680" y="330" font-size="18" font-weight="bold" fill="#222">5. Work judgement</text>
+  <text x="890" y="330" font-size="15" fill="#444">witnesses judge each event</text>
+  <text x="680" y="375" font-size="18" font-weight="bold" fill="#222">6. Social actions</text>
+  <text x="890" y="375" font-size="15" fill="#444">gossip, praise, stay quiet</text>
+  <text x="680" y="420" font-size="18" font-weight="bold" fill="#222">7. Social judgement</text>
+  <text x="890" y="420" font-size="15" fill="#444">listeners judge what was said</text>
+
+  <line x1="1015" y1="226" x2="1015" y2="258" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Work -> social -->
+  <path d="M410,318 C520,318 540,178 646,178" fill="none" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="462" y="284" text-anchor="middle" font-size="14" fill="#333">events + state</text>
+
+  <!-- Feedback: Briefing -->
+  <path d="M890,452 L890,520 L50,520 L50,178 L66,178" fill="none" stroke="#333" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
+  <rect x="440" y="506" width="320" height="28" rx="6" fill="#ffffff"/>
+  <text x="600" y="526" text-anchor="middle" font-size="15" fill="#222">next round's Briefing: what each agent believes</text>
+</svg>
