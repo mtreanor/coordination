@@ -16,4 +16,87 @@ ruleset "social-priming"
   # across stages and loop invocations. Labels given in work judgement reach
   # this tick's social actions.
   #
-  # No rules yet: Mike authors them.
+  # Every stage binds the agent choosing as ?SELF, and priming runs for that
+  # one binding, so rules prime ?SELF's impulses. (Write them about ?SELF, not
+  # a fresh ?A: RUE keeps same-type variables distinct, so ?A could never be
+  # the agent choosing.)
+  #
+  # Tier 1 (single-premise rules), first pass, Nov 7: see
+  # authoring/social-priming.session.json for what was considered and left
+  # out. Mike reviews them.
+  #
+  # How much ?SELF likes and trusts ?B (0-10, 5 is neutral): the distance
+  # from neutral becomes the matching impulse, so liking ?B at 8 makes ?SELF
+  # warm toward ?B by 3.
+
+  rule "likes them: warm"
+    ?SELF.likes(?SELF, ?B) > 5
+    => impulse-warm(?SELF, ?B) += ?SELF.likes(?SELF, ?B) - 5
+
+  rule "dislikes them: hostile"
+    ?SELF.likes(?SELF, ?B) < 5
+    => impulse-hostile(?SELF, ?B) += 5 - ?SELF.likes(?SELF, ?B)
+
+  rule "trusts them: trusting"
+    ?SELF.trusts(?SELF, ?B) > 5
+    => impulse-trusting(?SELF, ?B) += ?SELF.trusts(?SELF, ?B) - 5
+
+  rule "distrusts them: wary"
+    ?SELF.trusts(?SELF, ?B) < 5
+    => impulse-wary(?SELF, ?B) += 5 - ?SELF.trusts(?SELF, ?B)
+
+  # Liking and trust spill over a little: we believe people we like, doubt
+  # people we don't, and warm to people we trust.
+
+  rule "likes them: inclined to believe them"
+    ?SELF.likes(?SELF, ?B) > 5
+    => impulse-trusting(?SELF, ?B) += 1
+
+  rule "dislikes them: inclined to doubt them"
+    ?SELF.likes(?SELF, ?B) < 5
+    => impulse-wary(?SELF, ?B) += 1
+
+  rule "trusts them: warms to them"
+    ?SELF.trusts(?SELF, ?B) > 5
+    => impulse-warm(?SELF, ?B) += 1
+
+  # Counts: these fire once per colleague, so they stack.
+
+  rule "each colleague liked: more charitable"
+    ?SELF.likes(?SELF, ?OTHER) > 5
+    => impulse-charitable(?SELF) += 1
+
+  rule "each colleague distrusted: more guarded"
+    ?SELF.trusts(?SELF, ?OTHER) < 5
+    => impulse-reserved(?SELF) += 1
+
+  # What ?SELF has been calling things lately (labels given this round or
+  # last; each label counts, so they stack). Labels are records that never go
+  # away, so without the window they would pile up over a long run.
+
+  rule "called something selfish lately: less charitable"
+    ?SELF.judgedAs(?O, "selfish") [asserted-during: 2]
+    => impulse-charitable(?SELF) -= 1
+
+  rule "called something fair lately: more charitable"
+    ?SELF.judgedAs(?O, "fair") [asserted-during: 2]
+    => impulse-charitable(?SELF) += 1
+
+  rule "called something generous lately: more charitable"
+    ?SELF.judgedAs(?O, "generous") [asserted-during: 2]
+    => impulse-charitable(?SELF) += 1
+
+  rule "called something bad luck lately: more charitable"
+    ?SELF.judgedAs(?O, "bad luck") [asserted-during: 2]
+    => impulse-charitable(?SELF) += 1
+
+  rule "had no real opinion lately: more reserved"
+    ?SELF.judgedAs(?O, "no real opinion") [asserted-during: 2]
+    => impulse-reserved(?SELF) += 1
+
+  # Left alone: nobody did anything to ?SELF this round that ?SELF can put a
+  # name to, so less to say.
+
+  rule "left alone this round: more reserved"
+    leftAlone(?SELF)
+    => impulse-reserved(?SELF) += 1

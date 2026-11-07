@@ -1,6 +1,6 @@
 {
   "name": "work-judgement",
-  "notes": "Work judgement: each agent who knows a work occurrence happened labels it, naming who it holds responsible if the label names anyone (looped over JUDGE x OCC). The salience floor is set far below zero so that negative impulses never remove an option.",
+  "notes": "Work judgement: each agent who knows a work occurrence happened labels it, naming who it holds responsible if the label names anyone (looped over SELF x OCC). The salience floor is set far below zero so that negative impulses never remove an option.",
   "entry": "work-judgement",
   "selectionStrategy": "highestUtility",
   "preHooks": [],

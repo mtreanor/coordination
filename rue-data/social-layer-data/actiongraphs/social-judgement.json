@@ -1,6 +1,6 @@
 {
   "name": "social-judgement",
-  "notes": "Social judgement: each listener picks a judgement action for one social occurrence (looped over JUDGE x OCC). The salience floor is set far below zero so that negative impulses never remove an option.",
+  "notes": "Social judgement: each listener picks a judgement action for one social occurrence (looped over SELF x OCC). The salience floor is set far below zero so that negative impulses never remove an option.",
   "entry": "social-judgement",
   "selectionStrategy": "highestUtility",
   "preHooks": [],

@@ -1,0 +1,260 @@
+{
+  "ruleset": "social-priming",
+  "rulesFile": "rue-data/social-layer-data/social-priming.rue",
+  "targetPredicates": [
+    "impulse-warm",
+    "impulse-hostile",
+    "impulse-trusting",
+    "impulse-wary",
+    "impulse-charitable",
+    "impulse-reserved"
+  ],
+  "consideredPredicates": [
+    {
+      "name": "likes",
+      "store": "private"
+    },
+    {
+      "name": "trusts",
+      "store": "private"
+    },
+    {
+      "name": "responsible",
+      "store": "private"
+    },
+    {
+      "name": "judgedAs",
+      "store": "private"
+    },
+    {
+      "name": "witnessed",
+      "store": "world"
+    },
+    {
+      "name": "role",
+      "store": "world"
+    },
+    {
+      "name": "leftAlone",
+      "store": "world"
+    }
+  ],
+  "excludedPredicates": {
+    "dealtWith": "the negation of leftAlone: would duplicate it",
+    "couldBeResponsible": "a helper for work judgement labels, not a social fact",
+    "change": "any polarity would judge whether an outcome was good or bad for an agent (minimal strategy interference)",
+    "points": "a mirrored work score: same reason as change",
+    "judged, work_occurrence, social_occurrence, actionType": "bookkeeping, no meaning alone"
+  },
+  "notConsidered": {
+    "responsible": "alone it has no polarity; it gets one with the label (tier 2: judgedAs ^ responsible)",
+    "witnessed": "alone it has no polarity",
+    "role": "work occurrences carry no roles; on social occurrences, being the one talked about is not something ?SELF witnessed, and being confided in needs the speaker (tier 2)",
+    "judgedAs careless": "no clear single-premise effect on ?SELF's own charity or reserve",
+    "leftAlone(?B)": "?SELF can't know nobody did anything to ?B"
+  },
+  "notes": [
+    "Every stage binds the agent choosing as ?SELF; RUE keeps same-type variables distinct, so rules are written about ?SELF.",
+    "judgedAs label slots must be literals: a variable there matches nothing (labels are strings, not entities).",
+    "Label rules use [asserted-during: 2] (this round and last) so permanent label records don't pile up over a long run.",
+    "First pass chosen without item-by-item review (Mike, Nov 7: he reviews later)."
+  ],
+  "tier": 1,
+  "queue": [
+    {
+      "id": 1,
+      "tier": 1,
+      "target": "impulse-warm",
+      "considered": "likes",
+      "store": "private",
+      "binding": "?SELF.likes(?SELF, ?B) > 5",
+      "count": false,
+      "ruleName": "likes them: warm",
+      "ruleText": "rule \"likes them: warm\"\n    ?SELF.likes(?SELF, ?B) > 5\n    => impulse-warm(?SELF, ?B) += ?SELF.likes(?SELF, ?B) - 5",
+      "weight": "?SELF.likes(?SELF, ?B) - 5",
+      "status": "approved"
+    },
+    {
+      "id": 2,
+      "tier": 1,
+      "target": "impulse-hostile",
+      "considered": "likes",
+      "store": "private",
+      "binding": "?SELF.likes(?SELF, ?B) < 5",
+      "count": false,
+      "ruleName": "dislikes them: hostile",
+      "ruleText": "rule \"dislikes them: hostile\"\n    ?SELF.likes(?SELF, ?B) < 5\n    => impulse-hostile(?SELF, ?B) += 5 - ?SELF.likes(?SELF, ?B)",
+      "weight": "5 - ?SELF.likes(?SELF, ?B)",
+      "status": "approved"
+    },
+    {
+      "id": 3,
+      "tier": 1,
+      "target": "impulse-trusting",
+      "considered": "trusts",
+      "store": "private",
+      "binding": "?SELF.trusts(?SELF, ?B) > 5",
+      "count": false,
+      "ruleName": "trusts them: trusting",
+      "ruleText": "rule \"trusts them: trusting\"\n    ?SELF.trusts(?SELF, ?B) > 5\n    => impulse-trusting(?SELF, ?B) += ?SELF.trusts(?SELF, ?B) - 5",
+      "weight": "?SELF.trusts(?SELF, ?B) - 5",
+      "status": "approved"
+    },
+    {
+      "id": 4,
+      "tier": 1,
+      "target": "impulse-wary",
+      "considered": "trusts",
+      "store": "private",
+      "binding": "?SELF.trusts(?SELF, ?B) < 5",
+      "count": false,
+      "ruleName": "distrusts them: wary",
+      "ruleText": "rule \"distrusts them: wary\"\n    ?SELF.trusts(?SELF, ?B) < 5\n    => impulse-wary(?SELF, ?B) += 5 - ?SELF.trusts(?SELF, ?B)",
+      "weight": "5 - ?SELF.trusts(?SELF, ?B)",
+      "status": "approved"
+    },
+    {
+      "id": 5,
+      "tier": 1,
+      "target": "impulse-trusting",
+      "considered": "likes",
+      "store": "private",
+      "binding": "?SELF.likes(?SELF, ?B) > 5",
+      "count": false,
+      "ruleName": "likes them: inclined to believe them",
+      "ruleText": "rule \"likes them: inclined to believe them\"\n    ?SELF.likes(?SELF, ?B) > 5\n    => impulse-trusting(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 6,
+      "tier": 1,
+      "target": "impulse-wary",
+      "considered": "likes",
+      "store": "private",
+      "binding": "?SELF.likes(?SELF, ?B) < 5",
+      "count": false,
+      "ruleName": "dislikes them: inclined to doubt them",
+      "ruleText": "rule \"dislikes them: inclined to doubt them\"\n    ?SELF.likes(?SELF, ?B) < 5\n    => impulse-wary(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 7,
+      "tier": 1,
+      "target": "impulse-warm",
+      "considered": "trusts",
+      "store": "private",
+      "binding": "?SELF.trusts(?SELF, ?B) > 5",
+      "count": false,
+      "ruleName": "trusts them: warms to them",
+      "ruleText": "rule \"trusts them: warms to them\"\n    ?SELF.trusts(?SELF, ?B) > 5\n    => impulse-warm(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 8,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "likes",
+      "store": "private",
+      "binding": "?SELF.likes(?SELF, ?OTHER) > 5",
+      "count": true,
+      "ruleName": "each colleague liked: more charitable",
+      "ruleText": "rule \"each colleague liked: more charitable\"\n    ?SELF.likes(?SELF, ?OTHER) > 5\n    => impulse-charitable(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 9,
+      "tier": 1,
+      "target": "impulse-reserved",
+      "considered": "trusts",
+      "store": "private",
+      "binding": "?SELF.trusts(?SELF, ?OTHER) < 5",
+      "count": true,
+      "ruleName": "each colleague distrusted: more guarded",
+      "ruleText": "rule \"each colleague distrusted: more guarded\"\n    ?SELF.trusts(?SELF, ?OTHER) < 5\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 10,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "judgedAs",
+      "store": "private",
+      "binding": "?SELF.judgedAs(?O, \"selfish\") [asserted-during: 2]",
+      "count": true,
+      "ruleName": "called something selfish lately: less charitable",
+      "ruleText": "rule \"called something selfish lately: less charitable\"\n    ?SELF.judgedAs(?O, \"selfish\") [asserted-during: 2]\n    => impulse-charitable(?SELF) -= 1",
+      "weight": -1,
+      "status": "approved"
+    },
+    {
+      "id": 11,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "judgedAs",
+      "store": "private",
+      "binding": "?SELF.judgedAs(?O, \"fair\") [asserted-during: 2]",
+      "count": true,
+      "ruleName": "called something fair lately: more charitable",
+      "ruleText": "rule \"called something fair lately: more charitable\"\n    ?SELF.judgedAs(?O, \"fair\") [asserted-during: 2]\n    => impulse-charitable(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 12,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "judgedAs",
+      "store": "private",
+      "binding": "?SELF.judgedAs(?O, \"generous\") [asserted-during: 2]",
+      "count": true,
+      "ruleName": "called something generous lately: more charitable",
+      "ruleText": "rule \"called something generous lately: more charitable\"\n    ?SELF.judgedAs(?O, \"generous\") [asserted-during: 2]\n    => impulse-charitable(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 13,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "judgedAs",
+      "store": "private",
+      "binding": "?SELF.judgedAs(?O, \"bad luck\") [asserted-during: 2]",
+      "count": true,
+      "ruleName": "called something bad luck lately: more charitable",
+      "ruleText": "rule \"called something bad luck lately: more charitable\"\n    ?SELF.judgedAs(?O, \"bad luck\") [asserted-during: 2]\n    => impulse-charitable(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 14,
+      "tier": 1,
+      "target": "impulse-reserved",
+      "considered": "judgedAs",
+      "store": "private",
+      "binding": "?SELF.judgedAs(?O, \"no real opinion\") [asserted-during: 2]",
+      "count": true,
+      "ruleName": "had no real opinion lately: more reserved",
+      "ruleText": "rule \"had no real opinion lately: more reserved\"\n    ?SELF.judgedAs(?O, \"no real opinion\") [asserted-during: 2]\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    },
+    {
+      "id": 15,
+      "tier": 1,
+      "target": "impulse-reserved",
+      "considered": "leftAlone",
+      "store": "world",
+      "binding": "leftAlone(?SELF)",
+      "count": false,
+      "ruleName": "left alone this round: more reserved",
+      "ruleText": "rule \"left alone this round: more reserved\"\n    leftAlone(?SELF)\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved"
+    }
+  ]
+}

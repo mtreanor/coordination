@@ -1,32 +1,50 @@
 actionset "social-actions"
-  # Social actions between work moves. A stub: Mike authors the real ones.
+  # Social actions between work moves. Stand-ins: Mike authors the real ones.
   # Gossip carries opinions, not facts (docs/experiment.md, round 2).
   # Utilities are sums of the shared impulses (warm, hostile, trusting, wary,
   # charitable, reserved), primed by social-priming.rue.
+  #
+  # Talking about a third party: ?SELF tells ?Y about ?OTHER. The listener
+  # side of the utility (warm and trusting toward ?Y) means agents would
+  # rather tell their friends. Confronting is saying it to ?OTHER's face,
+  # likelier toward someone ?SELF dislikes but still trusts. Saying something
+  # changes no one's mind by itself: the listener's social judgement does.
 
   action "complain about someone"
     roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
     preconditions
       ?SELF.likes(?SELF, ?OTHER) < 5
     utility
-      impulse-hostile(?SELF, ?OTHER) + impulse-trusting(?SELF, ?Y)
-    content text: "?SELF tells ?Y they don't like ?OTHER"
+      impulse-hostile(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y)
+    content text: "?SELF complains to ?Y about ?OTHER"
     effects
       record(?occ)
       social_occurrence(?occ)
       witnessed(?occ, ?Y)
 
-  action "speak well of someone"
+  action "praise someone"
     roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
     preconditions
       ?SELF.likes(?SELF, ?OTHER) > 5
     utility
-      impulse-warm(?SELF, ?OTHER) + impulse-trusting(?SELF, ?Y)
-    content text: "?SELF tells ?Y they like ?OTHER"
+      impulse-warm(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y)
+    content text: "?SELF praises ?OTHER to ?Y"
     effects
       record(?occ)
       social_occurrence(?occ)
       witnessed(?occ, ?Y)
+
+  action "confront someone"
+    roles: ?SELF: agent, ?OTHER: agent
+    preconditions
+      ?SELF.likes(?SELF, ?OTHER) < 5
+    utility
+      impulse-hostile(?SELF, ?OTHER) + impulse-trusting(?SELF, ?OTHER)
+    content text: "?SELF confronts ?OTHER"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      witnessed(?occ, ?OTHER)
 
   action "stay quiet"
     roles: ?SELF: agent

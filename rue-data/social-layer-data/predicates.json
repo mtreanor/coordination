@@ -96,13 +96,19 @@
       "args": [
         "occurrence",
         "label"
-      ]
+      ],
+      "toString": {
+        "briefing": "Your verdict on \"{text[0]}\": {args[1]}."
+      }
     },
     "leftAlone": {
       "type": "derived",
       "args": [
         "agent"
-      ]
+      ],
+      "toString": {
+        "briefing": "Nobody did anything to you this round that you can put a name to."
+      }
     },
     "dealtWith": {
       "type": "derived",

@@ -4,7 +4,7 @@
     {
       "actionGraph": "work-judgement",
       "loop": [
-        "JUDGE",
+        "SELF",
         "OCC"
       ],
       "bindings": {}
@@ -19,7 +19,7 @@
     {
       "actionGraph": "social-judgement",
       "loop": [
-        "JUDGE",
+        "SELF",
         "OCC"
       ],
       "bindings": {}
