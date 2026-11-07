@@ -24,4 +24,8 @@ def render_prompt(request: DecisionRequest) -> str:
         if request.show_scores and option.score is not None:
             line += f"  (suggested utility: {option.score:g})"
         lines.append(line)
+        for direction, heading in (("for", "For"), ("against", "Against")):
+            texts = [r.text for r in option.reasons if r.direction == direction]
+            if texts:
+                lines.append(f"    {heading}: " + " ".join(texts))
     return "\n".join(lines)

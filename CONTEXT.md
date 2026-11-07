@@ -106,7 +106,7 @@ _Avoid_: Consequence rule
 `leftAlone(agent)`: no work occurrence this round that the agent knows about is credited, as far as it knows, to anyone. A derived fact, not a verdict (ADR 0006).
 
 **Social action**:
-A RUE action an agent picks between work moves (for example complaining about someone to a colleague), made by a speaker to a listener and possibly about a subject. RUE decides which are available and how they rank.
+A RUE action an agent picks between work moves (for example complaining about someone to a colleague), made by a speaker to a listener and possibly about a subject. RUE decides which are available; the agent chooses freely among them and is never shown RUE's ranking.
 _Avoid_: Social move, message
 
 **Social judgement**:

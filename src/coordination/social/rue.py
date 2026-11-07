@@ -15,7 +15,7 @@ A scenario plugs in by providing (see rue-data/social-layer-data/ and docs/frame
   credit A witnessed, and credit A assigned itself in work judgement;
 - phases whose stages agents choose in. A stage's name is the phase name the Run logs
   ("work-judgement" logs as "work judgement"), and the acting agent is bound as ?SELF
-  or ?JUDGE.
+  in every stage.
 
 Each work event reaches RUE as an external action (RUE's docs/actions.md#external-actions)
 before the tick runs, so the tick plan's judgement phases find it as an occurrence.
@@ -24,16 +24,21 @@ Agents are asked at the stages in `agent_stages` (by default every one: work jud
 social actions, social judgement); RUE's ranking decides any other selection.
 """
 
-from ..agents import Option
+import random
+
+from ..agents import Option, Reason
 from ..rue_client import RueClient
 from ..work import WorkEvent, WorkFact
 from .base import Ask
 
 PROMPTS = {
-    "work-judgement": "This happened in the work. Choose what you call it. A label that names someone says you hold them responsible.",
+    "work-judgement": "This happened in the work: {occurrence}. Choose what you call it. A label that names someone says you hold them responsible.",
     "social-actions": "Between work moves you can say something to a colleague, or say nothing. Choose a social action.",
-    "social-judgement": "A colleague told you this. Choose how you judge it.",
+    "social-judgement": "This happened: {occurrence}. Choose how you judge it.",
 }
+
+MENU_SIZE = 5
+"""How many of RUE's top-ranked options an agent is offered at each decision (ADR 0007)."""
 
 
 class RueSocial:
@@ -41,8 +46,13 @@ class RueSocial:
 
     def __init__(self, scenario: str = "social-layer-data", server: str = "http://localhost:5174",
                  plan: str = "full",
-                 agent_stages: tuple[str, ...] = ("work-judgement", "social-actions", "social-judgement")):
+                 agent_stages: tuple[str, ...] = ("work-judgement", "social-actions", "social-judgement"),
+                 seed: int = 0, menu_size: int = MENU_SIZE):
         self.rue = RueClient(scenario, server)
+        self.menu_size = menu_size
+        self.occurrences: dict[str, str] = {}  # occurrence -> its text, for the decisions about it
+        self.seed = seed
+        self.shuffle = random.Random(seed)
         self.plan = plan
         self.agent_stages = list(agent_stages)
         self.agents: list[str] = []
@@ -55,6 +65,8 @@ class RueSocial:
             raise SystemExit(f"The work's agents {sorted(agents)} don't match the RUE scenario's {sorted(info['agents'])}")
         self.agents = list(agents)
         self.round_number = 0
+        self.shuffle = random.Random(self.seed)
+        self.occurrences = {}
         for fact in facts:
             self.rue.assert_fact(fact)
         self.rue.set_controlled(self.agents, self.agent_stages)
@@ -88,11 +100,13 @@ class RueSocial:
             effects.append(f"responsible(?occ, {event.actor})")
         elif event.credit == "witnesses":
             effects += [f"{w}.responsible(?occ, {event.actor})" for w in event.witnesses if w != event.actor]
-        return self.rue.external(
+        occurrence = self.rue.external(
             event.kind, {}, effects,
             text=event.describe(), source="work",
             ref=f"round-{round_number}" if round_number is not None else None,
             data={"kind": event.kind, "details": event.details})
+        self.occurrences[occurrence] = event.describe()
+        return occurrence
 
     def social_round(self, events: list[WorkEvent], ask: Ask) -> None:
         self.round_number += 1
@@ -102,10 +116,34 @@ class RueSocial:
         while result["status"] == "awaiting-choice":
             pending = result["request"]
             binding = pending["binding"]
-            agent = binding.get("SELF") or binding.get("JUDGE")
+            agent = binding["SELF"]
             stage = pending["stageNames"][0]
-            candidates = [c for c in pending["candidates"] if not c["belowFloor"]]
-            options = [Option(id=c["index"], label=c["label"], score=c["score"], is_default=c["isDefault"])
-                       for c in candidates]
-            decision = ask(agent, stage.replace("-", " "), PROMPTS.get(stage, "Choose one."), options)
-            result = self.rue.choose([] if decision.passed else [decision.choice_id], decision.rue_chooser())
+            candidates = self.menu([c for c in pending["candidates"] if not c["belowFloor"]])
+            options = [Option(id=i, label=c["label"], score=c["score"], is_default=c["isDefault"],
+                              reasons=[Reason(text=r["text"], direction=r["direction"]) for r in c.get("reasons", [])])
+                       for i, c in enumerate(candidates)]
+            prompt = PROMPTS.get(stage, "Choose one.").format(occurrence=self.occurrences.get(binding.get("OCC"), "something"))
+            decision = ask(agent, stage.replace("-", " "), prompt, options)
+            chosen = [] if decision.passed else [candidates[decision.choice_id]]
+            known = self._social_occurrences() if chosen and stage == "social-actions" else None
+            result = self.rue.choose([c["index"] for c in chosen], decision.rue_chooser())
+            if known is not None:
+                # A social action that records an occurrence is described by its own text,
+                # which is the option's label; remember it for the listener's judgement.
+                for occurrence in self._social_occurrences() - known:
+                    self.occurrences[occurrence] = chosen[0]["label"]
+
+    def menu(self, candidates: list[dict]) -> list[dict]:
+        """RUE's top-ranked options, at most `menu_size`, in random order (ADR 0007). RUE lists
+        candidates best first, with ties in the order the actions are written, and its index
+        is the rank; so ties are broken at random, the cut is shown shuffled, and options are
+        numbered by position. Neither the order nor the ids give the ranking away. Scores stay
+        on the options for the log; agents are never shown them."""
+        self.shuffle.shuffle(candidates)
+        candidates.sort(key=lambda c: -c["score"])  # stable: equal scores keep the random order
+        top = candidates[:self.menu_size]
+        self.shuffle.shuffle(top)
+        return top
+
+    def _social_occurrences(self) -> set[str]:
+        return {row["o"] for row in self.rue.query("social_occurrence(?o)")["rows"]}

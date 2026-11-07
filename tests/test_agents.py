@@ -172,3 +172,15 @@ def test_anthropic_workspace_header_comes_from_the_environment(monkeypatch):
 
 def test_repo_models_toml_is_valid():
     assert "qwen-9b" in load_profiles("models.toml")
+
+
+def test_prompt_shows_reasons_under_their_option():
+    from coordination.agents import Option, Reason
+    request = DecisionRequest(agent="alice", show_scores=False, options=[
+        Option(id=0, label="Call it selfish of bob", score=4, reasons=[
+            Reason(text="You like bob 2 out of 10.", direction="for"),
+            Reason(text='Your verdict on "x": fair.', direction="against")]),
+        Option(id=1, label="Say nothing", score=0)])
+    prompt = render_prompt(request)
+    assert '[0] Call it selfish of bob\n    For: You like bob 2 out of 10.\n    Against: Your verdict on "x": fair.\n[1] Say nothing' in prompt
+    assert "4" not in prompt

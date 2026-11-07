@@ -13,7 +13,7 @@ os.environ.setdefault("PYDANTIC_AI_NO_BANNER", "1")
 # Google's SDK warns about how Pydantic AI calls it, on every request.
 logging.getLogger("google_genai.models").setLevel(logging.ERROR)
 
-from .decision import Decision, DecisionRequest, Option
+from .decision import Decision, DecisionRequest, Option, Reason
 from .factory import make_chooser
 from .llm import LLMChooser
 from .log import DecisionLog
@@ -29,5 +29,5 @@ class Chooser(Protocol):
 
 __all__ = [
     "Chooser", "Decision", "DecisionLog", "DecisionRequest", "HumanChooser", "LLMChooser",
-    "ModelProfile", "Option", "RandomChooser", "TopRankedChooser", "load_profiles", "make_chooser",
+    "ModelProfile", "Option", "Reason", "RandomChooser", "TopRankedChooser", "load_profiles", "make_chooser",
 ]

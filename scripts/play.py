@@ -42,8 +42,6 @@ def show(agent, phase, request, decision):
 
 def apply_flags(config: RunConfig, args: argparse.Namespace) -> RunConfig:
     top = {k: getattr(args, k) for k in ("work", "situation", "rounds", "seed") if getattr(args, k) is not None}
-    if args.hide_scores:
-        top["hide_scores"] = True
     social = {k: v for k, v in {"layer": args.social, "scenario": args.scenario, "plan": args.plan,
                                 "server": args.server}.items() if v is not None}
     choosers = dict(config.choosers)
@@ -68,7 +66,6 @@ def main() -> None:
     parser.add_argument("--principals", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
     parser.add_argument("--rounds", type=int, help="override the work's length, for short test Runs")
     parser.add_argument("--plan", help="the RUE tick plan for the social round (e.g. full)")
-    parser.add_argument("--hide-scores", action="store_true", help="don't show RUE's utilities to the agents")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--server")
     args = parser.parse_args()
@@ -87,7 +84,7 @@ def main() -> None:
     print(f"Run: {config.name}  Work: {config.work}  Social: {config.social.layer}  Situation: {config.situation}")
     print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in config.chooser_names(work.agents).items()))
 
-    run = Run(work, social, choosers, situation, run_dir, show_scores=not config.hide_scores, on_decision=show)
+    run = Run(work, social, choosers, situation, run_dir, on_decision=show)
     original_ask = run.ask
     last_round = [0]
 

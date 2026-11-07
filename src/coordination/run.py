@@ -27,24 +27,25 @@ from .work import Work
 
 class Run:
     def __init__(self, work: Work, social: SocialLayer, choosers: dict[str, Chooser],
-                 situation: Situation, run_dir: str | Path, show_scores: bool = True,
+                 situation: Situation, run_dir: str | Path,
                  on_decision: Callable[[str, str, DecisionRequest, Decision], None] | None = None):
         self.work = work
         self.social = social
         self.choosers = choosers
         self.situation = situation
-        self.show_scores = show_scores
         self.on_decision = on_decision
         self.run_dir = Path(run_dir)
         self.log = DecisionLog(self.run_dir / "decisions.jsonl")
         self.round = 0
 
-    def briefing(self, agent: str, prompt: str) -> str:
-        parts = ["The work:", self.work.briefing(agent)]
+    def briefing(self, agent: str, phase: str, prompt: str) -> str:
+        """A work move's Briefing is the work and the agent's social world; a social decision's
+        is the social world alone, with the decision's own prompt (ADR 0007)."""
+        parts = ["The work:", self.work.briefing(agent), ""] if phase == "work" else []
         social = self.social.briefing(agent)
         if social:
-            parts += ["", "What you believe about your colleagues:", social]
-        parts += ["", prompt]
+            parts += ["What you believe about your colleagues:", social, ""]
+        parts.append(prompt)
         return "\n".join(parts)
 
     def ask(self, agent: str, phase: str, prompt: str, options: list[Option]) -> Decision:
@@ -52,9 +53,9 @@ class Run:
         request = DecisionRequest(
             agent=agent,
             instructions=self.situation.instructions_for(agent),
-            briefing=self.briefing(agent, prompt),
+            briefing=self.briefing(agent, phase, prompt),
             options=options,
-            show_scores=self.show_scores,
+            show_scores=False,  # agents choose freely: RUE's ranking is never shown
         )
         decision = self.choosers[agent].choose(request)
         self.log.write(request, decision, round=self.round, phase=phase)

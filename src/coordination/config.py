@@ -8,7 +8,6 @@ The work's rules are code. A Run config chooses everything else:
     rounds = 3                        # optional: the work's own length otherwise (for short test Runs)
     situation = "neutral"             # a file in situations/, without .toml
     seed = 0
-    hide_scores = false               # hide RUE's utilities from the agents
 
     [social]
     layer = "rue"                     # or "off" (the work-only condition)
@@ -52,7 +51,6 @@ class RunConfig(BaseModel):
     rounds: int | None = None
     situation: str = "neutral"
     seed: int = 0
-    hide_scores: bool = False
     social: SocialConfig = SocialConfig()
     choosers: dict[str, str] = {"default": "random"}
 
@@ -79,7 +77,7 @@ class RunConfig(BaseModel):
             return NoSocial()
         if self.social.layer == "rue":
             s = self.social
-            return RueSocial(s.scenario, s.server, plan=s.plan)
+            return RueSocial(s.scenario, s.server, plan=s.plan, seed=self.seed)
         raise SystemExit(f"No social layer {self.social.layer!r} (known: off, rue)")
 
     def chooser_names(self, agents: list[str]) -> dict[str, str]:

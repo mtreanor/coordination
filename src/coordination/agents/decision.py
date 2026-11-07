@@ -5,6 +5,13 @@ from typing import Any, Literal
 from pydantic import BaseModel, Field
 
 
+class Reason(BaseModel):
+    """Why an option is on the menu: one fact behind its utility, as RUE renders it."""
+
+    text: str
+    direction: Literal["for", "against"]
+
+
 class Option(BaseModel):
     """One entry on a decision's menu."""
 
@@ -14,6 +21,9 @@ class Option(BaseModel):
     """The option's utility as ranked by the system that built the menu, if any."""
     is_default: bool = False
     """Whether this is the option the menu's own policy would pick unaided."""
+    reasons: list[Reason] = []
+    """The facts that make the option attractive or not (ADR 0007). Shown to the agent;
+    unlike the score, they carry no number about the ranking."""
 
 
 class DecisionRequest(BaseModel):

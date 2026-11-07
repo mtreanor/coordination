@@ -4,8 +4,8 @@ plus the version that switches it off.
 The social layer holds the social world (dispositions, relationships, beliefs) and runs
 everything social in a round. When it needs an agent to decide something (a judgement
 action, a social action), it calls `ask`, and the Run builds the Decision Request: the
-principal's instructions, the full Briefing (work and social world), the phase's prompt,
-and the menu the social layer supplies.
+principal's instructions, the Briefing (the social world, without the work: ADR 0007), the
+phase's prompt, and the menu the social layer supplies.
 """
 
 from typing import Protocol

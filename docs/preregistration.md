@@ -67,7 +67,7 @@ H4 compares Full with Work-only. Full vs. Social-no-gossip is a secondary compar
   - **Replication models** run the same three conditions with 5 Runs per condition. Their results are reported as effect sizes per model ("does the effect hold across models?"), not as further significance tests. Proposed lineup: Claude Haiku 5.5, Gemini 3.5 Flash-Lite, Gemini 3.8 Flash, Claude Haiku 4.5, Claude Sonnet 5.5, and the local Qwen 3.5 9B, Gemma 4 12B and Granite 4.1 8B.
   - **The list is fixed at registration;** a model that fails (for example, too many invalid answers) is reported as failed, not swapped out.
 - **The prompts:** the principals' instructions, the Briefing format, the Decision Request format.
-- **RUE's scores are hidden** from agents (`--hide-scores`) in every condition. Otherwise only the social conditions would carry numbers next to choices, a confound.
+- **RUE's ranking is hidden** from agents in every condition: no scores, and menus are shuffled and numbered by position. Otherwise only the social conditions would carry numbers next to choices, a confound.
 - **The number of rounds, R.** Proposed R = 10, and **agents are not told R**, to avoid end-game defection.
 - **The work, the RUE scenario and the Situation,** frozen at the registered commit.
 
