@@ -72,7 +72,16 @@ class RueSocial:
         self.rue.set_controlled(self.agents, self.agent_stages)
 
     def briefing(self, agent: str) -> str:
-        return "\n".join(f"- {text}" for text in sorted(self.rue.render("briefing", owner=agent)))
+        """The agent's RUE state (ADR 0007): the shared world and the agent's own store, each
+        in the order it happened, rendered by RUE's `briefing` templates. Neutral values
+        (a numeric at its default) are left out. All of the shared world is shown, including
+        who knows about what, for now."""
+        sections = []
+        for heading, owner in (("In the social world:", None), ("What you think:", agent)):
+            texts = self.rue.render("briefing", owner=owner, skip_defaults=True)
+            if texts:
+                sections += [heading] + [f"- {text}" for text in texts]
+        return "\n".join(sections)
 
     def mirror(self, state: list[WorkFact]) -> None:
         for fact in state:
@@ -89,13 +98,24 @@ class RueSocial:
         changed (`change`, by agent and quantity), and who is credited with it, as far as
         anyone can see: `responsible` in the world when the credit is public, in each witness's
         own store when only the witnesses know, and nowhere when nobody does. With no credit,
-        the actor never reaches RUE: not as a role, a fact, or in the text."""
+        the actor never reaches RUE: not as a role, a fact, or in the text.
+
+        The shared world holds only what every agent knows. An event every agent witnessed is
+        recorded there; one only some witnessed is recorded in each witness's own store
+        (`bob.witnessed(occ, bob)`, `bob.change(...)`), so a Briefing, which renders the shared
+        world and the agent's own store, never shows an event the agent didn't witness. Rules
+        read `?A.witnessed(?O, ?A)`, which finds both (`privateFallback: world-first`)."""
         effects = ["work_occurrence(?occ)"]
+        public = set(event.witnesses) == set(self.agents)
         # Leaving the actor out of `witnessed` would name it, so that's only done when it's credited.
         judges = event.witnesses if event.credit == "none" else [w for w in event.witnesses if w != event.actor]
-        effects += [f"witnessed(?occ, {w})" for w in judges]
-        effects += [f'change(?occ, {agent}, "{quantity}") = {value:g}'
-                    for agent, quantities in event.changes.items() for quantity, value in quantities.items()]
+        changes = [f'change(?occ, {agent}, "{quantity}") = {value:g}'
+                   for agent, quantities in event.changes.items() for quantity, value in quantities.items()]
+        if public:
+            effects += [f"witnessed(?occ, {w})" for w in judges] + changes
+        else:
+            effects += [f"{w}.witnessed(?occ, {w})" for w in judges]
+            effects += [f"{w}.{change}" for w in event.witnesses for change in changes]
         if event.credit == "public":
             effects.append(f"responsible(?occ, {event.actor})")
         elif event.credit == "witnesses":

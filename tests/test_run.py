@@ -46,7 +46,7 @@ class RecordingSocial(NoSocial):
         self.calls.append(("start", tuple(facts)))
 
     def briefing(self, agent):
-        return "- You like everyone 5 out of 10."
+        return "What you think:\n- You like bob 7 out of 10."
 
     def mirror(self, state):
         self.calls.append(("mirror", tuple((f.name, *f.args, f.value) for f in state)))
@@ -71,13 +71,13 @@ def test_run_sequences_phases_and_logs(tmp_path):
     records = [json.loads(line) for line in (tmp_path / "decisions.jsonl").read_text().splitlines()]
     assert len(records) == 8 and {r["phase"] for r in records} == {"work"}
     briefing = records[0]["request"]["briefing"]
-    assert "The work:" in briefing and "What you believe about your colleagues:" in briefing
+    assert "The work:" in briefing and "What you think:" in briefing
     assert len((tmp_path / "rounds.jsonl").read_text().splitlines()) == 2
 
 
 def test_work_only_briefing_has_no_social_section(tmp_path):
     run = Run(StubWork(AGENTS), NoSocial(), {}, Situation(name="t"), tmp_path)
-    assert "What you believe" not in run.briefing("alice", "work", "Choose.")
+    assert "What you think" not in run.briefing("alice", "work", "Choose.")
 
 
 def test_situation_loads_principal_instructions(tmp_path):
@@ -115,10 +115,12 @@ def test_rue_social_round(tmp_path):
     assert {"work", "social actions"} <= phases
     assert social.rue.query(f"points(alice) = {work.scores()['alice']}")["count"] == 1
     assert "You like bob" in social.briefing("alice")
-    # Every work event that happened became an occurrence, witnessed by its target.
+    # Every work event that happened became an occurrence, witnessed by its target in the
+    # target's own store (only the two involved know), never in the shared world.
     events = [e for line in (tmp_path / "events.jsonl").read_text().splitlines() for e in json.loads(line)["events"]]
-    witnessed = social.rue.query("work_occurrence(?o) ^ witnessed(?o, ?w)")["rows"]
-    assert len(witnessed) == len(events)
+    witnessed = sum(social.rue.query(f"work_occurrence(?o) ^ {a}.witnessed(?o, {a})")["count"] for a in AGENTS)
+    assert witnessed == len(events)
+    assert social.rue.query("work_occurrence(?o) ^ witnessed(?o, ?w)")["count"] == 0
     # Each was registered as an external action of its kind. Its witnesses hold the actor
     # responsible in their own stores; the world doesn't, since the credit isn't public.
     takes = [e for e in events if e["kind"] == "took from"]
@@ -127,11 +129,14 @@ def test_rue_social_round(tmp_path):
         actor, target = takes[0]["actor"], takes[0]["target"]
         occ = social.rue.query(f'actionType(?o, "took from") ^ {target}.responsible(?o, {actor})')["rows"][0]["o"]
         assert social.rue.query(f"responsible({occ}, ?x)")["count"] == 0
-        proof = json.dumps(social.rue.explain("witnessed", [occ, target]))
+        proof = json.dumps(social.rue.explain("witnessed", [occ, target], owner=target))
         assert "external, from work (round-" in proof and "chosen by" not in proof
-        # What changed is recorded in the work's own quantity, attributed to the external action.
-        assert social.rue.query(f'change({occ}, {target}, "points") = -2')["count"] == 1
-        assert "external, from work (round-" in json.dumps(social.rue.explain("change", [occ, target, "points"]))
+        # What changed is recorded in the work's own quantity, attributed to the external action,
+        # in each witness's store.
+        assert social.rue.query(f'{target}.change({occ}, {target}, "points") = -2')["count"] == 1
+        assert social.rue.query(f'change({occ}, {target}, "points") = -2')["count"] == 0
+        assert "external, from work (round-" in json.dumps(
+            social.rue.explain("change", [occ, target, "points"], owner=target))
 
 
 @needs_rue
@@ -229,3 +234,52 @@ def test_rue_options_carry_reasons_without_ranking_numbers(tmp_path):
     for o in with_reasons:
         for reason in o["reasons"]:
             assert reason["direction"] in ("for", "against") and "impulse" not in reason["text"]
+
+
+@needs_rue
+def test_rue_briefing_is_the_shared_world_and_the_agents_own_view(tmp_path):
+    _, social, _ = play_rue(tmp_path)
+    social.register(WorkEvent(kind="velocity", witnesses=AGENTS, credit="none", changes={},
+                              text="The team shipped 30 hours"))  # everyone knows: shared
+    briefing = social.briefing("alice")
+    assert "In the social world:" in briefing and "What you think:" in briefing
+    assert "The team shipped 30 hours" in briefing.split("What you think:")[0]  # shared facts, rendered by RUE
+    assert "5 out of 10" not in briefing  # neutral values are left out
+    # Each section keeps RUE's order (the order things happened), not an alphabetical one.
+    rendered = social.rue.render("briefing", owner="alice", skip_defaults=True)
+    assert briefing.split("What you think:\n")[1].splitlines() == [f"- {t}" for t in rendered]
+
+
+@needs_rue
+def test_rue_only_the_one_spoken_to_knows_what_was_said(tmp_path):
+    # No overhearing, and the speaker doesn't see how it was taken (Mike, Nov 7).
+    _, social, _ = play_rue(tmp_path)
+    said = social.rue.query("social_occurrence(?o)")["rows"]
+    assert said, "the grudge situation should make someone speak"
+    for row in said:
+        occ = row["o"]
+        assert social.rue.query(f"witnessed({occ}, ?w)")["count"] == 0  # not in the shared world
+        listeners = [a for a in AGENTS if social.rue.query(f"{a}.witnessed({occ}, {a})")["count"]]
+        assert len(listeners) == 1
+        text = social.occurrences[occ]
+        for agent in AGENTS:
+            assert (text in social.briefing(agent)) == (agent in listeners)
+
+
+@needs_rue
+def test_rue_no_briefing_shows_a_work_event_its_agent_did_not_witness(tmp_path):
+    _, social, _ = play_rue(tmp_path)
+    events = [WorkEvent(**e) for line in (tmp_path / "events.jsonl").read_text().splitlines()
+              for e in json.loads(line)["events"]]
+    partial = [e for e in events if set(e.witnesses) != set(AGENTS)]
+    assert partial
+    for event in partial:
+        for agent in AGENTS:
+            if agent not in event.witnesses:
+                assert event.describe() not in social.briefing(agent), (agent, event.describe())
+    # An event every agent witnessed is shared, in the world.
+    public = WorkEvent(kind="hours lost to handoffs", witnesses=AGENTS, credit="none",
+                       changes={}, text="The team lost 2 hours to handoffs")
+    occ = social.register(public)
+    assert social.rue.query(f"witnessed({occ}, ?w)")["count"] == len(AGENTS)
+    assert all(public.describe() in social.briefing(a) for a in AGENTS)

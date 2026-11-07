@@ -20,7 +20,7 @@ actionset "work-judgement-actions"
   action "call it selfish"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ work_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
@@ -37,7 +37,7 @@ actionset "work-judgement-actions"
   action "call it careless"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ work_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
@@ -53,7 +53,7 @@ actionset "work-judgement-actions"
   action "call it fair"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ work_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
@@ -69,7 +69,7 @@ actionset "work-judgement-actions"
   action "call it generous"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ work_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
@@ -86,7 +86,7 @@ actionset "work-judgement-actions"
   action "call it bad luck"
     roles: ?SELF: agent, ?OCC: occurrence
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ work_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
     utility
@@ -99,7 +99,7 @@ actionset "work-judgement-actions"
   action "no real opinion of the work"
     roles: ?SELF: agent, ?OCC: occurrence
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ work_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
     utility

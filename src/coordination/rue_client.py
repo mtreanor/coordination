@@ -60,13 +60,14 @@ class RueClient:
     def query(self, text: str) -> dict:
         return self._post("/query", {"text": text})
 
-    def explain(self, name: str, args: list[str]) -> dict:
-        return self._post("/explain", {"name": name, "args": args})
+    def explain(self, name: str, args: list[str], owner: str | None = None) -> dict:
+        return self._post("/explain", {"name": name, "args": args, **({"owner": owner} if owner else {})})
 
-    def render(self, template: str, owner: str | None = None) -> list[str]:
+    def render(self, template: str, owner: str | None = None, skip_defaults: bool = False) -> list[str]:
         """The text of every active fact whose predicate has the named template, from the
-        world store or one entity's private store (RUE's predicate toString templates)."""
-        body = {"template": template, **({"owner": owner} if owner else {})}
+        world store or one entity's private store (RUE's predicate toString templates), in
+        the order asserted; with skip_defaults, not numeric facts at their default."""
+        body = {"template": template, "skipDefaults": skip_defaults, **({"owner": owner} if owner else {})}
         return [r["text"] for r in self._post("/render", body)["rendered"]]
 
     def entities(self, entity_type: str) -> list[str]:

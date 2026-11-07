@@ -17,6 +17,8 @@ Considered and dropped on the way:
 
 ## Decision
 
+(Where the facts are stored changed later: an event only some agents witnessed is recorded in each witness's own store, not the shared world. See ADR 0007.)
+
 A work event reports two things, as the effects of its external action: **what changed**, in the work's own quantities, and **who is credited**, as far as anyone can see.
 
 | Predicate | Meaning |

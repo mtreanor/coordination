@@ -9,6 +9,9 @@ actionset "social-actions"
   # rather tell their friends. Confronting is saying it to ?OTHER's face,
   # likelier toward someone ?SELF dislikes but still trusts. Saying something
   # changes no one's mind by itself: the listener's social judgement does.
+  # Only the one spoken to knows: the occurrence is witnessed in their own
+  # store, never the shared world, so nobody overhears (Mike, Nov 7), and the
+  # speaker doesn't see how it was taken.
 
   action "complain about someone"
     roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
@@ -20,7 +23,7 @@ actionset "social-actions"
     effects
       record(?occ)
       social_occurrence(?occ)
-      witnessed(?occ, ?Y)
+      ?Y.witnessed(?occ, ?Y)
 
   action "praise someone"
     roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
@@ -32,7 +35,7 @@ actionset "social-actions"
     effects
       record(?occ)
       social_occurrence(?occ)
-      witnessed(?occ, ?Y)
+      ?Y.witnessed(?occ, ?Y)
 
   action "confront someone"
     roles: ?SELF: agent, ?OTHER: agent
@@ -44,7 +47,7 @@ actionset "social-actions"
     effects
       record(?occ)
       social_occurrence(?occ)
-      witnessed(?occ, ?OTHER)
+      ?OTHER.witnessed(?occ, ?OTHER)
 
   action "stay quiet"
     roles: ?SELF: agent

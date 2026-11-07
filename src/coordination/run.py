@@ -44,7 +44,7 @@ class Run:
         parts = ["The work:", self.work.briefing(agent), ""] if phase == "work" else []
         social = self.social.briefing(agent)
         if social:
-            parts += ["What you believe about your colleagues:", social, ""]
+            parts += [social, ""]
         parts.append(prompt)
         return "\n".join(parts)
 

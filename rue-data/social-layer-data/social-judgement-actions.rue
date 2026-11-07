@@ -10,7 +10,7 @@ actionset "social-judgement-actions"
   action "take the complaint to heart"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ social_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ actionType(?OCC, "complain about someone")
@@ -27,7 +27,7 @@ actionset "social-judgement-actions"
   action "doubt the complaint"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ social_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ actionType(?OCC, "complain about someone")
@@ -43,7 +43,7 @@ actionset "social-judgement-actions"
   action "take the praise to heart"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ social_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ actionType(?OCC, "praise someone")
@@ -59,7 +59,7 @@ actionset "social-judgement-actions"
   action "take the confrontation to heart"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ social_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ actionType(?OCC, "confront someone")
@@ -74,7 +74,7 @@ actionset "social-judgement-actions"
   action "resent the confrontation"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ social_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ actionType(?OCC, "confront someone")
@@ -89,7 +89,7 @@ actionset "social-judgement-actions"
   action "no real opinion of what was said"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
-      witnessed(?OCC, ?SELF)
+      ?SELF.witnessed(?OCC, ?SELF)
       ^ social_occurrence(?OCC)
       ^ not judged(?SELF, ?OCC)
       ^ role(?OCC, SELF, ?SPEAKER)
