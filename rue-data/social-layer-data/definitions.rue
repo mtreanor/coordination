@@ -1,0 +1,26 @@
+define "dealt with this round"
+  # Some work occurrence this round that ?A knows about is credited, as far as
+  # ?A knows, to someone: public, witnessed, or assigned in work judgement. The
+  # window is 1 tick because a tick plan advances the tick before its phases
+  # run.
+  witnessed(?O, ?A) ^ work_occurrence(?O) [asserted-during: 1] ^ ?A.responsible(?O, ?X)
+  => dealtWith(?A)
+
+define "left alone this round"
+  # Nobody did anything to ?A this round that ?A can put a name to. A fact,
+  # not a verdict: it may feel like being shunned (no one invested in you) or
+  # like being spared (no one passed you a bug).
+  not dealtWith(?A)
+  => leftAlone(?A)
+
+define "could be responsible: the one ?J knows did it"
+  # Who a label in work judgement can name. When ?J knows who is responsible
+  # (public credit, or credit ?J witnessed or assigned), only them.
+  ?J.responsible(?O, ?X)
+  => couldBeResponsible(?J, ?O, ?X)
+
+define "could be responsible: anyone, when ?J knows of no one"
+  # When ?J knows of no one, anyone could be: naming someone in a label is how
+  # ?J holds them responsible.
+  witnessed(?O, ?J) ^ not ?J.responsible(?O, _)
+  => couldBeResponsible(?J, ?O, ?X)

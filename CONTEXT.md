@@ -48,9 +48,25 @@ _Avoid_: Game, Coordination Game, simulation
 One choice an agent makes in the work, from an unscored menu the work alone decides. The agent's model deliberates freely; it is only informed by the social world.
 _Avoid_: Game move, work action
 
+**Work step**:
+One part of a work round, made of simultaneous work decisions, with information revealed between steps (in the Investment Club: invest, then pay back). Many works have one step per round. The social round runs between rounds, never between steps.
+
+**Work decision**:
+One question the work puts to one agent in a work step: a key, a prompt and a menu of work moves.
+
 **Work event**:
-What the work reports after resolving work moves, when another agent can judge it: its kind, actor, target, and witnesses.
+What the work reports after resolving work moves, when another agent can judge it: its kind (the work's own words, a label only), its witnesses, what changed and who is credited (ADR 0006). The actor is ground truth for the log; RUE learns it only through the credit.
 _Avoid_: Occurrence (that is RUE's record of it)
+
+**Effects**:
+What a work event literally changed for each agent, by quantity, in the work's own terms: `change(occ, carol, "hours") = -2`. Never whether that was good or bad, which is for the agent's own strategy (ADR 0006).
+
+**Credit**:
+Who is responsible for an occurrence, as far as anyone can see: public (everyone knows), witnessed (its witnesses know), or none. Recorded as `responsible(occ, agent)`, in the world when public and in each knowing agent's own store otherwise (ADR 0006).
+_Avoid_: Blame (credit can be for good or bad)
+
+**Run config**:
+A TOML file in `configs/` choosing a Run's work, agents, Situation, social layer, choosers and seed. The work's rules are code, not config.
 
 **Mirror**:
 The step that copies work state (resources, points) into RUE as facts, exactly as it is. Nothing is judged; a mirrored fact is ground truth that rules may read (ADR 0003).
@@ -75,15 +91,26 @@ An agent who saw a particular work event or social action and can therefore judg
 _Avoid_: Observer, audience
 
 **Work judgement**:
-The phase in which each witness judges each work event it witnessed, by picking a judgement action. Optional: a Run can skip it.
-_Avoid_: Judgment, evaluation, belief update, reading
+The phase in which each witness of a work occurrence labels it (selfish, fair, bad luck, ...), recorded as `judgedAs` in its own store. A label that names someone says the agent holds them responsible: the one it knows did it, or, when credit is unknown, anyone it chooses. That belief can be wrong (ADR 0006).
+_Avoid_: Attribution and labelling (the two stages it replaced), evaluation, reading
+
+**Impulse**:
+One of a small set of ephemeral numeric predicates (reset every tick, may go negative) naming a high-level category of action: `impulse-warm`, `impulse-hostile`, `impulse-trusting`, `impulse-wary`, `impulse-charitable`, `impulse-reserved`. Every action's utility is a sum of them; priming rules set them from social facts (ADR 0006).
+_Avoid_: Urge, score
+
+**Priming rule**:
+A rule in `social-priming`, the priming rules of every stage, run single-pass and fresh (impulses cleared first) before each choice: social facts (labels, responsibility, likes, `leftAlone`) on the left, impulses on the right. Persistent state changes only through action effects.
+_Avoid_: Consequence rule
+
+**Left alone**:
+`leftAlone(agent)`: no work occurrence this round that the agent knows about is credited, as far as it knows, to anyone. A derived fact, not a verdict (ADR 0006).
 
 **Social action**:
 A RUE action an agent picks between work moves (for example complaining about someone to a colleague), made by a speaker to a listener and possibly about a subject. RUE decides which are available and how they rank.
 _Avoid_: Social move, message
 
 **Social judgement**:
-The phase in which each listener judges each social action it witnessed, by picking a judgement action. Optional, like work judgement.
+The phase in which each listener judges each social action it witnessed, by picking a judgement action. 
 _Avoid_: Judgment, reading
 
 **Judgement action**:

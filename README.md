@@ -10,9 +10,19 @@ This repo is being entered in the Swarm Alignment Hackathon. **Everything up to 
 
 ### What existed before the hackathon
 
-1. **RUE works.** It's a mature, separately developed engine with its own test suite and an authoring tool. It runs as a server that this project talks to over HTTP. Just before the hackathon it gained *external actions*, a way to register events that happened outside RUE, with full provenance.
-2. **The testbed is sketched in code but hasn't really been tested.** A Run alternates a round of work with a social round in RUE. The work and the social layer each sit behind an interface, and both are stubs for now: a toy points game, and a placeholder social world with likes, trusts, complaining and praising. The loop runs end to end with random choosers and with a few LLMs. It hasn't produced results, and no real work or social world has been built.
-3. **The idea.** We came into the weekend with a worked-out idea of what to build. It comes from a grant proposal to Schmidt Sciences that wasn't funded. The design notes in `docs/` (the experiment, candidate games, decisions) come from it.
+1. **The idea and the experiment design.** These come from a grant proposal to Schmidt Sciences that wasn't funded, and were developed further in design notes in `docs/` (the experiment, candidate games, decisions).
+2. **RUE**, a separately developed engine with its own test suite and an authoring tool. It runs as a server that this project talks to over HTTP. Just before the hackathon it gained *external actions*, a way to register events that happened outside RUE, with full provenance.
+3. **The testbed's infrastructure, with placeholder content only.** The Run loop, the interfaces for the work and the social layer, the connection to RUE, and the LLM choosers ran end to end with a toy points game and a placeholder social world. No real work, no real social world, and no experiments existed, and nothing had produced a result.
+
+### What was built during the hackathon
+
+This list grows as work lands; each item is in the commits after `hackathon-start`.
+
+- **The preregistration** (`docs/preregistration.md`, draft): hypotheses for each link of the causal chain, conditions, measures, analysis plan, sample sizes, and the models.
+- **The choice of Work 1:** a review of Feinberg, Willer & Schultz (2014), the human experiment on gossip and ostracism that Work 1 follows (`docs/feinberg-2014.md`), and a list of other candidate paradigms and benchmarks (`docs/paradigms.md`).
+- **A diagram of one round** (`docs/figures/round-loop.svg`).
+
+Still to build: the works, the social world, per-agent Briefings, the experiment Runs, the analysis, and the report.
 
 ## Layout
 
@@ -20,7 +30,7 @@ This repo is being entered in the Swarm Alignment Hackathon. **Everything up to 
 |---|---|
 | `external/rue/` | The RUE engine (git submodule) |
 | `src/coordination/` | The Python package: the Run loop, the work, the social layer, the RUE client, and the agents (LLM, scripted and human choosers) |
-| `rue-data/` | RUE scenarios: `stub-social` (the placeholder social world) and `campfire` (an earlier proof of concept) |
+| `rue-data/` | RUE scenarios: `social-layer-data` (the placeholder social world) and `campfire` (an earlier proof of concept) |
 | `scripts/play.py` | Plays one Run from the command line |
 | `situations/` | Authored starting conditions: principals' instructions and starting facts |
 | `models.toml` | Named model profiles, local (Ollama) and hosted. API keys go in `.env` |

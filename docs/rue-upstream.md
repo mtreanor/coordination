@@ -9,6 +9,9 @@ Features this project needs from RUE, to be built in the RUE repo as general fea
 - The RUE server lives in `src/server/`; the authoring tool mounts its routes onto it.
 - Predicate text templates: a predicate's `toString` in `predicates.json` maps any names to templates using `{args[N]}`, `{value}`, and `{tier}`; placeholders that can't be filled stay as written. Rendered with `engine.renderFacts(name, { owner })`, `GET /templates`, and `POST /render`, and edited in the tool's predicate editor. See RUE's `docs/schema.md#tostring`.
 
+- Unchanged numeric sets add no history (Nov 7 2026): setting a number to the value it already holds is not recorded, so rules that re-set values every tick don't fill provenance with repeats. Test: `tests/NumericSetHistory.test.js`.
+- Fresh priming (Nov 7 2026): a stage's priming entry with `"fresh": true` first clears the ephemeral numerics its ruleset writes, so priming recomputes from the current facts on every run instead of adding up across loop invocations and stages. A checkbox on each priming rule in the tool's stage editor. See RUE's `docs/actiongraph-tickplan.md#fresh-priming`. Test: `tests/plan/TickPlan.fresh.test.js`.
+
 ## External actions (built Nov 5 2026)
 
 An **external action** is something that happened outside RUE (a work event) and is registered in RUE as if it had been an action. It is not declared in RUE beforehand: its kind, its roles and its state changes are open. RUE never picks it and never offers it on a menu. Once it's registered, it looks just like an internal action to rules, and its provenance leads to where it was reported from. RUE assumes nothing about how it came about: someone may have chosen it, or nothing did. Any other field is an error.

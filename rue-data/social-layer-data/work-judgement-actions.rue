@@ -1,0 +1,101 @@
+actionset "work-judgement-actions"
+  # Work judgement: every agent who knows a work occurrence happened says what
+  # it calls it, recorded as ?JUDGE.judgedAs(?OCC, label). A stub: Mike
+  # authors the real labels.
+  #
+  # A label that names someone can name only who ?JUDGE could hold
+  # responsible (couldBeResponsible, definitions.rue): the one ?JUDGE knows did
+  # it, or, when ?JUDGE knows of no one, anyone. Naming someone records that
+  # ?JUDGE holds them responsible, in ?JUDGE's own store. "Bad luck" and "no
+  # real opinion" name no one.
+  #
+  # No label is hidden because of what changed: whether an outcome was good or
+  # bad for ?JUDGE is for ?JUDGE's own strategy. Utilities are sums of the
+  # shared impulses (warm, hostile, trusting, wary, charitable, reserved),
+  # primed by social-priming.rue.
+
+  action "call it selfish"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?X: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ couldBeResponsible(?JUDGE, ?OCC, ?X)
+    utility
+      impulse-hostile(?JUDGE, ?X)
+    content text: "?JUDGE calls it selfish of ?X"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.judgedAs(?OCC, "selfish")
+      ?JUDGE.responsible(?OCC, ?X)
+
+  action "call it careless"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?X: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ couldBeResponsible(?JUDGE, ?OCC, ?X)
+    utility
+      impulse-hostile(?JUDGE, ?X) / 2 + impulse-charitable(?JUDGE) / 2
+    content text: "?JUDGE calls it careless of ?X"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.judgedAs(?OCC, "careless")
+      ?JUDGE.responsible(?OCC, ?X)
+
+  action "call it fair"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?X: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ couldBeResponsible(?JUDGE, ?OCC, ?X)
+    utility
+      impulse-warm(?JUDGE, ?X) / 2 + impulse-charitable(?JUDGE) / 2
+    content text: "?JUDGE calls it fair of ?X"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.judgedAs(?OCC, "fair")
+      ?JUDGE.responsible(?OCC, ?X)
+
+  action "call it generous"
+    roles: ?JUDGE: agent, ?OCC: occurrence, ?X: agent
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+      ^ couldBeResponsible(?JUDGE, ?OCC, ?X)
+    utility
+      impulse-warm(?JUDGE, ?X)
+    content text: "?JUDGE calls it generous of ?X"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.judgedAs(?OCC, "generous")
+      ?JUDGE.responsible(?OCC, ?X)
+
+  action "call it bad luck"
+    roles: ?JUDGE: agent, ?OCC: occurrence
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+    utility
+      impulse-charitable(?JUDGE)
+    content text: "?JUDGE calls it bad luck"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.judgedAs(?OCC, "bad luck")
+
+  action "no real opinion of the work"
+    roles: ?JUDGE: agent, ?OCC: occurrence
+    preconditions
+      witnessed(?OCC, ?JUDGE)
+      ^ work_occurrence(?OCC)
+      ^ not judged(?JUDGE, ?OCC)
+    utility
+      impulse-reserved(?JUDGE)
+    content text: "?JUDGE has no real opinion of it"
+    effects
+      judged(?JUDGE, ?OCC)
+      ?JUDGE.judgedAs(?OCC, "no real opinion")

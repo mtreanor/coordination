@@ -1,0 +1,13 @@
+description = "The Investment Club, work-only, with two planted defectors (bo and fay)."
+work = "investment-club"
+# agents: the work's eight businesses (ana, bo, cy, dee, eli, fay, gus, hal)
+situation = "club-defectors"
+seed = 0
+
+[social]
+# Work-only until a social world exists for these eight agents and the
+# `entrusted` / `repaid` event categories. social-layer-data has only alice..dave.
+layer = "off"
+
+[choosers]
+default = "random"            # e.g. "gemini-flash-lite" for a real Run

@@ -1,0 +1,19 @@
+ruleset "social-priming"
+  # Priming for every social choice. Rules read social facts on the left-hand
+  # side (labels, responsibility, likes, trusts, leftAlone, ...) and add to,
+  # or subtract from, the shared impulses that every action's utility sums:
+  #   impulse-warm(?A, ?B)      the pull toward thinking and speaking well of ?B
+  #   impulse-hostile(?A, ?B)   the pull toward thinking and speaking ill of ?B
+  #   impulse-trusting(?A, ?B)  the pull toward believing and confiding in ?B
+  #   impulse-wary(?A, ?B)      the pull toward doubting what ?B says
+  #   impulse-charitable(?A)    the pull toward the benefit of the doubt
+  #   impulse-reserved(?A)      the pull toward keeping out of it
+  # Impulses are ephemeral (reset every tick) and may go negative.
+  #
+  # The priming rules of all three stages (work judgement, social actions,
+  # social judgement), marked fresh: the impulses are cleared before each run,
+  # so each choice is scored from the current facts rather than adding up
+  # across stages and loop invocations. Labels given in work judgement reach
+  # this tick's social actions.
+  #
+  # No rules yet: Mike authors them.

@@ -7,14 +7,15 @@ from coordination.agents import RandomChooser
 from coordination.run import Run
 from coordination.situation import Situation
 from coordination.social import NoSocial, RueSocial
-from coordination.work import StubWork
+from coordination.work import StubWork, WorkEvent
 
 AGENTS = ["alice", "bob", "carol", "dave"]
 
 
 def test_stub_work_moves_and_witnesses():
     work = StubWork(AGENTS, rounds=1)
-    menus = {agent: work.options(agent) for agent in AGENTS}
+    work.next_round()
+    menus = {d.agent: d.options for d in work.decisions()}
     pick = lambda agent, label: next(o.id for o in menus[agent] if o.label == label)
     events = work.resolve({
         "alice": pick("alice", "Take from bob"),
@@ -27,8 +28,10 @@ def test_stub_work_moves_and_witnesses():
         ("took from", "alice", "bob", ["alice", "bob"]),
         ("helped", "bob", "carol", ["bob", "carol"]),
     ]
+    assert [e.changes for e in events] == [{"alice": {"points": 2}, "bob": {"points": -2}}, {"carol": {"points": 2}}]
     assert "alice took 2 points from you." in work.briefing("bob")
     assert "alice" not in work.briefing("dave").split("In the last round:")[1]
+    assert work.decisions() == []
     assert work.over()
 
 
@@ -86,7 +89,7 @@ def test_situation_loads_principal_instructions(tmp_path):
 
 def rue_server_up() -> bool:
     try:
-        httpx.get("http://localhost:5174/api/play/stub-social/session", timeout=1)
+        httpx.get("http://localhost:5174/api/play/social-layer-data/session", timeout=1)
         return True
     except httpx.HTTPError:
         return False
@@ -95,7 +98,7 @@ def rue_server_up() -> bool:
 def play_rue(tmp_path, **social_options):
     choosers = {agent: RandomChooser(i) for i, agent in enumerate(AGENTS)}
     work = StubWork(AGENTS, rounds=2)
-    social = RueSocial("stub-social", **social_options)
+    social = RueSocial("social-layer-data", **social_options)
     run = Run(work, social, choosers, Situation(name="t", facts=["alice.likes(alice, bob) = 1"]), tmp_path)
     run.play()
     phases = {json.loads(line)["phase"] for line in (tmp_path / "decisions.jsonl").read_text().splitlines()}
@@ -103,19 +106,6 @@ def play_rue(tmp_path, **social_options):
 
 
 needs_rue = pytest.mark.skipif(not rue_server_up(), reason="needs the RUE server (cd external/rue && npm run server)")
-
-
-@needs_rue
-def test_rue_no_judgement_plan_skips_judgement(tmp_path):
-    _, _, phases = play_rue(tmp_path, plan="no-judgement")
-    assert phases == {"work", "social actions"}
-
-
-@needs_rue
-def test_rue_judgement_by_ranking_never_asks(tmp_path):
-    _, social, phases = play_rue(tmp_path, rue_judgement=True)
-    assert "work judgement" not in phases and "social judgement" not in phases
-    assert social.rue.query("judged(?j, ?o)")["count"] > 0
 
 
 @needs_rue
@@ -128,11 +118,38 @@ def test_rue_social_round(tmp_path):
     events = [e for line in (tmp_path / "events.jsonl").read_text().splitlines() for e in json.loads(line)["events"]]
     witnessed = social.rue.query("work_occurrence(?o) ^ witnessed(?o, ?w)")["rows"]
     assert len(witnessed) == len(events)
-    # Each was registered as an external action of its kind, with its actor as the SELF role.
+    # Each was registered as an external action of its kind. Its witnesses hold the actor
+    # responsible in their own stores; the world doesn't, since the credit isn't public.
     takes = [e for e in events if e["kind"] == "took from"]
     assert social.rue.query('actionType(?o, "took from")')["count"] == len(takes)
     if takes:
-        occ = social.rue.query(f'actionType(?o, "took from") ^ role(?o, SELF, {takes[0]["actor"]})')["rows"][0]["o"]
-        target = takes[0]["target"]
+        actor, target = takes[0]["actor"], takes[0]["target"]
+        occ = social.rue.query(f'actionType(?o, "took from") ^ {target}.responsible(?o, {actor})')["rows"][0]["o"]
+        assert social.rue.query(f"responsible({occ}, ?x)")["count"] == 0
         proof = json.dumps(social.rue.explain("witnessed", [occ, target]))
         assert "external, from work (round-" in proof and "chosen by" not in proof
+        # What changed is recorded in the work's own quantity, attributed to the external action.
+        assert social.rue.query(f'change({occ}, {target}, "points") = -2')["count"] == 1
+        assert "external, from work (round-" in json.dumps(social.rue.explain("change", [occ, target, "points"]))
+
+
+@needs_rue
+def test_rue_event_with_no_credit_never_names_the_actor(tmp_path):
+    _, social, _ = play_rue(tmp_path)
+    event = WorkEvent(kind="hours lost to handoffs", actor="alice", witnesses=["alice", "bob", "carol", "dave"],
+                      credit="none", changes={"bob": {"team hours lost": 3}}, text="The team lost 3 hours")
+    occ = social.register(event)
+    assert social.rue.query(f"witnessed({occ}, ?w)")["count"] == 4  # the actor too: it doesn't know it's credited
+    assert social.rue.query(f"responsible({occ}, ?x)")["count"] == 0
+    for agent in ("alice", "bob", "carol", "dave"):
+        assert social.rue.query(f"{agent}.responsible({occ}, ?x)")["count"] == 0
+    assert "alice" not in json.dumps(social.rue.explain("witnessed", [occ, "bob"]))
+
+
+@needs_rue
+def test_rue_left_alone_is_everyone_no_credited_event_touched_last_round(tmp_path):
+    _, social, _ = play_rue(tmp_path)
+    last = (tmp_path / "events.jsonl").read_text().splitlines()[-1]
+    touched = {w for e in json.loads(last)["events"] if e["credit"] != "none" for w in e["witnesses"] if w != e["actor"]}
+    alone = {a for a in AGENTS if social.rue.query(f"leftAlone({a})")["count"] == 1}
+    assert alone == set(AGENTS) - touched

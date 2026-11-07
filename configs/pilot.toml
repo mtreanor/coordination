@@ -1,0 +1,17 @@
+# A pilot Run. To switch games, change `work`: nothing else needs to change,
+# because both works accept any list of agents and the Situation doesn't
+# mention the game.
+description = "Five agents, bo planted as a defector, no social layer."
+
+work = "not-my-bug"              # or "investment-club"
+agents = ["ana", "bo", "cy", "dee", "eli"]
+# rounds = 5                     # optional: the work's own length otherwise
+situation = "one-defector"       # situations/one-defector.toml
+seed = 0
+
+[social]
+layer = "off"                    # "rue" also needs the agents in the RUE scenario's entities.json
+
+[choosers]
+default = "claude-haiku"         # a profile in models.toml, or "random"
+# bo = "gemini-flash-lite"       # per-agent overrides

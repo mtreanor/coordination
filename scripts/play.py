@@ -1,4 +1,4 @@
-"""Play one Run: some work, some social layer, one Situation.
+"""Play one Run, described by a Run config in configs/ (ADR 0005).
 
 The RUE social layer needs the RUE server (from the repo root):
 
@@ -6,33 +6,28 @@ The RUE social layer needs the RUE server (from the repo root):
 
 Then:
 
-    uv run scripts/play.py                                   # stub work, RUE social layer, random choosers
-    uv run scripts/play.py --social off                      # the work-only condition
-    uv run scripts/play.py --chooser claude-haiku --situation grudge
-    uv run scripts/play.py --principals alice=claude-haiku,bob=qwen-9b --chooser gemini-flash-lite
-    uv run scripts/play.py --rue-judgement                   # RUE's ranking picks the judgement actions
-    uv run scripts/play.py --plan no-judgement               # social actions, but nothing is judged
+    uv run scripts/play.py configs/investment-club.toml          # a Run config
+    uv run scripts/play.py configs/investment-club.toml --social off --rounds 2
+    uv run scripts/play.py                                       # stub work, RUE social layer, random choosers
+    uv run scripts/play.py configs/stub.toml --chooser claude-haiku --situation grudge
+    uv run scripts/play.py configs/stub.toml --principals alice=claude-haiku,bob=qwen-9b
 
-The social round is one tick of the RUE scenario's tick plan (--plan), so conditions
-are tick plans in rue-data/<scenario>/tickplans/.
+Flags override the config file. The social round is one tick of the RUE scenario's tick
+plan (plan), so conditions are tick plans in rue-data/<scenario>/tickplans/.
 
-Works are listed in coordination.work.WORKS and social layers in
-coordination.social.SOCIAL_LAYERS. Output goes to runs/<time>-<work>-<social>-<situation>/.
+Works are listed in coordination.work.WORKS. Output goes to
+runs/<time>-<work>-<social>-<situation>/, with the resolved settings in config.json.
 """
 
 import argparse
+import json
 from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
 
-from coordination.agents import make_chooser
+from coordination.config import RunConfig
 from coordination.run import Run
-from coordination.situation import Situation
-from coordination.social import SOCIAL_LAYERS, NoSocial, RueSocial
-from coordination.work import WORKS
-
-AGENTS = ["alice", "bob", "carol", "dave"]
 
 
 def show(agent, phase, request, decision):
@@ -45,45 +40,60 @@ def show(agent, phase, request, decision):
         print(f'      "{decision.rationale}"')
 
 
+def apply_flags(config: RunConfig, args: argparse.Namespace) -> RunConfig:
+    top = {k: getattr(args, k) for k in ("work", "situation", "rounds", "seed") if getattr(args, k) is not None}
+    if args.hide_scores:
+        top["hide_scores"] = True
+    social = {k: v for k, v in {"layer": args.social, "scenario": args.scenario, "plan": args.plan,
+                                "server": args.server}.items() if v is not None}
+    choosers = dict(config.choosers)
+    if args.chooser:
+        choosers["default"] = args.chooser
+    choosers.update(dict(pair.split("=", 1) for pair in (args.principals or "").split(",") if pair))
+    if args.agents:
+        top["agents"] = args.agents.split(",")
+    return config.model_copy(update={**top, "choosers": choosers,
+                                     "social": config.social.model_copy(update=social)})
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--work", default="stub", choices=sorted(WORKS))
-    parser.add_argument("--social", default="rue", choices=sorted(SOCIAL_LAYERS))
-    parser.add_argument("--scenario", default="stub-social", help="the RUE scenario for --social rue")
-    parser.add_argument("--situation", default="neutral", help="a file in situations/, without .toml")
-    parser.add_argument("--chooser", default="random", help="rue, random, ask, or a profile name from models.toml")
-    parser.add_argument("--principals", default="", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
-    parser.add_argument("--rounds", type=int, default=4)
-    parser.add_argument("--plan", default="full", help="the RUE tick plan for the social round (e.g. full, no-judgement)")
-    parser.add_argument("--rue-judgement", action="store_true", help="RUE's ranking picks judgement actions instead of the agents")
+    parser.add_argument("config", nargs="?", help="a Run config (TOML), e.g. configs/investment-club.toml")
+    parser.add_argument("--work")
+    parser.add_argument("--agents", help="comma-separated agent names")
+    parser.add_argument("--social", help="rue or off")
+    parser.add_argument("--scenario", help="the RUE scenario for --social rue")
+    parser.add_argument("--situation", help="a file in situations/, without .toml")
+    parser.add_argument("--chooser", help="the default chooser: rue, random, ask, or a profile from models.toml")
+    parser.add_argument("--principals", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
+    parser.add_argument("--rounds", type=int, help="override the work's length, for short test Runs")
+    parser.add_argument("--plan", help="the RUE tick plan for the social round (e.g. full)")
     parser.add_argument("--hide-scores", action="store_true", help="don't show RUE's utilities to the agents")
-    parser.add_argument("--seed", type=int, default=0)
-    parser.add_argument("--server", default="http://localhost:5174")
+    parser.add_argument("--seed", type=int)
+    parser.add_argument("--server")
     args = parser.parse_args()
 
     load_dotenv()
-    situation = Situation.load(args.situation)
-    work = WORKS[args.work](AGENTS, rounds=args.rounds)
-    social = (NoSocial() if args.social == "off" else
-              RueSocial(args.scenario, args.server, plan=args.plan, rue_judgement=args.rue_judgement))
+    config = apply_flags(RunConfig.load(args.config) if args.config else RunConfig(), args)
+    work = config.make_work()
+    situation = config.load_situation(work.agents)
+    config.check_cast(work.agents)
+    social = config.make_social()
+    choosers = config.make_choosers(work.agents)
 
-    assigned = dict(pair.split("=", 1) for pair in args.principals.split(",") if pair)
-    unknown = set(assigned) - set(work.agents)
-    if unknown:
-        raise SystemExit(f"No agent named {sorted(unknown)} (agents: {work.agents})")
-    names = {agent: assigned.get(agent, args.chooser) for agent in work.agents}
-    choosers = {agent: make_chooser(name, args.seed + i) for i, (agent, name) in enumerate(names.items())}
+    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-{config.label()}"
+    run_dir.mkdir(parents=True, exist_ok=True)
+    (run_dir / "config.json").write_text(json.dumps(config.manifest(work.agents), indent=2) + "\n")
+    print(f"Run: {config.name}  Work: {config.work}  Social: {config.social.layer}  Situation: {config.situation}")
+    print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in config.chooser_names(work.agents).items()))
 
-    social_label = args.social if args.social == "off" else f"{args.social}-{args.plan}"
-    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-{args.work}-{social_label}-{args.situation}"
-    print(f"Work: {args.work}  Social: {args.social}  Situation: {args.situation}")
-    print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in names.items()))
-
-    run = Run(work, social, choosers, situation, run_dir, show_scores=not args.hide_scores, on_decision=show)
+    run = Run(work, social, choosers, situation, run_dir, show_scores=not config.hide_scores, on_decision=show)
     original_ask = run.ask
+    last_round = [0]
 
     def ask(agent, phase, prompt, options):
-        if phase == "work" and agent == work.agents[0]:
+        if run.round != last_round[0]:
+            last_round[0] = run.round
             print(f"\nRound {run.round}")
         return original_ask(agent, phase, prompt, options)
 

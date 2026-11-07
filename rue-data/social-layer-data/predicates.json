@@ -1,0 +1,186 @@
+{
+  "predicates": {
+    "points": {
+      "type": "numeric",
+      "args": [
+        "agent"
+      ],
+      "default": 0
+    },
+    "likes": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 10,
+      "default": 5,
+      "toString": {
+        "briefing": "You like {args[1]} {value} out of 10."
+      }
+    },
+    "trusts": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 10,
+      "default": 5,
+      "toString": {
+        "briefing": "You trust {args[1]} {value} out of 10."
+      }
+    },
+    "actionType": {
+      "type": "boolean",
+      "args": [
+        "occurrence",
+        "action"
+      ]
+    },
+    "role": {
+      "type": "boolean",
+      "args": [
+        "occurrence",
+        "roleName",
+        "entity"
+      ]
+    },
+    "witnessed": {
+      "type": "boolean",
+      "args": [
+        "occurrence",
+        "agent"
+      ]
+    },
+    "judged": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "occurrence"
+      ]
+    },
+    "work_occurrence": {
+      "type": "boolean",
+      "args": [
+        "occurrence"
+      ]
+    },
+    "social_occurrence": {
+      "type": "boolean",
+      "args": [
+        "occurrence"
+      ]
+    },
+    "change": {
+      "type": "numeric",
+      "args": [
+        "occurrence",
+        "agent",
+        "quantity"
+      ],
+      "default": 0
+    },
+    "responsible": {
+      "type": "boolean",
+      "args": [
+        "occurrence",
+        "agent"
+      ],
+      "privateFallback": "world-first"
+    },
+    "judgedAs": {
+      "type": "boolean",
+      "args": [
+        "occurrence",
+        "label"
+      ]
+    },
+    "leftAlone": {
+      "type": "derived",
+      "args": [
+        "agent"
+      ]
+    },
+    "dealtWith": {
+      "type": "derived",
+      "args": [
+        "agent"
+      ]
+    },
+    "couldBeResponsible": {
+      "type": "derived",
+      "args": [
+        "agent",
+        "occurrence",
+        "agent"
+      ]
+    },
+    "impulse-warm": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "impulse-hostile": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "impulse-trusting": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "impulse-wary": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "impulse-charitable": {
+      "type": "numeric",
+      "args": [
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "impulse-reserved": {
+      "type": "numeric",
+      "args": [
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    }
+  }
+}

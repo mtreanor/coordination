@@ -21,6 +21,7 @@ Read `docs/status.md` first: where the build stands, what's next, and the decisi
 - `rue-data/` — this project's RUE scenarios, found by RUE through `project.config.json`.
 - `scripts/` — runnable entry points (`play.py` plays a Run; `campfire.py` drives the campfire scenario).
 - `situations/` — authored Situations (TOML).
+- `configs/` — Run configs (TOML): which work, agents, Situation, social layer and choosers a Run uses (ADR 0005).
 - `runs/` — Run output, gitignored.
 - `context/` — source documents (the proposal). Gitignored: it contains collaborators' personal details.
 - `CONTEXT.md` — domain glossary. Use its terms.

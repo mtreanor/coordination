@@ -1,0 +1,10 @@
+description = "Not My Bug: five engineers, work-only, with bo planted as a defector."
+work = "not-my-bug"
+situation = "one-defector"
+seed = 0
+
+[social]
+layer = "off"
+
+[choosers]
+default = "random"            # e.g. "claude-haiku" for a real Run

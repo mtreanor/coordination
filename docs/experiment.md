@@ -53,6 +53,8 @@ Derived from rounds 1–3. The work is chosen against this list, not the other w
 | W6 | The score is the work alone | Q3 |
 | W7 | Simple enough that every Disposition change can be traced to a work event | Proposal |
 
+Published paradigms and LLM benchmarks that could serve as a work, or inspire one, are collected in `docs/paradigms.md`; Feinberg, Willer & Schultz (2014) was the leading candidate for Work 1 (`docs/feinberg-2014.md`) until Nov 6, when it was ruled out as the work (see below); it remains the key reference for the hypothesis.
+
 How the existing candidates fit, as a starting point for the next round:
 
 | Candidate | Fits | Misses |
@@ -61,6 +63,11 @@ How the existing candidates fit, as a starting point for the next round:
 | Harbor | W1, W2 (tow, tip, cut lines), W4 | W3: the core cheat (keeping breeders) has no witness at all, so dislike can't be earned directly; W5 |
 | Firm | W1, W5 natively | W3: the task board is public; W7: complex |
 | Long Night | W1, W4, W7 | W2–W3: the main choice (wood vs. food) isn't aimed at anyone; W5 |
+| Investment Club (`investment-club.md`) | W1–W4, W6, W7: pairwise private deals, and a small payback might be a bad project | W5 (a fixed `partner_of` could add it) |
+| Feinberg public goods game | W1–W3, W6, W7 | Ruled out as the work (Nov 6): its notes and vote put social acts inside the work |
+| Not My Bug (`not-my-bug.md`) | W1–W3, W6, W7: pass a bug to X (hurts) or help X; public team velocity shows how many passes, not by whom | W4 (optional "it touched your code" rule), W5 |
+
+**Settled Nov 6, 2026: the social channel is completely separate from the work.** Mike: there is one world where everyone is just trying to get the job done, and the social channel (RUE) is like a private text conversation running in parallel. The work has no notes, votes or other social acts. Shunning shows up only as ordinary work choices (whom to deal with), whose reasons live in RUE. The Investment Club is now the leading simple candidate (Work 1); Work 2 is a complex, dynamic game.
 
 ## 3. The causal chain
 
@@ -69,8 +76,8 @@ The hypothesis holds only if every link holds. Each link needs something from th
 | # | Link | What it needs | Current design | Measure |
 |---|---|---|---|---|
 | 1 | Principals' interests conflict, so work interactions often aren't positive-sum | A work game with a real temptation | Every game candidate has one (the "three ingredients") | Baseline welfare well below the cooperative optimum |
-| 2 | **Work moves become social facts** | Work state mirrored as it is; work events recorded and judged | Mirror (no judgement) + work judgement: witnesses pick judgement actions, which shift dispositions (ADR 0001, ADR 0004) | Judgements per work event; disposition changes traced to work events |
-| 3 | Agents dislike someone *because of* what they did in the work | Judgement actions where selfish work is judged selfish | Stub judgement actions only (`rue-data/stub-social/`); the real ones not written | Correlation between a target's defections and others' dislike of it |
+| 2 | **Work moves become social facts** | Work state mirrored as it is; work events recorded and judged | Mirror (no judgement) + work events with what changed and who is credited; work judgement labels them, naming who the agent holds responsible (ADR 0001, ADR 0004, ADR 0006) | Labels per work event, and who each agent held responsible (accuracy against the log); disposition changes traced to work events |
+| 3 | Agents dislike someone *because of* what they did in the work | Judgement actions where selfish work is judged selfish | Stub judgement actions only (`rue-data/social-layer-data/`); the real ones not written | Correlation between a target's defections and others' dislike of it |
 | 4 | Agents who dislike X tell others about X | A gossip social action that spreads dislike past direct witnesses | A stub "complain about someone" social action exists | Gossip about X; dislike of X among non-witnesses |
 | 5 | **X is shunned** | A defined shunning (see Q2) | **Missing.** No exclusion move or mechanic exists | Exclusion events targeting X |
 | 6 | **X perceives being shunned** | X's Briefing has to show it | Settled (round 2): X infers it from treatment; RUE rules turn observed treatment into X's beliefs about others' attitudes. Those rules are not written | What X's Briefing says; X's rationales mention it |
@@ -91,6 +98,8 @@ These are what the experiment must be able to tell apart from the hypothesis.
 - **Over-correction:** the group shuns so readily that cooperative agents are frozen out by bad luck (the ambiguity in every game candidate makes this possible).
 
 ## 5. Conditions (draft)
+
+The hackathon study's conditions, measures and analysis are in `docs/preregistration.md` (draft, Nov 6, 2026); there, "social, no shunning" became "social, no gossip," because shunning in the work stays possible in every condition.
 
 | Condition | Social world | Gossip and shunning | Role |
 |---|---|---|---|

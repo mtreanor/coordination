@@ -2,6 +2,8 @@ actionset "social-judgement-actions"
   # Social judgement: a listener picks a judgement action for what was said
   # to them. A stub.
   # role SELF is the speaker, role OTHER the agent spoken about.
+  # Utilities are sums of the shared impulses (warm, hostile, trusting, wary,
+  # charitable, reserved), primed by social-priming.rue.
 
   action "take the complaint to heart"
     roles: ?JUDGE: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
@@ -13,7 +15,7 @@ actionset "social-judgement-actions"
       ^ role(?OCC, SELF, ?SPEAKER)
       ^ role(?OCC, OTHER, ?SUBJECT)
     utility
-      1 + ?JUDGE.trusts(?JUDGE, ?SPEAKER) / 2
+      impulse-trusting(?JUDGE, ?SPEAKER) + impulse-hostile(?JUDGE, ?SUBJECT)
     content text: "?JUDGE takes ?SPEAKER's complaint about ?SUBJECT to heart"
     effects
       judged(?JUDGE, ?OCC)
@@ -30,7 +32,7 @@ actionset "social-judgement-actions"
       ^ role(?OCC, SELF, ?SPEAKER)
       ^ role(?OCC, OTHER, ?SUBJECT)
     utility
-      1 + ?JUDGE.likes(?JUDGE, ?SUBJECT) / 2
+      impulse-wary(?JUDGE, ?SPEAKER) + impulse-warm(?JUDGE, ?SUBJECT)
     content text: "?JUDGE doubts ?SPEAKER's complaint about ?SUBJECT"
     effects
       judged(?JUDGE, ?OCC)
@@ -46,7 +48,7 @@ actionset "social-judgement-actions"
       ^ role(?OCC, SELF, ?SPEAKER)
       ^ role(?OCC, OTHER, ?SUBJECT)
     utility
-      1 + ?JUDGE.trusts(?JUDGE, ?SPEAKER) / 2
+      impulse-trusting(?JUDGE, ?SPEAKER) + impulse-warm(?JUDGE, ?SUBJECT)
     content text: "?JUDGE takes ?SPEAKER's praise of ?SUBJECT to heart"
     effects
       judged(?JUDGE, ?OCC)
@@ -60,7 +62,7 @@ actionset "social-judgement-actions"
       ^ not judged(?JUDGE, ?OCC)
       ^ role(?OCC, SELF, ?SPEAKER)
     utility
-      1
+      impulse-reserved(?JUDGE)
     content text: "?JUDGE has no real opinion about what ?SPEAKER said"
     effects
       judged(?JUDGE, ?OCC)

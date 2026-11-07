@@ -1,7 +1,7 @@
 {
-  "active": "campfire",
+  "active": "social-layer-data",
   "scenarios": {
     "campfire": "rue-data/campfire",
-    "stub-social": "rue-data/stub-social"
+    "social-layer-data": "rue-data/social-layer-data"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "social-actions",
-  "notes": "Each agent picks one social action.",
+  "notes": "Each agent picks one social action. The salience floor is set far below zero so that negative impulses never remove an option.",
   "entry": "social-actions",
   "selectionStrategy": "highestUtility",
   "preHooks": [],
@@ -12,10 +12,16 @@
       "routesTo": null,
       "perActionRouting": false,
       "actionRoutes": {},
-      "primingRules": [],
+      "primingRules": [
+        {
+          "type": "ruleset-single",
+          "name": "social-priming",
+          "fresh": true
+        }
+      ],
       "preHooks": [],
       "postHooks": [],
-      "salienceFloor": 0,
+      "salienceFloor": -1000000,
       "selectionStrategy": null
     }
   }

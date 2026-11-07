@@ -1,0 +1,14 @@
+description = "A smoke test: the Investment Club with the social world's four agents (social-layer-data). Investments and paybacks reach RUE as their effects (ADR 0006) and are judged."
+work = "investment-club"
+agents = ["alice", "bob", "carol", "dave"]
+rounds = 3
+situation = "neutral"
+seed = 0
+
+[social]
+layer = "rue"
+scenario = "social-layer-data"
+plan = "full"
+
+[choosers]
+default = "random"
