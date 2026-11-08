@@ -290,10 +290,615 @@ ruleset "social-priming"
     => impulse-warm(?SELF, ?B) += 2
 
   # Being confided in: ?S chose to tell ?SELF something about someone else
-  # (the claim ?SELF is judging, or one made to it this round). Being taken
+  # (the claim ?SELF is judging, or one made to it this round). witnessed
+  # marks the listener: a claim ?SELF made is in its own store too. Being taken
   # into someone's confidence pulls toward believing them. Tier 1 left role
   # out because being confided in needs the speaker.
 
   rule "confided in: trusting toward them"
-    ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1] ^ ?SELF.role(?OCC, OTHER, ?B)
+    ?SELF.witnessed(?OCC, ?SELF) ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1] ^ ?SELF.role(?OCC, OTHER, ?B)
     => impulse-trusting(?SELF, ?S) += 1
+
+  # ── Tier 2: third parties (Mike, Nov 8) ──
+  # Three agents: ?SELF, the one talking (?S) and the one talked about (?B).
+  # Most read the claim made to ?SELF this round (?OCC; in social judgement,
+  # the claim being judged), so they bite when ?SELF decides what to make of
+  # it, and the lasting effect is ?SELF's choice (doubting lowers trust in
+  # ?S; believing changes how ?SELF sees ?B). Rows 12–15 also read claims
+  # made to ?SELF in the last three rounds, believed or not: the claim
+  # occurrences in ?SELF's own store. "Badly" is selfish or careless, "well"
+  # is generous or fair; a label slot must be a literal, so each label has
+  # its own rule. witnessed marks a claim made *to* ?SELF (a claim ?SELF made
+  # is in its own store too). Weights are first guesses. Nobody learns what was said
+  # about themselves (only the one spoken to hears a claim).
+
+  # 1. Badmouthing your friend
+
+  rule "your friend called selfish: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-wary(?SELF, ?S) += 2
+
+  rule "your friend called careless: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-wary(?SELF, ?S) += 2
+
+  # 2. …and you're loyal
+
+  rule "loyal, your friend called selfish: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.loyal(?SELF)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "loyal, your friend called selfish: hostile to who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.loyal(?SELF)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-hostile(?SELF, ?S) += 1
+
+  rule "loyal, your friend called careless: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.loyal(?SELF)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "loyal, your friend called careless: hostile to who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.loyal(?SELF)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-hostile(?SELF, ?S) += 1
+
+  # 3. Praising your friend
+
+  rule "your friend called generous: warm toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-warm(?SELF, ?S) += 1
+
+  rule "your friend called fair: warm toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.friends(?SELF, ?B)
+    => impulse-warm(?SELF, ?S) += 1
+
+  # 4. The enemy of my enemy
+
+  rule "your rival called selfish: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.rival(?SELF, ?B)
+    => impulse-trusting(?SELF, ?S) += 1
+
+  rule "your rival called selfish: warm toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.rival(?SELF, ?B)
+    => impulse-warm(?SELF, ?S) += 1
+
+  rule "your rival called careless: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.rival(?SELF, ?B)
+    => impulse-trusting(?SELF, ?S) += 1
+
+  rule "your rival called careless: warm toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.rival(?SELF, ?B)
+    => impulse-warm(?SELF, ?S) += 1
+
+  # 5. Praising your rival
+
+  rule "your rival called generous: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.rival(?SELF, ?B)
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "your rival called fair: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.rival(?SELF, ?B)
+    => impulse-wary(?SELF, ?S) += 1
+
+  # 6. Badmouthing a benefactor
+
+  rule "someone you're grateful to called selfish: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.grateful(?SELF, ?B) > 0
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "someone you're grateful to called careless: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.grateful(?SELF, ?B) > 0
+    => impulse-wary(?SELF, ?S) += 1
+
+  # 7. Confirming a grudge
+
+  rule "someone you hold a grudge against called selfish: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.grudge(?SELF, ?B) > 0
+    => impulse-trusting(?SELF, ?S) += 1
+
+  rule "someone you hold a grudge against called careless: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.grudge(?SELF, ?B) > 0
+    => impulse-trusting(?SELF, ?S) += 1
+
+  # 8. Badmouthing someone you like
+
+  rule "someone you like called selfish: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.likes(?SELF, ?B) > 6
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "someone you like called careless: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.likes(?SELF, ?B) > 6
+    => impulse-wary(?SELF, ?S) += 1
+
+  # 9. Telling you what you already believe
+
+  rule "told they're selfish, as you believe: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "selfish")
+    => impulse-trusting(?SELF, ?S) += 1
+
+  rule "told they're careless, as you believe: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "careless")
+    => impulse-trusting(?SELF, ?S) += 1
+
+  rule "told they're generous, as you believe: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "generous")
+    => impulse-trusting(?SELF, ?S) += 1
+
+  rule "told they're fair, as you believe: trusting toward who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "fair")
+    => impulse-trusting(?SELF, ?S) += 1
+
+  # 10. Contradicting what you believe
+
+  rule "told they're selfish, but you believe they're generous: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "generous")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're selfish, but you believe they're fair: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "fair")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're careless, but you believe they're generous: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "generous")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're careless, but you believe they're fair: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "fair")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're generous, but you believe they're selfish: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "selfish")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're generous, but you believe they're careless: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "careless")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're fair, but you believe they're selfish: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "selfish")
+    => impulse-wary(?SELF, ?S) += 1
+
+  rule "told they're fair, but you believe they're careless: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.believes(?SELF, ?B, "careless")
+    => impulse-wary(?SELF, ?S) += 1
+
+  # 11. Contradicting what you saw
+
+  rule "called selfish, but you saw them be generous: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.judgedAs(?O, "generous") [asserted-during: 3]
+    ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-wary(?SELF, ?S) += 2
+
+  rule "called selfish, but you saw them be fair: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.judgedAs(?O, "fair") [asserted-during: 3]
+    ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-wary(?SELF, ?S) += 2
+
+  rule "called careless, but you saw them be generous: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.judgedAs(?O, "generous") [asserted-during: 3]
+    ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-wary(?SELF, ?S) += 2
+
+  rule "called careless, but you saw them be fair: wary of who said it"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.judgedAs(?O, "fair") [asserted-during: 3]
+    ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-wary(?SELF, ?S) += 2
+
+  # 12. Corroboration
+
+  rule "two people say they're selfish: hostile toward them"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-hostile(?SELF, ?B) += 2
+
+  rule "two people say they're careless: hostile toward them"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-hostile(?SELF, ?B) += 2
+
+  rule "two people say they're generous: warm toward them"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-warm(?SELF, ?B) += 2
+
+  rule "two people say they're fair: warm toward them"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-warm(?SELF, ?B) += 2
+
+  # 13. Mixed reports
+
+  rule "told they're selfish and generous by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're generous and selfish by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're selfish and fair by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is selfish") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're fair and selfish by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're careless and generous by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're generous and careless by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is generous") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're careless and fair by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is careless") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  rule "told they're fair and careless by different people: reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.actionType(?OCC, "say someone is fair") [asserted-during: 1]
+    ^ ?SELF.role(?OCC, SELF, ?S1)
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.witnessed(?O, ?SELF)
+    ^ ?SELF.actionType(?O, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O, SELF, ?S2)
+    ^ ?SELF.role(?O, OTHER, ?B)
+    ^ ?S1 != ?S2
+    => impulse-reserved(?SELF) += 1
+
+  # 14. A gossip
+
+  rule "they've called different people selfish and selfish lately: wary of them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-wary(?SELF, ?S) += 0.5
+
+  rule "they've called different people selfish and careless lately: wary of them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-wary(?SELF, ?S) += 0.5
+
+  rule "they've called different people careless and selfish lately: wary of them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is selfish") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-wary(?SELF, ?S) += 0.5
+
+  rule "they've called different people careless and careless lately: wary of them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is careless") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-wary(?SELF, ?S) += 0.5
+
+  # 15. A habitual praiser
+
+  rule "they've called different people generous and generous lately: warm toward them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-warm(?SELF, ?S) += 0.5
+
+  rule "they've called different people generous and fair lately: warm toward them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-warm(?SELF, ?S) += 0.5
+
+  rule "they've called different people fair and generous lately: warm toward them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is generous") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-warm(?SELF, ?S) += 0.5
+
+  rule "they've called different people fair and fair lately: warm toward them"
+    ?SELF.witnessed(?O1, ?SELF)
+    ^ ?SELF.actionType(?O1, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O1, SELF, ?S)
+    ^ ?SELF.role(?O1, OTHER, ?B1)
+    ^ ?SELF.witnessed(?O2, ?SELF)
+    ^ ?SELF.actionType(?O2, "say someone is fair") [asserted-during: 3]
+    ^ ?SELF.role(?O2, SELF, ?S)
+    ^ ?SELF.role(?O2, OTHER, ?B2)
+    ^ ?B1 != ?B2
+    => impulse-warm(?SELF, ?S) += 0.5
+
+  # 16. Suspicious of a confidant
+
+  rule "suspicious, confided in: wary of them"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.suspicious(?SELF)
+    => impulse-wary(?SELF, ?S) += 1
+
+  # 17. Gossipy listener
+
+  rule "gossipy, confided in: warm toward them"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.gossipy(?SELF)
+    => impulse-warm(?SELF, ?S) += 1
+
+  rule "gossipy, confided in: less reserved"
+    ?SELF.witnessed(?OCC, ?SELF)
+    ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]
+    ^ ?SELF.role(?OCC, OTHER, ?B)
+    ^ ?SELF.gossipy(?SELF)
+    => impulse-reserved(?SELF) -= 1

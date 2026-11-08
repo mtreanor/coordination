@@ -286,7 +286,7 @@ def test_rue_briefing_is_the_agents_social_state_by_colleague(tmp_path):
     events = [WorkEvent(**e) for line in (tmp_path / "events.jsonl").read_text().splitlines()
               for e in json.loads(line)["events"]]
     assert not any(e.describe() in briefing for e in events)
-    assert "knows about" not in briefing and "verdict" not in briefing
+    assert "know about" not in briefing and "verdict" not in briefing
     assert "rival" not in briefing  # bob's view of carol is bob's
 
 

@@ -209,7 +209,20 @@ class RueSocial:
             if any(a in self.occurrences for a in args):  # about some other occurrence:
                 return bool(named) and named <= people    # only if it names the option's people
             return named <= people
-        return [r for r in candidate.get("reasons", []) if keep(r)]
+        # One reason per occurrence and direction: a rule can read several facts about the
+        # same occurrence (what was said, who said it, that you heard it), and each would
+        # otherwise restate it on the menu.
+        kept, seen = [], set()
+        for reason in candidate.get("reasons", []):
+            if not keep(reason):
+                continue
+            first = str(reason["fact"]["args"][0]) if reason["fact"]["args"] else ""
+            if first.startswith("occ"):
+                if (first, reason.get("direction")) in seen:
+                    continue
+                seen.add((first, reason.get("direction")))
+            kept.append(reason)
+        return kept
 
     def menu(self, candidates: list[dict]) -> list[dict]:
         """RUE's top-ranked options, at most `menu_size`, in random order (ADR 0007). RUE lists

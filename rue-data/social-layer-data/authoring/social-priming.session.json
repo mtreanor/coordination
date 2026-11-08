@@ -864,6 +864,10 @@
       "target": "impulse-trusting",
       "premises": [
         {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
           "predicate": "role",
           "binding": "?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]"
         },
@@ -873,10 +877,2238 @@
         }
       ],
       "ruleName": "confided in: trusting toward them",
-      "ruleText": "  rule \"confided in: trusting toward them\"\n    ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1] ^ ?SELF.role(?OCC, OTHER, ?B)\n    => impulse-trusting(?SELF, ?S) += 1",
+      "ruleText": "  rule \"confided in: trusting toward them\"\n    ?SELF.witnessed(?OCC, ?SELF) ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1] ^ ?SELF.role(?OCC, OTHER, ?B)\n    => impulse-trusting(?SELF, ?S) += 1",
       "weight": 1,
       "status": "approved",
       "note": "Nov 8: tier 1 deferred role; being confided in needs the speaker."
+    },
+    {
+      "id": 54,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your friend called selfish: wary of who said it",
+      "ruleText": "  rule \"your friend called selfish: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-wary(?SELF, ?S) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 1 (Badmouthing your friend): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 55,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your friend called careless: wary of who said it",
+      "ruleText": "  rule \"your friend called careless: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-wary(?SELF, ?S) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 1 (Badmouthing your friend): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 56,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "loyal",
+          "binding": "?SELF.loyal(?SELF)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "loyal, your friend called selfish: wary of who said it",
+      "ruleText": "  rule \"loyal, your friend called selfish: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.loyal(?SELF)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 2 (\u2026and you're loyal): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 57,
+      "tier": 2,
+      "target": "impulse-hostile",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "loyal",
+          "binding": "?SELF.loyal(?SELF)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "loyal, your friend called selfish: hostile to who said it",
+      "ruleText": "  rule \"loyal, your friend called selfish: hostile to who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.loyal(?SELF)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-hostile(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 2 (\u2026and you're loyal): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 58,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "loyal",
+          "binding": "?SELF.loyal(?SELF)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "loyal, your friend called careless: wary of who said it",
+      "ruleText": "  rule \"loyal, your friend called careless: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.loyal(?SELF)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 2 (\u2026and you're loyal): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 59,
+      "tier": 2,
+      "target": "impulse-hostile",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "loyal",
+          "binding": "?SELF.loyal(?SELF)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "loyal, your friend called careless: hostile to who said it",
+      "ruleText": "  rule \"loyal, your friend called careless: hostile to who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.loyal(?SELF)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-hostile(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 2 (\u2026and you're loyal): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 60,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your friend called generous: warm toward who said it",
+      "ruleText": "  rule \"your friend called generous: warm toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-warm(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 3 (Praising your friend): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 61,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your friend called fair: warm toward who said it",
+      "ruleText": "  rule \"your friend called fair: warm toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.friends(?SELF, ?B)\n    => impulse-warm(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 3 (Praising your friend): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 62,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "rival",
+          "binding": "?SELF.rival(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your rival called selfish: trusting toward who said it",
+      "ruleText": "  rule \"your rival called selfish: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.rival(?SELF, ?B)\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 4 (The enemy of my enemy): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 63,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "rival",
+          "binding": "?SELF.rival(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your rival called selfish: warm toward who said it",
+      "ruleText": "  rule \"your rival called selfish: warm toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.rival(?SELF, ?B)\n    => impulse-warm(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 4 (The enemy of my enemy): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 64,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "rival",
+          "binding": "?SELF.rival(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your rival called careless: trusting toward who said it",
+      "ruleText": "  rule \"your rival called careless: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.rival(?SELF, ?B)\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 4 (The enemy of my enemy): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 65,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "rival",
+          "binding": "?SELF.rival(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your rival called careless: warm toward who said it",
+      "ruleText": "  rule \"your rival called careless: warm toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.rival(?SELF, ?B)\n    => impulse-warm(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 4 (The enemy of my enemy): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 66,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "rival",
+          "binding": "?SELF.rival(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your rival called generous: wary of who said it",
+      "ruleText": "  rule \"your rival called generous: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.rival(?SELF, ?B)\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 5 (Praising your rival): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 67,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "rival",
+          "binding": "?SELF.rival(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "your rival called fair: wary of who said it",
+      "ruleText": "  rule \"your rival called fair: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.rival(?SELF, ?B)\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 5 (Praising your rival): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 68,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "grateful",
+          "binding": "?SELF.grateful(?SELF, ?B) > 0"
+        }
+      ],
+      "ruleName": "someone you're grateful to called selfish: wary of who said it",
+      "ruleText": "  rule \"someone you're grateful to called selfish: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.grateful(?SELF, ?B) > 0\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 6 (Badmouthing a benefactor): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 69,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "grateful",
+          "binding": "?SELF.grateful(?SELF, ?B) > 0"
+        }
+      ],
+      "ruleName": "someone you're grateful to called careless: wary of who said it",
+      "ruleText": "  rule \"someone you're grateful to called careless: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.grateful(?SELF, ?B) > 0\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 6 (Badmouthing a benefactor): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 70,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "grudge",
+          "binding": "?SELF.grudge(?SELF, ?B) > 0"
+        }
+      ],
+      "ruleName": "someone you hold a grudge against called selfish: trusting toward who said it",
+      "ruleText": "  rule \"someone you hold a grudge against called selfish: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.grudge(?SELF, ?B) > 0\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 7 (Confirming a grudge): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 71,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "grudge",
+          "binding": "?SELF.grudge(?SELF, ?B) > 0"
+        }
+      ],
+      "ruleName": "someone you hold a grudge against called careless: trusting toward who said it",
+      "ruleText": "  rule \"someone you hold a grudge against called careless: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.grudge(?SELF, ?B) > 0\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 7 (Confirming a grudge): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 72,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "likes",
+          "binding": "?SELF.likes(?SELF, ?B) > 6"
+        }
+      ],
+      "ruleName": "someone you like called selfish: wary of who said it",
+      "ruleText": "  rule \"someone you like called selfish: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.likes(?SELF, ?B) > 6\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 8 (Badmouthing someone you like): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 73,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "likes",
+          "binding": "?SELF.likes(?SELF, ?B) > 6"
+        }
+      ],
+      "ruleName": "someone you like called careless: wary of who said it",
+      "ruleText": "  rule \"someone you like called careless: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.likes(?SELF, ?B) > 6\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 8 (Badmouthing someone you like): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 74,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"selfish\")"
+        }
+      ],
+      "ruleName": "told they're selfish, as you believe: trusting toward who said it",
+      "ruleText": "  rule \"told they're selfish, as you believe: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"selfish\")\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 9 (Telling you what you already believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 75,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"careless\")"
+        }
+      ],
+      "ruleName": "told they're careless, as you believe: trusting toward who said it",
+      "ruleText": "  rule \"told they're careless, as you believe: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"careless\")\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 9 (Telling you what you already believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 76,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"generous\")"
+        }
+      ],
+      "ruleName": "told they're generous, as you believe: trusting toward who said it",
+      "ruleText": "  rule \"told they're generous, as you believe: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"generous\")\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 9 (Telling you what you already believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 77,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"fair\")"
+        }
+      ],
+      "ruleName": "told they're fair, as you believe: trusting toward who said it",
+      "ruleText": "  rule \"told they're fair, as you believe: trusting toward who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"fair\")\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 9 (Telling you what you already believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 78,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"generous\")"
+        }
+      ],
+      "ruleName": "told they're selfish, but you believe they're generous: wary of who said it",
+      "ruleText": "  rule \"told they're selfish, but you believe they're generous: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"generous\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 79,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"fair\")"
+        }
+      ],
+      "ruleName": "told they're selfish, but you believe they're fair: wary of who said it",
+      "ruleText": "  rule \"told they're selfish, but you believe they're fair: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"fair\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 80,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"generous\")"
+        }
+      ],
+      "ruleName": "told they're careless, but you believe they're generous: wary of who said it",
+      "ruleText": "  rule \"told they're careless, but you believe they're generous: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"generous\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 81,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"fair\")"
+        }
+      ],
+      "ruleName": "told they're careless, but you believe they're fair: wary of who said it",
+      "ruleText": "  rule \"told they're careless, but you believe they're fair: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"fair\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 82,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"selfish\")"
+        }
+      ],
+      "ruleName": "told they're generous, but you believe they're selfish: wary of who said it",
+      "ruleText": "  rule \"told they're generous, but you believe they're selfish: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"selfish\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 83,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"careless\")"
+        }
+      ],
+      "ruleName": "told they're generous, but you believe they're careless: wary of who said it",
+      "ruleText": "  rule \"told they're generous, but you believe they're careless: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"careless\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 84,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"selfish\")"
+        }
+      ],
+      "ruleName": "told they're fair, but you believe they're selfish: wary of who said it",
+      "ruleText": "  rule \"told they're fair, but you believe they're selfish: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"selfish\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 85,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "believes",
+          "binding": "?SELF.believes(?SELF, ?B, \"careless\")"
+        }
+      ],
+      "ruleName": "told they're fair, but you believe they're careless: wary of who said it",
+      "ruleText": "  rule \"told they're fair, but you believe they're careless: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.believes(?SELF, ?B, \"careless\")\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 10 (Contradicting what you believe): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 86,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "called selfish, but you saw them be generous: wary of who said it",
+      "ruleText": "  rule \"called selfish, but you saw them be generous: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.judgedAs(?O, \"generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-wary(?SELF, ?S) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 11 (Contradicting what you saw): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 87,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "called selfish, but you saw them be fair: wary of who said it",
+      "ruleText": "  rule \"called selfish, but you saw them be fair: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.judgedAs(?O, \"fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-wary(?SELF, ?S) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 11 (Contradicting what you saw): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 88,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "called careless, but you saw them be generous: wary of who said it",
+      "ruleText": "  rule \"called careless, but you saw them be generous: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.judgedAs(?O, \"generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-wary(?SELF, ?S) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 11 (Contradicting what you saw): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 89,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "called careless, but you saw them be fair: wary of who said it",
+      "ruleText": "  rule \"called careless, but you saw them be fair: wary of who said it\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.judgedAs(?O, \"fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-wary(?SELF, ?S) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 11 (Contradicting what you saw): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 90,
+      "tier": 2,
+      "target": "impulse-hostile",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "two people say they're selfish: hostile toward them",
+      "ruleText": "  rule \"two people say they're selfish: hostile toward them\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-hostile(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 12 (Corroboration): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 91,
+      "tier": 2,
+      "target": "impulse-hostile",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "two people say they're careless: hostile toward them",
+      "ruleText": "  rule \"two people say they're careless: hostile toward them\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-hostile(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 12 (Corroboration): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 92,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "two people say they're generous: warm toward them",
+      "ruleText": "  rule \"two people say they're generous: warm toward them\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-warm(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 12 (Corroboration): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 93,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "two people say they're fair: warm toward them",
+      "ruleText": "  rule \"two people say they're fair: warm toward them\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-warm(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 12 (Corroboration): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 94,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're selfish and generous by different people: reserved",
+      "ruleText": "  rule \"told they're selfish and generous by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 95,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're generous and selfish by different people: reserved",
+      "ruleText": "  rule \"told they're generous and selfish by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 96,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're selfish and fair by different people: reserved",
+      "ruleText": "  rule \"told they're selfish and fair by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is selfish\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 97,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're fair and selfish by different people: reserved",
+      "ruleText": "  rule \"told they're fair and selfish by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 98,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're careless and generous by different people: reserved",
+      "ruleText": "  rule \"told they're careless and generous by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 99,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're generous and careless by different people: reserved",
+      "ruleText": "  rule \"told they're generous and careless by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is generous\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 100,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're careless and fair by different people: reserved",
+      "ruleText": "  rule \"told they're careless and fair by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is careless\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 101,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S1)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, SELF, ?S2)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, OTHER, ?B)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?S1 != ?S2"
+        }
+      ],
+      "ruleName": "told they're fair and careless by different people: reserved",
+      "ruleText": "  rule \"told they're fair and careless by different people: reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.actionType(?OCC, \"say someone is fair\") [asserted-during: 1]\n    ^ ?SELF.role(?OCC, SELF, ?S1)\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.witnessed(?O, ?SELF)\n    ^ ?SELF.actionType(?O, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O, SELF, ?S2)\n    ^ ?SELF.role(?O, OTHER, ?B)\n    ^ ?S1 != ?S2\n    => impulse-reserved(?SELF) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 13 (Mixed reports): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 102,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people selfish and selfish lately: wary of them",
+      "ruleText": "  rule \"they've called different people selfish and selfish lately: wary of them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-wary(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 14 (A gossip): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 103,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people selfish and careless lately: wary of them",
+      "ruleText": "  rule \"they've called different people selfish and careless lately: wary of them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-wary(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 14 (A gossip): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 104,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people careless and selfish lately: wary of them",
+      "ruleText": "  rule \"they've called different people careless and selfish lately: wary of them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is selfish\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-wary(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 14 (A gossip): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 105,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people careless and careless lately: wary of them",
+      "ruleText": "  rule \"they've called different people careless and careless lately: wary of them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is careless\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-wary(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 14 (A gossip): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 106,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people generous and generous lately: warm toward them",
+      "ruleText": "  rule \"they've called different people generous and generous lately: warm toward them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-warm(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 15 (A habitual praiser): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 107,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people generous and fair lately: warm toward them",
+      "ruleText": "  rule \"they've called different people generous and fair lately: warm toward them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-warm(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 15 (A habitual praiser): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 108,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people fair and generous lately: warm toward them",
+      "ruleText": "  rule \"they've called different people fair and generous lately: warm toward them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is generous\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-warm(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 15 (A habitual praiser): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 109,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O1, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O1, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O1, OTHER, ?B1)"
+        },
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?O2, ?SELF)"
+        },
+        {
+          "predicate": "actionType",
+          "binding": "?SELF.actionType(?O2, \"say someone is fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, SELF, ?S)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O2, OTHER, ?B2)"
+        },
+        {
+          "predicate": "comparison",
+          "binding": "?B1 != ?B2"
+        }
+      ],
+      "ruleName": "they've called different people fair and fair lately: warm toward them",
+      "ruleText": "  rule \"they've called different people fair and fair lately: warm toward them\"\n    ?SELF.witnessed(?O1, ?SELF)\n    ^ ?SELF.actionType(?O1, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O1, SELF, ?S)\n    ^ ?SELF.role(?O1, OTHER, ?B1)\n    ^ ?SELF.witnessed(?O2, ?SELF)\n    ^ ?SELF.actionType(?O2, \"say someone is fair\") [asserted-during: 3]\n    ^ ?SELF.role(?O2, SELF, ?S)\n    ^ ?SELF.role(?O2, OTHER, ?B2)\n    ^ ?B1 != ?B2\n    => impulse-warm(?SELF, ?S) += 0.5",
+      "weight": 0.5,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 15 (A habitual praiser): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 110,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "suspicious",
+          "binding": "?SELF.suspicious(?SELF)"
+        }
+      ],
+      "ruleName": "suspicious, confided in: wary of them",
+      "ruleText": "  rule \"suspicious, confided in: wary of them\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.suspicious(?SELF)\n    => impulse-wary(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 16 (Suspicious of a confidant): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 111,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "gossipy",
+          "binding": "?SELF.gossipy(?SELF)"
+        }
+      ],
+      "ruleName": "gossipy, confided in: warm toward them",
+      "ruleText": "  rule \"gossipy, confided in: warm toward them\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.gossipy(?SELF)\n    => impulse-warm(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 17 (Gossipy listener): built at Mike's request (\"build all of them\")."
+    },
+    {
+      "id": 112,
+      "tier": 2,
+      "target": "impulse-reserved",
+      "premises": [
+        {
+          "predicate": "witnessed",
+          "binding": "?SELF.witnessed(?OCC, ?SELF)"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        },
+        {
+          "predicate": "gossipy",
+          "binding": "?SELF.gossipy(?SELF)"
+        }
+      ],
+      "ruleName": "gossipy, confided in: less reserved",
+      "ruleText": "  rule \"gossipy, confided in: less reserved\"\n    ?SELF.witnessed(?OCC, ?SELF)\n    ^ ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]\n    ^ ?SELF.role(?OCC, OTHER, ?B)\n    ^ ?SELF.gossipy(?SELF)\n    => impulse-reserved(?SELF) -= 1",
+      "weight": -1,
+      "status": "approved",
+      "note": "Nov 8, third parties, row 17 (Gossipy listener): built at Mike's request (\"build all of them\")."
     }
   ]
 }

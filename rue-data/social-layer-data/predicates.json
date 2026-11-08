@@ -41,7 +41,10 @@
         "occurrence",
         "action"
       ],
-      "privateFallback": "world-first"
+      "privateFallback": "world-first",
+      "toString": {
+        "reason": "Said to you: \"{text[0]}\"."
+      }
     },
     "role": {
       "type": "boolean",
@@ -62,7 +65,7 @@
         "agent"
       ],
       "toString": {
-        "reason": "{args[1]} knows about \"{text[0]}\"."
+        "reason": "You know about \"{text[0]}\"."
       },
       "privateFallback": "world-first"
     },
