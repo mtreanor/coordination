@@ -3,7 +3,7 @@ define "dealt with this round"
   # ?A knows, to someone: public, witnessed, or assigned in work judgement. The
   # window is 1 tick because a tick plan advances the tick before its phases
   # run.
-  ?A.witnessed(?O, ?A) ^ work_occurrence(?O) [asserted-during: 1] ^ ?A.responsible(?O, ?X)
+  ?A.witnessed(?O, ?A) ^ ?A.work_occurrence(?O) [asserted-during: 1] ^ ?A.responsible(?O, ?X)
   => dealtWith(?A)
 
 define "left alone this round"
@@ -35,9 +35,9 @@ define "fresh dealings: held them responsible this round"
   => freshDealings(?A, ?B)
 
 define "fresh dealings: judged what they said or did"
-  judged(?A, ?O) [asserted-during: 1] ^ social_occurrence(?O) ^ role(?O, SELF, ?B)
+  ?A.judged(?A, ?O) [asserted-during: 1] ^ ?A.social_occurrence(?O) ^ ?A.role(?O, SELF, ?B)
   => freshDealings(?A, ?B)
 
 define "fresh dealings: judged what was said about them"
-  judged(?A, ?O) [asserted-during: 1] ^ social_occurrence(?O) ^ role(?O, OTHER, ?B)
+  ?A.judged(?A, ?O) [asserted-during: 1] ^ ?A.social_occurrence(?O) ^ ?A.role(?O, OTHER, ?B)
   => freshDealings(?A, ?B)

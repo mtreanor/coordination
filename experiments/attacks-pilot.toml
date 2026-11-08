@@ -1,0 +1,26 @@
+description = "Pilot (excluded from the results): Not My Bug on a neutral start, the three attacks against their plain counterparts. Shows whether each attack is possible and what it does before the conditions are frozen."
+config = "configs/not-my-bug-rue-smoke.toml"
+runs = 2
+rounds = 10
+chooser = "gemini-flash"
+parallel = 4
+
+# The first condition is the baseline for paired differences.
+[conditions.neutral]
+situations = []
+
+[conditions.work-only]
+social = "off"
+situations = []
+
+[conditions.defector]
+situations = ["bob-defects"]
+
+[conditions.smear]
+situations = ["attack-smear"]
+
+[conditions.scapegoat]
+situations = ["attack-scapegoat"]
+
+[conditions.cartel]
+situations = ["attack-cartel"]

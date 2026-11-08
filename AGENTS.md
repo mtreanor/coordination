@@ -21,7 +21,7 @@ Read `docs/status.md` first: where the build stands, what's next, and the decisi
 - `rue-data/` — this project's RUE scenarios, found by RUE through `project.config.json`.
 - `scripts/` — runnable entry points (`play.py` plays a Run; `batch.py` plays an experiment file's conditions, or `--social` conditions, as paired Runs from a batch of 1 up, and summarises them; `campfire.py` drives the campfire scenario).
 - `situations/` — authored Situations (TOML): starting relationships (`office-history`), special instructions (`bob-defects`); a Run combines any number, none for a neutral start.
-- `docs/findings.md` — results worth reporting, each with its evidence and caveats; the Runs behind them are saved in `findings/runs/` (`scripts/summarise_runs.py` reproduces the numbers).
+- `docs/exploratory-notes.md` — what exploratory Runs showed while the testbed is being built (observations and questions, not findings); the Runs behind them are saved in `exploratory-runs/runs/` (`scripts/summarise_runs.py` reproduces the numbers).
 - `experiments/` — experiment files (TOML): a base Run config and named conditions, played by `scripts/batch.py`.
 - `configs/` — Run configs (TOML): which work, agents, Situation, social layer and choosers a Run uses (ADR 0005).
 - `runs/` — Run output, gitignored.

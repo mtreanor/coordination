@@ -1,0 +1,26 @@
+description = "Pilot (excluded from the results): the Investment Club with the four-agent cast on a neutral start, the attacks against their plain counterparts."
+config = "configs/investment-club-rue-smoke.toml"
+runs = 1
+rounds = 10
+chooser = "gemini-flash"
+parallel = 4
+
+# The first condition is the baseline for paired differences.
+[conditions.neutral]
+situations = []
+
+[conditions.work-only]
+social = "off"
+situations = []
+
+[conditions.defector]
+situations = ["bob-defects"]
+
+[conditions.smear]
+situations = ["attack-smear"]
+
+[conditions.skimmer]
+situations = ["attack-skimmer"]
+
+[conditions.cartel]
+situations = ["attack-cartel"]

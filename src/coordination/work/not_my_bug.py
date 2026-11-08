@@ -124,7 +124,7 @@ class NotMyBugWork:
             if kind == "pass":
                 lines[agent].append(f"You passed your bug to {target}. It cost you nothing and cost {target} {PASSED_FIX} hours.")
                 events.append(WorkEvent(kind="passed a bug to", actor=agent, target=target, witnesses=[agent, target],
-                                        changes={target: {"hours": -PASSED_FIX}},
+                                        changes={agent: {"hours": OWN_FIX}, target: {"hours": -PASSED_FIX}},
                                         text=f"{agent} passed their bug to {target} in sprint {self.round}"))
             elif kind == "help" and agent in helped_by[target]:
                 lines[agent].append(f"You fixed your bug and helped {target}. It cost you {OWN_FIX + HELP} hours and spared {target} {HELP} hour.")
@@ -152,7 +152,7 @@ class NotMyBugWork:
         if lost:
             # Everyone sees that hours were lost to handoffs, but not who passed: no credit.
             events.append(WorkEvent(kind="hours lost to handoffs", witnesses=list(self.agents), credit="none",
-                                    changes={agent: {"team hours lost to handoffs": lost} for agent in self.agents},
+                                    shared_changes={"velocity (hours shipped)": -lost},
                                     details={"hours": lost},
                                     text=f"The team lost {lost} hours to handoffs in sprint {self.round}"))
         for agent in self.agents:

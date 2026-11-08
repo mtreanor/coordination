@@ -30,10 +30,11 @@ def test_passing_wastes_an_hour_and_helping_moves_one():
     assert work.scores() == {"ana": 10, "bo": 8, "cy": 8, "dee": 9, "eli": 9}
     assert sum(work.scores().values()) == 45 - 1  # one pass loses exactly one hour
     assert [(e.kind, e.actor, e.credit, e.changes) for e in events] == [
-        ("passed a bug to", "ana", "witnesses", {"bo": {"hours": -2}}),
+        ("passed a bug to", "ana", "witnesses", {"ana": {"hours": 1}, "bo": {"hours": -2}}),  # ana's hour saved
         ("helped with a bug", "cy", "witnesses", {"cy": {"hours": -1}, "bo": {"hours": 1}}),
-        ("hours lost to handoffs", None, "none", {a: {"team hours lost to handoffs": 1} for a in AGENTS}),
+        ("hours lost to handoffs", None, "none", {}),
     ]
+    assert events[-1].shared_changes == {"velocity (hours shipped)": -1}
     assert "ana" not in events[2].describe()  # everyone sees the loss, nobody sees who passed
     assert all(set(e.witnesses) == {e.actor, e.target} for e in events[:2]) and events[2].witnesses == AGENTS
     bo = work.briefing("bo")

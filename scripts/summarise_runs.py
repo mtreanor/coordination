@@ -1,12 +1,12 @@
 """Summarise Not My Bug Run directories: what each agent did each sprint, who received the
 passes, what the social layer's choices were, and (optionally) the agents' own rationales.
 
-    uv run scripts/summarise_runs.py findings/runs/neutral-defector-social findings/runs/neutral-defector-workonly
-    uv run scripts/summarise_runs.py findings/runs/neutral-defector-social --target bob --after 3
-    uv run scripts/summarise_runs.py findings/runs/neutral-defector-workonly --rationales 2-4
+    uv run scripts/summarise_runs.py exploratory-runs/runs/neutral-defector-social exploratory-runs/runs/neutral-defector-workonly
+    uv run scripts/summarise_runs.py exploratory-runs/runs/neutral-defector-social --target bob --after 3
+    uv run scripts/summarise_runs.py exploratory-runs/runs/neutral-defector-workonly --rationales 2-4
 
 Reads a Run directory as play.py writes it (config.json, rounds.jsonl, events.jsonl,
-decisions.jsonl) or as findings/ keeps it (decisions.jsonl.gz).
+decisions.jsonl) or as exploratory-runs/ keeps it (decisions.jsonl.gz).
 """
 
 import argparse

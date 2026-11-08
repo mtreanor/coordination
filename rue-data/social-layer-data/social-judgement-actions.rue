@@ -16,16 +16,16 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is selfish")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is selfish")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-trusting(?SELF, ?SPEAKER) + impulse-hostile(?SELF, ?SUBJECT)
     content text: "?SELF believes ?SPEAKER that ?SUBJECT is selfish"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "selfish")
       ?SELF.likes(?SELF, ?SUBJECT) -= 1
 
@@ -33,32 +33,32 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is selfish")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is selfish")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-wary(?SELF, ?SPEAKER) + impulse-warm(?SELF, ?SUBJECT)
     content text: "?SELF doubts ?SPEAKER's word that ?SUBJECT is selfish"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.trusts(?SELF, ?SPEAKER) -= 1
 
   action "believe that someone is careless"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is careless")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is careless")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-trusting(?SELF, ?SPEAKER) + impulse-wary(?SELF, ?SUBJECT)
     content text: "?SELF believes ?SPEAKER that ?SUBJECT is careless"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "careless")
       ?SELF.trusts(?SELF, ?SUBJECT) -= 1
 
@@ -66,32 +66,32 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is careless")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is careless")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-wary(?SELF, ?SPEAKER) + impulse-trusting(?SELF, ?SUBJECT)
     content text: "?SELF doubts ?SPEAKER's word that ?SUBJECT is careless"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.trusts(?SELF, ?SPEAKER) -= 1
 
   action "believe that someone is generous"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is generous")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is generous")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-trusting(?SELF, ?SPEAKER) + impulse-warm(?SELF, ?SUBJECT)
     content text: "?SELF believes ?SPEAKER that ?SUBJECT is generous"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "generous")
       ?SELF.likes(?SELF, ?SUBJECT) += 1
 
@@ -99,32 +99,32 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is generous")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is generous")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-wary(?SELF, ?SPEAKER) + impulse-hostile(?SELF, ?SUBJECT)
     content text: "?SELF doubts ?SPEAKER's word that ?SUBJECT is generous"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.trusts(?SELF, ?SPEAKER) -= 1
 
   action "believe that someone is fair"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is fair")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is fair")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-trusting(?SELF, ?SPEAKER) + impulse-trusting(?SELF, ?SUBJECT)
     content text: "?SELF believes ?SPEAKER that ?SUBJECT is fair"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "fair")
       ?SELF.trusts(?SELF, ?SUBJECT) += 1
 
@@ -132,16 +132,16 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent, ?SUBJECT: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "say someone is fair")
-      ^ role(?OCC, SELF, ?SPEAKER)
-      ^ role(?OCC, OTHER, ?SUBJECT)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "say someone is fair")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.role(?OCC, OTHER, ?SUBJECT)
     utility
       impulse-wary(?SELF, ?SPEAKER) + impulse-wary(?SELF, ?SUBJECT)
     content text: "?SELF doubts ?SPEAKER's word that ?SUBJECT is fair"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.trusts(?SELF, ?SPEAKER) -= 1
 
   # What a colleague did to ?SELF directly.
@@ -150,15 +150,15 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "confront someone")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "confront someone")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-trusting(?SELF, ?SPEAKER) + impulse-charitable(?SELF)
     content text: "?SELF takes ?SPEAKER's confrontation to heart"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.trusts(?SELF, ?SPEAKER) += 1
       ?SELF.grudge(?SELF, ?SPEAKER) -= 1
 
@@ -166,15 +166,15 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "confront someone")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "confront someone")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-hostile(?SELF, ?SPEAKER) + impulse-wary(?SELF, ?SPEAKER)
     content text: "?SELF resents being confronted by ?SPEAKER"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.likes(?SELF, ?SPEAKER) -= 1
       ?SELF.grudge(?SELF, ?SPEAKER) += 2
 
@@ -182,44 +182,44 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "thank someone")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "thank someone")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-warm(?SELF, ?SPEAKER) + impulse-charitable(?SELF)
     content text: "?SELF appreciates ?SPEAKER's thanks"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.likes(?SELF, ?SPEAKER) += 1
 
   action "brush off the thanks"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "thank someone")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "thank someone")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-wary(?SELF, ?SPEAKER) + impulse-reserved(?SELF)
     content text: "?SELF brushes off ?SPEAKER's thanks"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
 
   action "accept the apology"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "apologise to someone")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "apologise to someone")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-conciliatory(?SELF, ?SPEAKER) + impulse-charitable(?SELF)
     content text: "?SELF accepts ?SPEAKER's apology"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.grudge(?SELF, ?SPEAKER) -= 3
       ?SELF.likes(?SELF, ?SPEAKER) += 1
 
@@ -227,30 +227,30 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "apologise to someone")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "apologise to someone")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-hostile(?SELF, ?SPEAKER) + impulse-wary(?SELF, ?SPEAKER)
     content text: "?SELF refuses ?SPEAKER's apology"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.grudge(?SELF, ?SPEAKER) += 1
 
   action "take the cold shoulder personally"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "give someone the cold shoulder")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "give someone the cold shoulder")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-hostile(?SELF, ?SPEAKER) + impulse-wary(?SELF, ?SPEAKER)
     content text: "?SELF takes ?SPEAKER's cold shoulder personally"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.likes(?SELF, ?SPEAKER) -= 1
       ?SELF.grudge(?SELF, ?SPEAKER) += 1
 
@@ -258,26 +258,26 @@ actionset "social-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ actionType(?OCC, "give someone the cold shoulder")
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.actionType(?OCC, "give someone the cold shoulder")
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-charitable(?SELF) + impulse-reserved(?SELF)
     content text: "?SELF shrugs off ?SPEAKER's cold shoulder"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
 
   # For anything said or done.
   action "no real opinion of what was said"
     roles: ?SELF: agent, ?OCC: occurrence, ?SPEAKER: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ social_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
-      ^ role(?OCC, SELF, ?SPEAKER)
+      ^ ?SELF.social_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
+      ^ ?SELF.role(?OCC, SELF, ?SPEAKER)
     utility
       impulse-reserved(?SELF)
     content text: "?SELF has no real opinion about what ?SPEAKER said"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)

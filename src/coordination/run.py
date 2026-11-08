@@ -26,8 +26,8 @@ from .work import Work
 
 
 OVERVIEW = """\
-You are {agent}. You're one of a small group of people who work together: you and {colleagues}. Play your part the way a person in this group would. You have a job to do, and you share your working days with the others.
-Your goal is to make your own score as high as you can. The work's rules say what your score is.
+You are {agent}. You work with {colleagues}: you each have a job to do, and you share your working days.
+What you get out of this is your own score, and the work's rules say what it is.
 Throughout, you'll be asked to make one decision at a time. Each time you'll see what you know so far and a short list of options. Choose one, and say briefly why."""
 
 

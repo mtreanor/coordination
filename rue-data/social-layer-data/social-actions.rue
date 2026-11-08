@@ -10,6 +10,9 @@ actionset "social-actions"
   # addressed thinks: they decide that in social judgement, in their own
   # store. Only the one addressed knows (`?Y.witnessed`, never the shared
   # world), so nobody overhears, and the speaker doesn't learn how it landed.
+  # The occurrence itself (its actionType and roles) is recorded only for the
+  # two of them (`record(?occ) for ...`), so the shared world never learns
+  # that anything was said.
   #
   # Talking about a third party (?OTHER) to a colleague (?Y) carries a claim,
   # one action per label. The listener side of the utility (warm and trusting
@@ -29,8 +32,9 @@ actionset "social-actions"
       impulse-hostile(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "selfish")
     content text: "?SELF tells ?Y that ?OTHER is selfish"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?Y
+      ?SELF.social_occurrence(?occ)
+      ?Y.social_occurrence(?occ)
       ?Y.witnessed(?occ, ?Y)
       ?SELF.expressed(?SELF, ?Y, ?OTHER, "selfish")
 
@@ -40,8 +44,9 @@ actionset "social-actions"
       impulse-wary(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "careless")
     content text: "?SELF tells ?Y that ?OTHER is careless"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?Y
+      ?SELF.social_occurrence(?occ)
+      ?Y.social_occurrence(?occ)
       ?Y.witnessed(?occ, ?Y)
       ?SELF.expressed(?SELF, ?Y, ?OTHER, "careless")
 
@@ -51,8 +56,9 @@ actionset "social-actions"
       impulse-warm(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "generous")
     content text: "?SELF tells ?Y that ?OTHER is generous"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?Y
+      ?SELF.social_occurrence(?occ)
+      ?Y.social_occurrence(?occ)
       ?Y.witnessed(?occ, ?Y)
       ?SELF.expressed(?SELF, ?Y, ?OTHER, "generous")
 
@@ -62,8 +68,9 @@ actionset "social-actions"
       impulse-trusting(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "fair")
     content text: "?SELF tells ?Y that ?OTHER is fair"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?Y
+      ?SELF.social_occurrence(?occ)
+      ?Y.social_occurrence(?occ)
       ?Y.witnessed(?occ, ?Y)
       ?SELF.expressed(?SELF, ?Y, ?OTHER, "fair")
 
@@ -77,8 +84,9 @@ actionset "social-actions"
       impulse-hostile(?SELF, ?OTHER) + impulse-trusting(?SELF, ?OTHER) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "confronted")
     content text: "?SELF confronts ?OTHER"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?OTHER
+      ?SELF.social_occurrence(?occ)
+      ?OTHER.social_occurrence(?occ)
       ?OTHER.witnessed(?occ, ?OTHER)
       ?SELF.expressedDirectly(?SELF, ?OTHER, "confronted")
       ?SELF.grudge(?SELF, ?OTHER) -= 2
@@ -90,8 +98,9 @@ actionset "social-actions"
       impulse-warm(?SELF, ?OTHER) + impulse-conciliatory(?SELF, ?OTHER) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "thanked")
     content text: "?SELF thanks ?OTHER"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?OTHER
+      ?SELF.social_occurrence(?occ)
+      ?OTHER.social_occurrence(?occ)
       ?OTHER.witnessed(?occ, ?OTHER)
       ?SELF.expressedDirectly(?SELF, ?OTHER, "thanked")
       ?SELF.grateful(?SELF, ?OTHER) -= 2
@@ -102,8 +111,9 @@ actionset "social-actions"
       impulse-conciliatory(?SELF, ?OTHER) + impulse-charitable(?SELF) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "apologised to")
     content text: "?SELF apologises to ?OTHER"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?OTHER
+      ?SELF.social_occurrence(?occ)
+      ?OTHER.social_occurrence(?occ)
       ?OTHER.witnessed(?occ, ?OTHER)
       ?SELF.expressedDirectly(?SELF, ?OTHER, "apologised to")
 
@@ -114,8 +124,9 @@ actionset "social-actions"
       impulse-hostile(?SELF, ?OTHER) + impulse-wary(?SELF, ?OTHER) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "given the cold shoulder to")
     content text: "?SELF gives ?OTHER the cold shoulder"
     effects
-      record(?occ)
-      social_occurrence(?occ)
+      record(?occ) for ?SELF, ?OTHER
+      ?SELF.social_occurrence(?occ)
+      ?OTHER.social_occurrence(?occ)
       ?OTHER.witnessed(?occ, ?OTHER)
       ?SELF.expressedDirectly(?SELF, ?OTHER, "given the cold shoulder to")
 

@@ -104,7 +104,8 @@ def test_no_agent_is_told_about_a_principal(tmp_path):
     run = Run(StubWork(AGENTS), NoSocial(), {}, Situation(name="t"), tmp_path)
     text = render_instructions(DecisionRequest(agent="bob", setting=run.setting("bob"), options=[]))
     assert "principal" not in text.lower()
-    assert "Your goal is to make your own score as high as you can." in text  # every agent, every work
+    # Every agent, every work: the incentive, stated without telling it what to aim for.
+    assert "What you get out of this is your own score, and the work's rules say what it is." in text
 
 
 def rue_server_up() -> bool:
@@ -138,17 +139,23 @@ def test_rue_social_round(tmp_path):
     # Every work event that happened became an occurrence, witnessed by its target in the
     # target's own store (only the two involved know), never in the shared world.
     events = [e for line in (tmp_path / "events.jsonl").read_text().splitlines() for e in json.loads(line)["events"]]
-    witnessed = sum(social.rue.query(f"work_occurrence(?o) ^ {a}.witnessed(?o, {a})")["count"] for a in AGENTS)
+    witnessed = sum(social.rue.query(f"{a}.work_occurrence(?o) ^ {a}.witnessed(?o, {a})")["count"] for a in AGENTS)
     assert witnessed == len(events)
-    assert social.rue.query("work_occurrence(?o) ^ witnessed(?o, ?w)")["count"] == 0
-    # Each was registered as an external action of its kind. Its witnesses hold the actor
+    assert social.rue.query("work_occurrence(?o)")["count"] == 0  # the shared world knows of none
+    # Each was registered as an external action of its kind, known only to its witnesses: its
+    # actionType and roles are in their stores, not the world's. Its witnesses hold the actor
     # responsible in their own stores; the world doesn't, since the credit isn't public.
     takes = [e for e in events if e["kind"] == "took from"]
-    assert social.rue.query('actionType(?o, "took from")')["count"] == len(takes)
+    assert social.rue.query('actionType(?o, "took from")')["count"] == 0
     if takes:
         actor, target = takes[0]["actor"], takes[0]["target"]
-        occ = social.rue.query(f'actionType(?o, "took from") ^ {target}.responsible(?o, {actor})')["rows"][0]["o"]
+        bystander = next(a for a in AGENTS if a not in (actor, target))
+        occ = social.rue.query(f'{target}.actionType(?o, "took from") ^ {target}.responsible(?o, {actor})')["rows"][0]["o"]
         assert social.rue.query(f"responsible({occ}, ?x)")["count"] == 0
+        for who in (actor, target):
+            assert social.rue.query(f"{who}.role({occ}, ACTOR, {actor}) ^ {who}.role({occ}, TARGET, {target})")["count"] == 1
+        assert social.rue.query(f"{bystander}.role({occ}, ?r, ?x)")["count"] == 0
+        assert social.rue.query(f"role({occ}, ?r, ?x)")["count"] == 0
         proof = json.dumps(social.rue.explain("witnessed", [occ, target], owner=target))
         assert "external, from work (round-" in proof and "chosen by" not in proof
         # What changed is recorded in the work's own quantity, attributed to the external action,
@@ -294,11 +301,14 @@ def test_rue_reasons_shown_are_about_the_options_own_people():
 def test_rue_only_the_one_spoken_to_knows_what_was_said(tmp_path):
     # No overhearing, and the speaker doesn't see how it was taken (Mike, Nov 7).
     _, social, _ = play_rue(tmp_path)
-    said = social.rue.query("social_occurrence(?o)")["rows"]
+    said = social._social_occurrences()
     assert said, "the grudge situation should make someone speak"
-    for row in said:
-        occ = row["o"]
+    assert social.rue.query("social_occurrence(?o)")["count"] == 0  # the shared world never learns
+    for occ in said:
         assert social.rue.query(f"witnessed({occ}, ?w)")["count"] == 0  # not in the shared world
+        assert social.rue.query(f"role({occ}, ?r, ?x)")["count"] == 0
+        knowers = [a for a in AGENTS if social.rue.query(f"{a}.role({occ}, SELF, ?x)")["count"]]
+        assert len(knowers) == 2  # the speaker and the one spoken to
         listeners = [a for a in AGENTS if social.rue.query(f"{a}.witnessed({occ}, {a})")["count"]]
         assert len(listeners) == 1
         for agent in AGENTS:
@@ -336,7 +346,7 @@ def test_system_prompt_is_overview_work_and_social_world(tmp_path):
 
     situation = Situation(name="t", special_instructions={"bob": "Get points."})
     setting = Run(StubWork(AGENTS), Social(), {}, situation, tmp_path).setting("alice")
-    assert setting.startswith("You are alice. You're one of a small group of people who work together: you and bob, carol and dave.")
+    assert setting.startswith("You are alice. You work with bob, carol and dave:")
     assert setting.index(WORK_INTRODUCTION) < setting.index(SOCIAL_INTRODUCTION)
     for word in ("complain", "praise", "confront", "selfish", "generous"):
         assert word not in setting.lower()  # the social world is described in the abstract

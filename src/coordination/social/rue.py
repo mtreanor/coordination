@@ -79,6 +79,7 @@ class RueSocial:
         self.round_number = 0
         self.shuffle = random.Random(self.seed)
         self.occurrences = {}
+        self.work_occurrences: set[str] = set()
         for fact in facts:
             self.rue.assert_fact(fact)
         self.rue.set_controlled(self.agents, self.agent_stages)
@@ -128,15 +129,21 @@ class RueSocial:
         (`bob.witnessed(occ, bob)`, `bob.change(...)`), so a Briefing, which renders the shared
         world and the agent's own store, never shows an event the agent didn't witness. Rules
         read `?A.witnessed(?O, ?A)`, which finds both (`privateFallback: world-first`)."""
-        effects = ["work_occurrence(?occ)"]
         public = set(event.witnesses) == set(self.agents)
         # Leaving the actor out of `witnessed` would name it, so that's only done when it's credited.
         judges = event.witnesses if event.credit == "none" else [w for w in event.witnesses if w != event.actor]
         changes = [f'change(?occ, {agent}, "{quantity}") = {value:g}'
                    for agent, quantities in event.changes.items() for quantity, value in quantities.items()]
+        changes += [f'sharedChange(?occ, "{quantity}") = {value:g}' for quantity, value in event.shared_changes.items()]
+        # Roles: the target, and the actor only when someone is credited. Like every other fact
+        # about a partly-witnessed event, they're recorded only for its witnesses (`knownBy`).
+        roles = {"TARGET": event.target} if event.target else {}
+        if event.credit != "none" and event.actor:
+            roles["ACTOR"] = event.actor
         if public:
-            effects += [f"witnessed(?occ, {w})" for w in judges] + changes
+            effects = ["work_occurrence(?occ)"] + [f"witnessed(?occ, {w})" for w in judges] + changes
         else:
+            effects = [f"{w}.work_occurrence(?occ)" for w in event.witnesses]
             effects += [f"{w}.witnessed(?occ, {w})" for w in judges]
             effects += [f"{w}.{change}" for w in event.witnesses for change in changes]
         if event.credit == "public":
@@ -144,11 +151,12 @@ class RueSocial:
         elif event.credit == "witnesses":
             effects += [f"{w}.responsible(?occ, {event.actor})" for w in event.witnesses if w != event.actor]
         occurrence = self.rue.external(
-            event.kind, {}, effects,
+            event.kind, roles, effects, knownBy=None if public else list(event.witnesses),
             text=event.describe(), source="work",
             ref=f"round-{round_number}" if round_number is not None else None,
             data={"kind": event.kind, "details": event.details})
         self.occurrences[occurrence] = event.describe()
+        self.work_occurrences.add(occurrence)
         return occurrence
 
     def social_round(self, events: list[WorkEvent], ask: Ask) -> None:
@@ -208,4 +216,7 @@ class RueSocial:
         return top
 
     def _social_occurrences(self) -> set[str]:
-        return {row["o"] for row in self.rue.query("social_occurrence(?o)")["rows"]}
+        """Every occurrence RUE has minted that isn't a registered work event. Social occurrences
+        are recorded only in their two participants' stores, so this reads RUE's occurrence
+        entities rather than querying the shared world."""
+        return set(self.rue.entities("occurrence")) - set(self.work_occurrences)

@@ -47,6 +47,9 @@ class WorkEvent(BaseModel):
     changes: dict[str, dict[str, float]] = {}
     """What changed for each agent, by quantity, in the work's own terms: what literally
     happened, e.g. {"carol": {"hours": -2}}. Every agent named must be a witness."""
+    shared_changes: dict[str, float] = {}
+    """What changed for the group as a whole, by quantity, e.g. {"velocity (hours shipped)": -1}:
+    a group-wide quantity rather than any one agent's. Known to the witnesses."""
     details: dict[str, float] = {}
     """The work's own numbers (amount, stake), for the log. The social world never reads them."""
     text: str | None = None

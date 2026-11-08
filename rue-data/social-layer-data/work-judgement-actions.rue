@@ -22,14 +22,14 @@ actionset "work-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ work_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
+      ^ ?SELF.work_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
     utility
       impulse-hostile(?SELF, ?X)
     content text: "?SELF calls it selfish of ?X"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.judgedAs(?OCC, "selfish")
       ?SELF.responsible(?OCC, ?X)
       ?SELF.likes(?SELF, ?X) -= 1
@@ -40,14 +40,14 @@ actionset "work-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ work_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
+      ^ ?SELF.work_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
     utility
       impulse-hostile(?SELF, ?X) / 2 + impulse-charitable(?SELF) / 2
     content text: "?SELF calls it careless of ?X"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.judgedAs(?OCC, "careless")
       ?SELF.responsible(?OCC, ?X)
       ?SELF.trusts(?SELF, ?X) -= 1
@@ -56,14 +56,14 @@ actionset "work-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ work_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
+      ^ ?SELF.work_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
     utility
       impulse-warm(?SELF, ?X) / 2 + impulse-charitable(?SELF) / 2
     content text: "?SELF calls it fair of ?X"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.judgedAs(?OCC, "fair")
       ?SELF.responsible(?OCC, ?X)
       ?SELF.trusts(?SELF, ?X) += 1
@@ -72,14 +72,14 @@ actionset "work-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ work_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
+      ^ ?SELF.work_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
       ^ couldBeResponsible(?SELF, ?OCC, ?X)
     utility
       impulse-warm(?SELF, ?X)
     content text: "?SELF calls it generous of ?X"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.judgedAs(?OCC, "generous")
       ?SELF.responsible(?OCC, ?X)
       ?SELF.likes(?SELF, ?X) += 1
@@ -90,24 +90,24 @@ actionset "work-judgement-actions"
     roles: ?SELF: agent, ?OCC: occurrence
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ work_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
+      ^ ?SELF.work_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
     utility
       impulse-charitable(?SELF)
     content text: "?SELF calls it bad luck"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.judgedAs(?OCC, "bad luck")
 
   action "no real opinion of the work"
     roles: ?SELF: agent, ?OCC: occurrence
     preconditions
       ?SELF.witnessed(?OCC, ?SELF)
-      ^ work_occurrence(?OCC)
-      ^ not judged(?SELF, ?OCC)
+      ^ ?SELF.work_occurrence(?OCC)
+      ^ not ?SELF.judged(?SELF, ?OCC)
     utility
       impulse-reserved(?SELF)
     content text: "?SELF has no real opinion of it"
     effects
-      judged(?SELF, ?OCC)
+      ?SELF.judged(?SELF, ?OCC)
       ?SELF.judgedAs(?OCC, "no real opinion")

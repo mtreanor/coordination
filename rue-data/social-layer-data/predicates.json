@@ -40,7 +40,8 @@
       "args": [
         "occurrence",
         "action"
-      ]
+      ],
+      "privateFallback": "world-first"
     },
     "role": {
       "type": "boolean",
@@ -48,7 +49,8 @@
         "occurrence",
         "roleName",
         "entity"
-      ]
+      ],
+      "privateFallback": "world-first"
     },
     "witnessed": {
       "type": "boolean",
@@ -72,13 +74,15 @@
       "type": "boolean",
       "args": [
         "occurrence"
-      ]
+      ],
+      "privateFallback": "world-first"
     },
     "social_occurrence": {
       "type": "boolean",
       "args": [
         "occurrence"
-      ]
+      ],
+      "privateFallback": "world-first"
     },
     "change": {
       "type": "numeric",
@@ -89,7 +93,10 @@
       ],
       "default": 0,
       "toString": {
-        "reason": "\"{text[0]}\" changed {args[1]}'s {args[2]} by {value}."
+        "reason": {
+          "positive": "\"{text[0]}\" gave {args[1]} {abs} more {args[2]}.",
+          "negative": "\"{text[0]}\" cost {args[1]} {abs} {args[2]}."
+        }
       }
     },
     "responsible": {
@@ -375,6 +382,21 @@
         "agent",
         "agent"
       ]
+    },
+    "sharedChange": {
+      "type": "numeric",
+      "args": [
+        "occurrence",
+        "quantity"
+      ],
+      "default": 0,
+      "privateFallback": "world-first",
+      "toString": {
+        "reason": {
+          "positive": "\"{text[0]}\" raised the group's {args[1]} by {abs}.",
+          "negative": "\"{text[0]}\" cut the group's {args[1]} by {abs}."
+        }
+      }
     }
   }
 }
