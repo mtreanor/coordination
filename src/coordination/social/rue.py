@@ -25,6 +25,7 @@ social actions, social judgement); RUE's ranking decides any other selection.
 """
 
 import random
+import re
 
 from ..agents import Option, Reason
 from ..rue_client import RueClient
@@ -170,6 +171,8 @@ class RueSocial:
             agent = binding["SELF"]
             stage = pending["stageNames"][0]
             candidates = self.menu([c for c in pending["candidates"] if not c["belowFloor"]])
+            for c in candidates:
+                c["label"] = self.describe(c["label"])
             options = [Option(id=i, label=c["label"], score=c["score"], is_default=c["isDefault"],
                               reasons=[Reason(text=r["text"], direction=r["direction"]) for r in self.relevant(c)])
                        for i, c in enumerate(candidates)]
@@ -183,6 +186,11 @@ class RueSocial:
                 # which is the option's label; remember it for the listener's judgement.
                 for occurrence in self._social_occurrences() - known:
                     self.occurrences[occurrence] = chosen[0]["label"]
+
+    def describe(self, label: str) -> str:
+        """A candidate's label with any occurrence it names (an id like `occ12`, as RUE renders
+        an occurrence-typed role) replaced by that occurrence's text in quotes."""
+        return re.sub(r"\bocc\d+\b", lambda m: f'"{self.occurrences[m[0]]}"' if m[0] in self.occurrences else m[0], label)
 
     def relevant(self, candidate: dict) -> list[dict]:
         """The candidate's reasons that are about the people in it (ADR 0007): a reason shows

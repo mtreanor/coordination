@@ -21,6 +21,8 @@ OUTPUT_MODES = {"native": NativeOutput, "tool": ToolOutput, "prompted": Prompted
 
 # Provider errors worth waiting out: timeouts, rate limits, and overloads.
 TRANSIENT_STATUS = {408, 429, 500, 502, 503, 504}
+MAX_WAIT_S = 300
+"""The longest wait a provider may ask for before the Run stops instead of waiting."""
 
 
 def requested_delay(err: ModelHTTPError) -> float | None:
@@ -109,7 +111,13 @@ class LLMChooser:
                 if err.status_code not in TRANSIENT_STATUS or attempt == self.api_attempts:
                     raise
                 backoff = min(self.backoff_s * 2 ** (attempt - 1), 60) * random.uniform(0.8, 1.2)
-                delay = max(backoff, requested_delay(err) or 0)
+                requested = requested_delay(err) or 0
+                if requested > MAX_WAIT_S:
+                    # A quota, not a blip (Google asks for ~12 hours when the daily quota
+                    # is used up): stop the Run now rather than sleep through it.
+                    raise RuntimeError(f"{self.profile.name}: HTTP {err.status_code}, provider asks to wait "
+                                       f"{requested:.0f}s (quota exhausted?)") from err
+                delay = max(backoff, requested)
                 print(f"  ({self.profile.name}: HTTP {err.status_code}, retrying in {delay:.0f}s)")
                 time.sleep(delay)
 

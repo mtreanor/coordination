@@ -16,6 +16,7 @@ sequences them and builds every Decision Request.
 """
 
 import json
+import random
 from collections.abc import Callable
 from pathlib import Path
 
@@ -38,8 +39,17 @@ def _names(names: list[str]) -> str:
 class Run:
     def __init__(self, work: Work, social: SocialLayer, choosers: dict[str, Chooser],
                  situation: Situation, run_dir: str | Path,
-                 on_decision: Callable[[str, str, DecisionRequest, Decision], None] | None = None):
+                 on_decision: Callable[[str, str, DecisionRequest, Decision], None] | None = None,
+                 seed: int = 0):
         self.work = work
+        # Each agent's colleagues are named in a seeded random order, fixed for the Run: in
+        # the work's own order, everyone told the first-named colleague (exp/1-testimony).
+        rng = random.Random(f"{seed}-colleagues")
+        self.colleagues = {}
+        for agent in work.agents:
+            others = [a for a in work.agents if a != agent]
+            rng.shuffle(others)
+            self.colleagues[agent] = others
         self.social = social
         self.choosers = choosers
         self.situation = situation
@@ -61,8 +71,7 @@ class Run:
     def setting(self, agent: str) -> str:
         """The agent's standing introduction, its system prompt: an overview, the work's
         own introduction, and the social layer's (none in the work-only condition)."""
-        colleagues = [a for a in self.work.agents if a != agent]
-        parts = [OVERVIEW.format(agent=agent, colleagues=_names(colleagues)), self.work.introduction,
+        parts = [OVERVIEW.format(agent=agent, colleagues=_names(self.colleagues[agent])), self.work.introduction,
                  self.social.introduction]
         return "\n\n".join(p for p in parts if p)
 

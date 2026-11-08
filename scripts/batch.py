@@ -20,7 +20,7 @@ An experiment file names the conditions (experiments/*.toml):
     [conditions.work-only]
     social = "off"
 
-A condition overrides the base config with any of: social (rue or off), situations, plan,
+A condition overrides the base config with any of: work, social (rue or off), situations, plan,
 chooser, choosers (per agent, a table). Command-line flags override the experiment file.
 
 Or, without an experiment file, each condition is a value for play.py's --social:
@@ -79,7 +79,7 @@ def start_servers(count: int) -> list[tuple[subprocess.Popen, str]]:
     return servers
 
 
-CONDITION_KEYS = {"social", "situations", "plan", "chooser", "choosers"}
+CONDITION_KEYS = {"social", "situations", "plan", "chooser", "choosers", "work"}
 
 
 def flags(settings: dict) -> list[str]:
@@ -105,7 +105,9 @@ def play(args, condition: str, settings: dict, seed: int, out: Path, server: str
     log = out.with_suffix(".log")
     out.parent.mkdir(parents=True, exist_ok=True)
     with log.open("w") as f:
-        code = subprocess.run(cmd, cwd=ROOT, stdout=f, stderr=subprocess.STDOUT).returncode
+        # Unbuffered, so a Run's retry messages reach its log as they happen.
+        code = subprocess.run(cmd, cwd=ROOT, stdout=f, stderr=subprocess.STDOUT,
+                              env={**os.environ, "PYTHONUNBUFFERED": "1"}).returncode
     return {"condition": condition, "seed": seed, "dir": str(out), "ok": code == 0, **(measure(out) if code == 0 else {})}
 
 

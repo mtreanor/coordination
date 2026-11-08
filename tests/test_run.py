@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 
@@ -108,9 +109,14 @@ def test_no_agent_is_told_about_a_principal(tmp_path):
     assert "What you get out of this is your own score, and the work's rules say what it is." in text
 
 
+RUE = os.environ.get("RUE_SERVER", "http://localhost:5174")
+"""The RUE server the RUE tests use; it must be serving this project's current data
+(scenario edits need a restart). RUE_SERVER=http://localhost:5240 for another one."""
+
+
 def rue_server_up() -> bool:
     try:
-        httpx.get("http://localhost:5174/api/play/social-layer-data/session", timeout=1)
+        httpx.get(f"{RUE}/api/play/social-layer-data/session", timeout=1)
         return True
     except httpx.HTTPError:
         return False
@@ -119,7 +125,7 @@ def rue_server_up() -> bool:
 def play_rue(tmp_path, **social_options):
     choosers = {agent: RandomChooser(i) for i, agent in enumerate(AGENTS)}
     work = StubWork(AGENTS, rounds=2)
-    social = RueSocial("social-layer-data", **social_options)
+    social = RueSocial("social-layer-data", server=RUE, **social_options)
     facts = Situation.load("office-history").facts + ["alice.likes(alice, bob) = 1"]
     run = Run(work, social, choosers, Situation(name="t", facts=facts), tmp_path)
     run.play()
@@ -226,7 +232,7 @@ def test_rue_menus_are_the_top_five_and_judgements_say_what_happened(tmp_path):
 
 
 def test_rue_menu_keeps_the_top_five_and_breaks_ties_at_random():
-    social = RueSocial("social-layer-data", seed=1)
+    social = RueSocial("social-layer-data", server=RUE, seed=1)
     scores = [9, 7, 3, 3, 3, 3, 3, 0, -2]
     kept = []
     for _ in range(30):
@@ -285,7 +291,7 @@ def test_rue_briefing_is_the_agents_social_state_by_colleague(tmp_path):
 
 
 def test_rue_reasons_shown_are_about_the_options_own_people():
-    social = RueSocial("social-layer-data")
+    social = RueSocial("social-layer-data", server=RUE)
     social.agents = AGENTS
     social.occurrences = {"occ3": "bob passed their bug to dave", "occ1": "the team lost 2 hours"}
     reason = lambda *args: {"text": " ".join(args), "direction": "for", "fact": {"args": list(args)}}
@@ -346,7 +352,9 @@ def test_system_prompt_is_overview_work_and_social_world(tmp_path):
 
     situation = Situation(name="t", special_instructions={"bob": "Get points."})
     setting = Run(StubWork(AGENTS), Social(), {}, situation, tmp_path).setting("alice")
-    assert setting.startswith("You are alice. You work with bob, carol and dave:")
+    assert setting.startswith("You are alice. You work with ")
+    first_line = setting.splitlines()[0]
+    assert all(name in first_line for name in ("bob", "carol", "dave"))  # in a seeded random order
     assert setting.index(WORK_INTRODUCTION) < setting.index(SOCIAL_INTRODUCTION)
     for word in ("complain", "praise", "confront", "selfish", "generous"):
         assert word not in setting.lower()  # the social world is described in the abstract
@@ -362,7 +370,7 @@ def test_system_prompt_is_overview_work_and_social_world(tmp_path):
 @needs_rue
 def test_feelings_drift_toward_neutral_without_fresh_dealings():
     from coordination.rue_client import RueClient
-    rue = RueClient("social-layer-data")
+    rue = RueClient("social-layer-data", RUE)
     rue.reset()
     rue.start(controlled_agents=[])
     for fact in Situation.load("office-history").facts:
@@ -383,3 +391,21 @@ def test_saying_the_same_thing_again_counts_against_it(tmp_path):
                for o in json.loads(line)["request"]["options"] for r in o["reasons"]
                if r["text"].startswith("You've told ") or r["text"].endswith(" recently.")]
     assert all(r["direction"] == "against" for r in reasons)
+
+
+@needs_rue
+def test_strong_feelings_settle_and_grudges_fade_without_a_grievance():
+    # Mending (exp/3-reform): with no grievance, a grudge fades; strong feelings settle
+    # every round, whatever happens.
+    from coordination.rue_client import RueClient
+    rue = RueClient("social-layer-data", RUE)
+    rue.reset()
+    rue.start(controlled_agents=[])
+    for fact in ["alice.likes(alice, bob) = 10", "alice.grudge(alice, carol) = 3", "alice.grateful(alice, dave) = 8"]:
+        rue.assert_fact(fact)
+    rue.set_plan([{"ruleset": "social-drift", "mode": "single"}])
+    rue.step()
+    assert rue.query("alice.likes(alice, bob) = 8")["count"] == 1        # fades and settles
+    assert rue.query("alice.grudge(alice, carol) = 2")["count"] == 1     # fades
+    assert rue.query("alice.grateful(alice, dave) = 6")["count"] == 1    # fades and settles
+    rue.reset()

@@ -88,7 +88,7 @@ def main() -> None:
     print(f"Run: {config.name}  Work: {config.work}  Social: {config.social.layer}  Situations: {config.situation_label()}")
     print("Choosers: " + ", ".join(f"{agent} -> {name}" for agent, name in config.chooser_names(work.agents).items()))
 
-    run = Run(work, social, choosers, situation, run_dir, on_decision=None if args.quiet else show)
+    run = Run(work, social, choosers, situation, run_dir, on_decision=None if args.quiet else show, seed=config.seed)
     original_ask = run.ask
     last_round = [0]
 
