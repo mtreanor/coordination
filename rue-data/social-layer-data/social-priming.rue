@@ -250,3 +250,33 @@ ruleset "social-priming"
   rule "given the cold shoulder to them recently: less to add"
     ?SELF.expressedDirectly(?SELF, ?B, "given the cold shoulder to") [asserted-during: 3]
     => impulse-already-expressed(?SELF, ?B, ?B, "given the cold shoulder to") += 3
+
+  # ── Tier 2, first pass (exp/4-firsthand, Nov 8): what ?SELF saw for itself ──
+  # A label ?SELF gave, in the last three rounds, to something it saw ?B do
+  # (?B is the occurrence's credited actor, as far as ?SELF knows) pulls
+  # ?SELF toward the matching view of ?B. What ?SELF saw then weighs against
+  # what it's told: a claim that ?B is selfish meets ?SELF's own verdict that
+  # ?B was fair, shown as a reason on the menu ("You saw it: ..."). Blame
+  # ?SELF assigned for something nobody was credited with doesn't count: in
+  # exp/5 a first version that counted it amplified self-serving blame.
+  # Weights are first guesses, for Mike's review.
+
+  rule "you called what they did fair yourself: trusting"
+    ?SELF.judgedAs(?O, "fair") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-trusting(?SELF, ?B) += 1
+
+  rule "you called what they did fair yourself: warm"
+    ?SELF.judgedAs(?O, "fair") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-warm(?SELF, ?B) += 1
+
+  rule "you called what they did generous yourself: warm"
+    ?SELF.judgedAs(?O, "generous") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-warm(?SELF, ?B) += 2
+
+  rule "you called what they did selfish yourself: hostile"
+    ?SELF.judgedAs(?O, "selfish") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-hostile(?SELF, ?B) += 2
+
+  rule "you called what they did careless yourself: wary"
+    ?SELF.judgedAs(?O, "careless") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)
+    => impulse-wary(?SELF, ?B) += 1

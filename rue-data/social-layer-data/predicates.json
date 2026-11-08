@@ -50,7 +50,10 @@
         "roleName",
         "entity"
       ],
-      "privateFallback": "world-first"
+      "privateFallback": "world-first",
+      "toString": {
+        "reason": "You saw it: \"{text[0]}\"."
+      }
     },
     "witnessed": {
       "type": "boolean",

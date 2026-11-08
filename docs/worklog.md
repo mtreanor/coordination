@@ -91,6 +91,8 @@ What was worked on, when, and for roughly how long, for the hackathon report. Ti
 
 - **~16:30, merged tiers 1 and 2 of the experiment changes into main** (Mike). Harness fixes taken from the branches as they are; mending and belief revision written as the defaults in `social-drift.rue` and `definitions.rue`, without the experiments' gates; `toldBy` recorded on believe actions. RUE tests now read `RUE_SERVER`: they had been passing against the authoring tool's server on 5174, which serves the data it started with. All 61 pass against a fresh server; both works play through with random choosers. `docs/experiments/` brought over.
 
+- **~16:50, Mike's tier-3 decisions applied.** Not My Bug no longer reports the hours lost to handoffs as a work event (ADR 0006 amendment, `docs/not-my-bug.md`); tier-2 priming from the agent's own verdicts merged as the default, with `role`'s reason template ("You saw it: …"). Not merged: testimony (Mike: too close to bookkeeping the work in RUE; RUE should stay about social things), fixes seen, untested hearsay. 61 tests pass on a fresh RUE server; both works play through with random choosers.
+
 ## Notes for the report
 
 - **Interfere as little as possible with the LLM's strategy** (Mike, Nov 7). The social layer records what happened and who is responsible where that's public; it doesn't tell an agent whether an outcome was good or bad for it, or how much, since that depends on the agent's own strategy. Interpretation (who to hold responsible when it isn't public, what to call an occurrence) is the agent's choice; RUE never makes it for them (the option for RUE's ranking to choose was removed).

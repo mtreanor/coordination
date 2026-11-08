@@ -148,13 +148,11 @@ class NotMyBugWork:
         helping = sum(len(h) for h in helped_by.values()) * HELP
         velocity = (f"Team velocity in sprint {self.round}: {sum(shipped.values())} hours shipped of a possible "
                     f"{possible}; {lost} lost to handoffs; {helping} went to helping colleagues.")
+        # Everyone sees the velocity, hours lost included, in the work Briefing. It is not a work
+        # event: an uncredited loss can be pinned on anyone, and in exp/5-reform-revisited
+        # passers blamed the colleague they'd passed to for it every sprint, so the label's
+        # effects on feelings kept the passing going (docs/experiments/exp5-reform-revisited.md).
         self.velocity.append(velocity)
-        if lost:
-            # Everyone sees that hours were lost to handoffs, but not who passed: no credit.
-            events.append(WorkEvent(kind="hours lost to handoffs", witnesses=list(self.agents), credit="none",
-                                    shared_changes={"velocity (hours shipped)": -lost},
-                                    details={"hours": lost},
-                                    text=f"The team lost {lost} hours to handoffs in sprint {self.round}"))
         for agent in self.agents:
             self.hours[agent] += shipped[agent]
             self.history[agent].append(f"Sprint {self.round}: " + " ".join(lines[agent])

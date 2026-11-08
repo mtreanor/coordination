@@ -32,11 +32,8 @@ def test_passing_wastes_an_hour_and_helping_moves_one():
     assert [(e.kind, e.actor, e.credit, e.changes) for e in events] == [
         ("passed a bug to", "ana", "witnesses", {"ana": {"hours": 1}, "bo": {"hours": -2}}),  # ana's hour saved
         ("helped with a bug", "cy", "witnesses", {"cy": {"hours": -1}, "bo": {"hours": 1}}),
-        ("hours lost to handoffs", None, "none", {}),
-    ]
-    assert events[-1].shared_changes == {"velocity (hours shipped)": -1}
-    assert "ana" not in events[2].describe()  # everyone sees the loss, nobody sees who passed
-    assert all(set(e.witnesses) == {e.actor, e.target} for e in events[:2]) and events[2].witnesses == AGENTS
+    ]  # the hours lost are in the velocity, not a work event (exp/5-reform-revisited)
+    assert all(set(e.witnesses) == {e.actor, e.target} for e in events)
     bo = work.briefing("bo")
     assert "ana passed their bug to you. It cost you 2 hours." in bo and "cy helped you. It spared you 1 hour." in bo
     assert "44 hours shipped of a possible 45; 1 lost to handoffs; 1 went to helping colleagues" in work.briefing("dee")

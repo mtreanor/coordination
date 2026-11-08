@@ -74,10 +74,14 @@ On the work side, `WorkEvent` carries `kind` and `text`, `actor` (ground truth, 
   |---|---|---|
   | Not My Bug: a pass | the two witnesses | receiver `hours` −2 |
   | Not My Bug: a help | the two witnesses | helper `hours` −1, colleague `hours` +1 |
-  | Not My Bug: hours lost to handoffs (each sprint with a pass) | none; everyone witnesses it | everyone `team hours lost to handoffs` |
+  | ~~Not My Bug: hours lost to handoffs (each sprint with a pass)~~ (dropped Nov 8 2026; see below) | none; everyone witnesses it | everyone `team hours lost to handoffs` |
   | Investment Club: an investment | the two witnesses | investor `coins` −amount, recipient `coins` +amount |
   | Investment Club: a payback | the two witnesses | recipient `coins` −back, investor `coins` +back |
   | Stub: a help / a take | the two witnesses | `points` |
 
 - If a work ever limits who can act on whom, it mirrors that as work state (for example `canAffect(x, y)`), and `leftAlone` becomes "someone could have, and nobody did".
 - Open: how an agent's labels appear in its Briefing (part of the Briefing design, still to come).
+
+## Amendment (Nov 8 2026): Not My Bug's lost-hours event dropped
+
+Not My Bug no longer reports the hours lost to handoffs as a work event; the velocity, hours lost included, stays in every Briefing. An uncredited loss lets each agent hold anyone responsible, as this ADR intended. But in exp/5-reform-revisited, passers named the very colleague they had passed to 7–42 times per condition, and the label's effects on feelings (likes −1, trusts −1, grudge +1) re-applied every sprint, so the passing never stopped. Without the event, retaliation against a reformed defector ended at sprint 4 in all six Runs (`docs/experiments/exp5-reform-revisited.md`). Uncredited events remain possible for any work (`credit = "none"`); this one was the problem.

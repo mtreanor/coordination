@@ -7,7 +7,13 @@
 - Also: the RUE tests read `RUE_SERVER` (default `http://localhost:5174`), so they can run against a server with the current data. They had been passing against the authoring tool's server, which serves the data it started with.
 - `toldBy` is a record only: no priming rule reads it, so it doesn't show on menus (an earlier version of this file said it did).
 
-**Not merged** (tier 3, and untested hearsay): the lost-hours event decision, tier-2 priming from the agent's own verdicts, testimony, fixes seen, untested hearsay. They stay on the `exp/*` branches.
+**Tier 3, decided by Mike (Nov 8 2026):**
+
+1. **The lost-hours event: dropped** (option a). Not My Bug no longer reports it; the velocity stays in every Briefing. ADR 0006 has an amendment.
+2. **Tier-2 priming from the agent's own verdicts: merged**, as the default (`social-priming.rue`, "Tier 2, first pass"), with the actor rule. `role` has a reason template, so the agent's own record shows on menus ("You saw it: …").
+3. **Testimony: not wanted.** It gets too close to tracking the work in RUE. RUE should be a social layer about social things as much as possible, not bookkeeping of work tasks.
+4. **Fixes seen: not merged.** Stays a variant on `exp/3-reform` onward.
+5. **Untested hearsay: not used.** No immediate use; to be re-added if the need comes back.
 
 ---
 

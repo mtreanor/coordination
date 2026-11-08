@@ -99,7 +99,7 @@ It's another experimental-economics-style game. Helping is the donation game of 
 
 ## Implementation defaults (Nov 7, 2026)
 
-- **Events:** a pass reports the receiver's `hours` −2; a help, the helper's `hours` −1 and the colleague's +1; both credited to the actor and seen by the pair. Each sprint with a pass also reports `hours lost to handoffs`: everyone witnesses it and nobody is credited, so each engineer may hold someone responsible (ADR 0006).
+- **Events:** a pass reports the receiver's `hours` −2; a help, the helper's `hours` −1 and the colleague's +1; both credited to the actor and seen by the pair. (Until Nov 8 2026, each sprint with a pass also reported `hours lost to handoffs` as an uncredited event that anyone could be held responsible for. It was dropped: passers blamed the colleague they had passed to for it, and the label's effects kept the passing going. See `docs/experiments/exp5-reform-revisited.md`. The velocity, hours lost included, is still in every Briefing.)
 - **Velocity shows hours spent helping** (open question 1, leaning yes).
 - **Help that isn't needed:** if the colleague you help has nothing left to fix (they passed their own bug and nobody passed them one), you get the hour back, and your Briefing says so. Velocity therefore counts passes exactly. The helper does learn that the colleague passed their bug.
 - **Several helpers on one colleague** each spare an hour, until the colleague has nothing left to fix.
