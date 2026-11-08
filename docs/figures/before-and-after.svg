@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="996" height="308" viewBox="0 0 996 308" role="img" aria-label="What existed before the hackathon and what was built over the weekend: RUE, its client, the model choosers and the position existed; the harness, the work-RUE interface and Situations were significantly reworked; Briefings, the social world, the works, the experiment tooling, the attack Situations, all studies and this report are new.">
+<defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#ffffff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#56636c" stroke-width="2.4"/></pattern></defs>
+<style>
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; fill: #1b2226; font-size: 12px; }
+.t-title { font-size: 15px; font-weight: 600; }
+.t-row { font-size: 12.5px; }
+.t-s { font-size: 11.5px; }
+.t-cap { font: 500 10.5px "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; fill: #5a6670; }
+.rule { stroke: #c4cdd3; stroke-width: 1; }
+.c-old { fill: #56636c; stroke: #56636c; stroke-width: 1.2; }
+.c-mod { fill: url(#hatch); stroke: #56636c; stroke-width: 1.2; }
+.c-new { fill: #ffffff; stroke: #56636c; stroke-width: 1.2; }
+</style>
+<rect width="996" height="308" fill="#ffffff"/>
+<text class="t-title" x="24" y="30">Before the hackathon, and this weekend</text>
+<rect class="c-old" x="24" y="48" width="26" height="13" rx="2"/><text class="t-s" x="58" y="59">Existed before the hackathon</text>
+<rect class="c-mod" x="234" y="48" width="26" height="13" rx="2"/><text class="t-s" x="268" y="59">Existed, significantly reworked</text>
+<rect class="c-new" x="454" y="48" width="26" height="13" rx="2"/><text class="t-s" x="488" y="59">New this weekend (Nov 6–8)</text>
+<text class="t-cap" x="24" y="96">ENGINE AND HARNESS</text>
+<line class="rule" x1="24" y1="103" x2="324" y2="103"/>
+<rect class="c-old" x="24" y="117" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="129">RUE engine and authoring tool</text>
+<rect class="c-old" x="24" y="143" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="155">RUE client (Play API)</text>
+<rect class="c-old" x="24" y="169" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="181">Model choosers (local and hosted)</text>
+<rect class="c-mod" x="24" y="195" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="207">The Run (the harness)</text>
+<rect class="c-mod" x="24" y="221" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="233">Interface between the work and RUE</text>
+<rect class="c-mod" x="24" y="247" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="259">Situations</text>
+<rect class="c-new" x="24" y="273" width="32" height="16" rx="2"/>
+<text class="t-row" x="68" y="285">Briefings and the Decision Request</text>
+<text class="t-cap" x="348" y="96">WHAT RUNS IN IT</text>
+<line class="rule" x1="348" y1="103" x2="648" y2="103"/>
+<rect class="c-new" x="348" y="117" width="32" height="16" rx="2"/>
+<text class="t-row" x="392" y="129">The social world (authored RUE rules)</text>
+<rect class="c-new" x="348" y="143" width="32" height="16" rx="2"/>
+<text class="t-row" x="392" y="155">The works: Investment Club, Not My Bug</text>
+<rect class="c-new" x="348" y="169" width="32" height="16" rx="2"/>
+<text class="t-row" x="392" y="181">Run configs, experiment files, batch runner</text>
+<rect class="c-new" x="348" y="195" width="32" height="16" rx="2"/>
+<text class="t-row" x="392" y="207">Attack Situations and the auditor</text>
+<text class="t-cap" x="672" y="96">STUDIES AND WRITING</text>
+<line class="rule" x1="672" y1="103" x2="972" y2="103"/>
+<rect class="c-old" x="672" y="117" width="32" height="16" rx="2"/>
+<text class="t-row" x="716" y="129">Position, research question, related work</text>
+<rect class="c-new" x="672" y="143" width="32" height="16" rx="2"/>
+<text class="t-row" x="716" y="155">Exploratory experiments and pilots</text>
+<rect class="c-new" x="672" y="169" width="32" height="16" rx="2"/>
+<text class="t-row" x="716" y="181">Preregistered study and its analysis</text>
+<rect class="c-new" x="672" y="195" width="32" height="16" rx="2"/>
+<text class="t-row" x="716" y="207">This report</text>
+</svg>

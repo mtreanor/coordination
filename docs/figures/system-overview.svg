@@ -38,7 +38,7 @@ text { fill: #1b2226; font-size: 12px; }
         <!-- Run config -->
         <rect class="b-h" x="420" y="14" width="260" height="62" rx="8"/>
         <text class="t-h" x="550" y="40" text-anchor="middle">Run config (TOML)</text>
-        <text class="t-s t-m" x="550" y="60" text-anchor="middle">work, agents, Situation, choosers, seed</text>
+        <text class="t-s t-m" x="550" y="60" text-anchor="middle">work, agents, Situations, choosers, seed</text>
         <line class="ln" x1="550" y1="76" x2="550" y2="166" marker-end="url(#a1)"/>
         <text class="t-s t-m" x="558" y="126">sets up</text>
 
@@ -99,13 +99,12 @@ text { fill: #1b2226; font-size: 12px; }
         <rect class="b-agent" x="400" y="440" width="300" height="98" rx="10"/>
         <text class="t-h" x="550" y="462" text-anchor="middle">Agents</text>
         <g>
-          <circle class="b-agent" cx="470" cy="492" r="16"/><text class="t-s" x="470" y="496" text-anchor="middle">ana</text>
-          <circle class="b-agent" cx="510" cy="492" r="16"/><text class="t-s" x="510" y="496" text-anchor="middle">bo</text>
-          <circle class="b-agent" cx="550" cy="492" r="16"/><text class="t-s" x="550" y="496" text-anchor="middle">cy</text>
-          <circle class="b-agent" cx="590" cy="492" r="16"/><text class="t-s" x="590" y="496" text-anchor="middle">dee</text>
-          <circle class="b-agent" cx="630" cy="492" r="16"/><text class="t-s" x="630" y="496" text-anchor="middle">eli</text>
+          <circle class="b-agent" cx="481" cy="492" r="18"/><text class="t-s" x="481" y="496" text-anchor="middle" font-size="10">alice</text>
+          <circle class="b-agent" cx="527" cy="492" r="18"/><text class="t-s" x="527" y="496" text-anchor="middle" font-size="10">bob</text>
+          <circle class="b-agent" cx="573" cy="492" r="18"/><text class="t-s" x="573" y="496" text-anchor="middle" font-size="10">carol</text>
+          <circle class="b-agent" cx="619" cy="492" r="18"/><text class="t-s" x="619" y="496" text-anchor="middle" font-size="10">dave</text>
         </g>
-        <text class="t-s t-m" x="550" y="528" text-anchor="middle">one LLM per principal</text>
+        <text class="t-s t-m" x="550" y="528" text-anchor="middle">one LLM per agent</text>
         <line class="ln" x1="500" y1="342" x2="500" y2="436" marker-end="url(#a1)"/>
         <text x="492" y="385" text-anchor="end">Decision Request</text>
         <text class="t-s t-m" x="492" y="401" text-anchor="end">system prompt, Briefing, menu</text>
