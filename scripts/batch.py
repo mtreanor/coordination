@@ -212,7 +212,7 @@ def main() -> None:
     args.parallel = args.parallel or 4
 
     base_layer = tomllib.loads(Path(args.config).read_text()).get("social", {}).get("layer", "rue")
-    uses_rue = {name: settings.get("social", base_layer) != "off" for name, settings in conditions.items()}
+    uses_rue = {name: not settings.get("social", base_layer).startswith("off") for name, settings in conditions.items()}
 
     stamp = f"{datetime.now():%Y%m%d-%H%M%S}"
     default_out = f"batch-{Path(args.file).stem}-{stamp}" if experiment else f"batch-{stamp}"

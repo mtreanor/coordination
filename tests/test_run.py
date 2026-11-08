@@ -367,6 +367,17 @@ def test_system_prompt_is_overview_work_and_social_world(tmp_path):
     assert text.startswith("You are bob.") and text.endswith("Special instructions:\nGet points.")
 
 
+def test_matched_control_has_a_neutral_introduction_of_similar_length(tmp_path):
+    from coordination.social import MATCHED_INTRODUCTION
+    from coordination.social.rue import INTRODUCTION as SOCIAL_INTRODUCTION
+
+    setting = Run(StubWork(AGENTS), NoSocial(matched=True), {}, Situation(name="t"), tmp_path).setting("alice")
+    assert setting.endswith(MATCHED_INTRODUCTION)
+    for word in ("social", "colleague said", "feel", "trust", "like"):
+        assert word not in MATCHED_INTRODUCTION.lower()
+    assert 0.85 < len(MATCHED_INTRODUCTION.split()) / len(SOCIAL_INTRODUCTION.split()) < 1.15
+
+
 @needs_rue
 def test_feelings_drift_toward_neutral_without_fresh_dealings():
     from coordination.rue_client import RueClient

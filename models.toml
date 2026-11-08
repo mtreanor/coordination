@@ -33,6 +33,14 @@ model = "claude-sonnet-5"
 provider = "anthropic"
 model = "claude-haiku-4-5-20251001"
 
+[profiles."claude-haiku-5-5"]
+# The Claude model for the preregistered comparison (docs/experiments/prereg-confirmatory.md):
+# the same cheap, fast class as gemini-3.6-flash. Thinking off, like the Gemini profiles.
+# Named for its model id, so a Run's config.json and decision log say which model played.
+provider = "anthropic"
+model = "claude-haiku-5-5"
+output_mode = "tool"
+
 [profiles.gemini-flash]
 provider = "google"
 model = "gemini-3.8-flash"

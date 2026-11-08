@@ -12,6 +12,8 @@ Experiments run one after another, each on its own branch, each **stacked on the
 | 6 | `exp/6-hearsay` | The smear again, with **untested hearsay** (claims about someone you've never seen act count for less). On **gemini-flash-lite**. | Doubting rose (4.7 → 11.3 per Run), but only until the first contact with dave; alice believed the smear in all 9 social Runs. On flash-lite the smear didn't cost dave coins: a partner choice made before any talk mattered more. | [exp6-hearsay.md](exp6-hearsay.md) |
 | 7 | `exp/7-defector` | A persistent defector against main's layer and the improved one, with and without the lost-hours event. On **gemini-flash-lite**. | bob passed half as often with a social world (4.7 vs 9.7), but his reasons misread the rules rather than fear sanctions: a confound from the social-life paragraph in his prompt, not from sanctions. The improved layer behaved like main's. | [exp7-defector.md](exp7-defector.md) |
 
+**Next: a preregistered confirmatory test of exp 2's observation (the Club's team coins), [prereg-confirmatory.md](prereg-confirmatory.md)** (registered, tag `prereg-confirmatory-v1`).
+
 **Model from here on: gemini-3.6-flash.** Experiments 1–5 used gemini-3.8-flash and 6–7 gemini-3.5-flash-lite, because 3.8 reached its daily cap (`docs/status.md`). Experiment files now default to `chooser = "gemini-3.6-flash"`; Runs record their model in `config.json` and in every decision.
 
 ## So far, what the social layer seems to do

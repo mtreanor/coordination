@@ -11,7 +11,8 @@ The work's rules are code. A Run config chooses everything else:
     seed = 0
 
     [social]
-    layer = "rue"                     # or "off" (the work-only condition)
+    layer = "rue"                     # or "off" (the work-only condition), or "off-matched"
+                                      # (work-only with a neutral introduction of matched length)
     scenario = "social-layer-data"
     plan = "full"
 
@@ -63,7 +64,7 @@ class RunConfig(BaseModel):
         return cls(name=path.stem, **tomllib.loads(path.read_text()))
 
     def label(self) -> str:
-        social = self.social.layer if self.social.layer == "off" else f"{self.social.layer}-{self.social.plan}"
+        social = self.social.layer if self.social.layer.startswith("off") else f"{self.social.layer}-{self.social.plan}"
         return f"{self.work}-{social}-{self.situation_label()}"
 
     def situation_label(self) -> str:
@@ -77,8 +78,8 @@ class RunConfig(BaseModel):
         return WORKS[self.work](self.agents, seed=self.seed, rounds=self.rounds)
 
     def make_social(self) -> SocialLayer:
-        if self.social.layer == "off":
-            return NoSocial()
+        if self.social.layer in ("off", "off-matched"):
+            return NoSocial(matched=self.social.layer == "off-matched")
         if self.social.layer == "rue":
             s = self.social
             return RueSocial(s.scenario, s.server, plan=s.plan, seed=self.seed)

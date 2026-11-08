@@ -42,11 +42,31 @@ class SocialLayer(Protocol):
         ...
 
 
+MATCHED_INTRODUCTION = """\
+Besides the work's rules, a few things hold throughout:
+- each decision is put to you on its own, with what you know at that moment;
+- what you know comes from the work's own record of what you did and what happened to you;
+- you aren't told in advance how many rounds there will be.
+Each time, you choose from a short list of set options, not a free-form answer.
+Colleagues are named on each list in a shuffled order, so where someone appears says nothing about them.
+The options you're offered come from the rules of the work: what each choice costs and what it does. They describe your situation; the choice is yours."""
+"""The matched control's standing introduction (the prereg, docs/experiments/prereg-confirmatory.md):
+about as long as RueSocial's and in the same register, true of every condition, with no social content, so a social
+condition and the matched work-only condition differ in the social layer, not in the length or
+tone of the system prompt (exp 7 found that difference could matter)."""
+
+
 class NoSocial:
-    """The social layer switched off: the work-only condition."""
+    """The social layer switched off: the work-only condition. `matched` gives it the matched
+    control's introduction in place of none."""
 
     name = "off"
     introduction = ""
+
+    def __init__(self, matched: bool = False):
+        if matched:
+            self.name = "off-matched"
+            self.introduction = MATCHED_INTRODUCTION
 
     def start(self, agents: list[str], facts: list[str]) -> None: ...
 
