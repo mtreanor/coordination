@@ -2,7 +2,7 @@ description = "Pilot (excluded from the results): the Investment Club with the f
 config = "configs/investment-club-rue-smoke.toml"
 runs = 1
 rounds = 10
-chooser = "gemini-flash"
+chooser = "gemini-3.6-flash"
 parallel = 4
 
 # The first condition is the baseline for paired differences.

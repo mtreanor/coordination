@@ -2,7 +2,7 @@ description = "Not My Bug with the RUE social world: the office history or a neu
 config = "configs/not-my-bug-rue-smoke.toml"
 runs = 1            # a batch of 1 while the social world is being refined; raise for trials
 rounds = 10
-chooser = "gemini-flash"
+chooser = "gemini-3.6-flash"
 parallel = 4
 
 # The first condition is the baseline for paired differences.

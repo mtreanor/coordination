@@ -37,6 +37,16 @@ model = "claude-haiku-4-5-20251001"
 provider = "google"
 model = "gemini-3.8-flash"
 
+[profiles."gemini-3.6-flash"]
+# The model for Runs from Nov 8 2026, ~16:00, on. gemini-3.8-flash (profile gemini-flash)
+# reached Tier 1's 10,000 requests per model per day, and Google serves gemini-3.7-flash
+# requests on 3.8's allowance (its 429 names gemini-3.8-flash), so 3.6 is the nearest Flash
+# with its own. Checked that responses report modelVersion gemini-3.6-flash
+# (gemini-3.5-flash is served by 3.6). Named for its model id, so a Run's config.json and
+# decision log say which model played.
+provider = "google"
+model = "gemini-3.6-flash"
+
 [profiles.gemini-flash-lite]
 provider = "google"
 model = "gemini-3.5-flash-lite"

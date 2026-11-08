@@ -2,7 +2,7 @@ description = "Pilot (excluded from the results): Not My Bug on a neutral start,
 config = "configs/not-my-bug-rue-smoke.toml"
 runs = 2
 rounds = 10
-chooser = "gemini-flash"
+chooser = "gemini-3.6-flash"
 parallel = 4
 
 # The first condition is the baseline for paired differences.
