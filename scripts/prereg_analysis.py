@@ -13,6 +13,7 @@ The unit is the Run. Conditions are paired by seed: a seed fixes the Club's dice
 """
 
 import argparse
+import gzip
 import itertools
 import json
 import random
@@ -27,7 +28,12 @@ BOOT = 10_000
 
 
 def lines(path: Path) -> list[dict]:
-    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+    """A JSONL log, or its gzipped copy (prereg-runs/ keeps decision logs gzipped)."""
+    if not path.exists() and path.with_name(path.name + ".gz").exists():
+        text = gzip.decompress(path.with_name(path.name + ".gz").read_bytes()).decode()
+    else:
+        text = path.read_text()
+    return [json.loads(line) for line in text.splitlines() if line.strip()]
 
 
 def passes_rate(run: Path) -> float:
@@ -114,7 +120,7 @@ def model_of(batch: Path) -> str:
     """The models that made the batch's decisions, as their logs record them."""
     models = set()
     for d in batch.iterdir():
-        if (d / "decisions.jsonl").exists():
+        if (d / "decisions.jsonl").exists() or (d / "decisions.jsonl.gz").exists():
             models |= {(r.get("decision") or {}).get("model") for r in lines(d / "decisions.jsonl")}
     return ", ".join(sorted(m for m in models if m)) or "?"
 

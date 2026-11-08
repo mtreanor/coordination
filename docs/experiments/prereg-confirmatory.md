@@ -1,6 +1,6 @@
 # Preregistration: a confirmatory test of pilot observations
 
-**Status: registered Nov 8 2026**, as the commit tagged `prereg-confirmatory-v1`, before the first confirmatory Run. Changes after that commit go in section 9.
+**Status: registered Nov 8 2026**, as the commit tagged `prereg-confirmatory-v1`, before the first confirmatory Run. Changes after that commit go in section 9. **Results: [prereg-results.md](prereg-results.md).**
 
 **Preliminary, and deliberately cheap.** This is a small study for the hackathon report, run on two inexpensive models (gemini-3.6-flash and claude-haiku-5-5) with 15 seeds each, for about $10 in all. It isn't the study the project's question finally needs: that one would have more seeds, more and stronger models, and more works. This one shows the method on running code (a pilot, a hypothesis fixed in advance, a matched control, a registered analysis) and gives effect-size estimates to plan the larger study with. Its results are preliminary whatever they are.
 
@@ -153,7 +153,7 @@ Any change after registration goes here with its date, what changed and why. Res
 
 | Date | Change | Reason |
 |---|---|---|
-| | | |
+| Nov 8 2026, after both batches | `scripts/prereg_analysis.py` reads gzipped decision logs (`decisions.jsonl.gz`) as well as plain ones. The analysis is unchanged. | To analyse the copies of the Runs saved in `prereg-runs/`, whose decision logs are gzipped. It gives the same numbers from `runs/` and from `prereg-runs/`. |
 
 ## Registration checklist
 

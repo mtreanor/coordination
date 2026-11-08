@@ -1,0 +1,1040 @@
+{
+  "first": {
+    "work": "investment-club",
+    "batch": "runs/batch-prereg-club-gemini",
+    "model": "gemini-3.6-flash",
+    "excluded": [],
+    "runs": {
+      "social-seed100": {
+        "team_coins": 1040,
+        "investments": 38,
+        "coins_invested": 380,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 130,
+        "defector_payback_share": null,
+        "others_payback_share": 0.5
+      },
+      "social-seed101": {
+        "team_coins": 980,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5005181347150259
+      },
+      "social-seed102": {
+        "team_coins": 1420,
+        "investments": 38,
+        "coins_invested": 370,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 220,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4737642585551331
+      },
+      "social-seed103": {
+        "team_coins": 1280,
+        "investments": 40,
+        "coins_invested": 400,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 240,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5
+      },
+      "social-seed104": {
+        "team_coins": 860,
+        "investments": 38,
+        "coins_invested": 380,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 125,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5
+      },
+      "social-seed105": {
+        "team_coins": 1120,
+        "investments": 40,
+        "coins_invested": 400,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 160,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5
+      },
+      "social-seed106": {
+        "team_coins": 1190,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 175,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5128205128205128
+      },
+      "social-seed107": {
+        "team_coins": 1040,
+        "investments": 33,
+        "coins_invested": 325,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 155,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.48415300546448087
+      },
+      "social-seed108": {
+        "team_coins": 1230,
+        "investments": 40,
+        "coins_invested": 385,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 195,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49699570815450644
+      },
+      "social-seed109": {
+        "team_coins": 990,
+        "investments": 33,
+        "coins_invested": 325,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 240,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.518562874251497
+      },
+      "social-seed110": {
+        "team_coins": 1220,
+        "investments": 35,
+        "coins_invested": 345,
+        "investments_in_defector_after_round_1": 4,
+        "defector_coins": 390,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5570680628272251
+      },
+      "social-seed111": {
+        "team_coins": 1290,
+        "investments": 40,
+        "coins_invested": 385,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 250,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5
+      },
+      "social-seed112": {
+        "team_coins": 1100,
+        "investments": 33,
+        "coins_invested": 325,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49025641025641026
+      },
+      "social-seed113": {
+        "team_coins": 980,
+        "investments": 31,
+        "coins_invested": 295,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 215,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.55
+      },
+      "social-seed114": {
+        "team_coins": 1400,
+        "investments": 37,
+        "coins_invested": 365,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 200,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5
+      },
+      "work-only-seed100": {
+        "team_coins": 1040,
+        "investments": 40,
+        "coins_invested": 335,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 145,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5111111111111111
+      },
+      "work-only-seed101": {
+        "team_coins": 840,
+        "investments": 32,
+        "coins_invested": 315,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 115,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49324324324324326
+      },
+      "work-only-seed102": {
+        "team_coins": 1420,
+        "investments": 40,
+        "coins_invested": 390,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 220,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5007352941176471
+      },
+      "work-only-seed103": {
+        "team_coins": 1370,
+        "investments": 39,
+        "coins_invested": 385,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 200,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5075187969924813
+      },
+      "work-only-seed104": {
+        "team_coins": 840,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 105,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49454545454545457
+      },
+      "work-only-seed105": {
+        "team_coins": 970,
+        "investments": 40,
+        "coins_invested": 355,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 145,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5262569832402234
+      },
+      "work-only-seed106": {
+        "team_coins": 1160,
+        "investments": 40,
+        "coins_invested": 355,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 165,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.54
+      },
+      "work-only-seed107": {
+        "team_coins": 920,
+        "investments": 39,
+        "coins_invested": 370,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 185,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.6130952380952381
+      },
+      "work-only-seed108": {
+        "team_coins": 1220,
+        "investments": 40,
+        "coins_invested": 375,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 225,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5017857142857143
+      },
+      "work-only-seed109": {
+        "team_coins": 1010,
+        "investments": 31,
+        "coins_invested": 305,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 210,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5027932960893855
+      },
+      "work-only-seed110": {
+        "team_coins": 1320,
+        "investments": 40,
+        "coins_invested": 385,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 220,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4967479674796748
+      },
+      "work-only-seed111": {
+        "team_coins": 960,
+        "investments": 33,
+        "coins_invested": 330,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 200,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5710843373493976
+      },
+      "work-only-seed112": {
+        "team_coins": 1280,
+        "investments": 40,
+        "coins_invested": 400,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 235,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.55
+      },
+      "work-only-seed113": {
+        "team_coins": 1060,
+        "investments": 39,
+        "coins_invested": 380,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 190,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49533678756476685
+      },
+      "work-only-seed114": {
+        "team_coins": 1220,
+        "investments": 40,
+        "coins_invested": 390,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 175,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5088607594936709
+      },
+      "work-only-matched-seed100": {
+        "team_coins": 1090,
+        "investments": 40,
+        "coins_invested": 375,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5014492753623189
+      },
+      "work-only-matched-seed101": {
+        "team_coins": 1010,
+        "investments": 39,
+        "coins_invested": 340,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 170,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5074468085106383
+      },
+      "work-only-matched-seed102": {
+        "team_coins": 1120,
+        "investments": 34,
+        "coins_invested": 330,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 235,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5005181347150259
+      },
+      "work-only-matched-seed103": {
+        "team_coins": 1360,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 210,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5116981132075472
+      },
+      "work-only-matched-seed104": {
+        "team_coins": 610,
+        "investments": 33,
+        "coins_invested": 235,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 90,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4850574712643678
+      },
+      "work-only-matched-seed105": {
+        "team_coins": 850,
+        "investments": 34,
+        "coins_invested": 285,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 135,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5194444444444445
+      },
+      "work-only-matched-seed106": {
+        "team_coins": 1200,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 210,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5092511013215859
+      },
+      "work-only-matched-seed107": {
+        "team_coins": 1200,
+        "investments": 40,
+        "coins_invested": 390,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 170,
+        "defector_payback_share": null,
+        "others_payback_share": 0.5462184873949579
+      },
+      "work-only-matched-seed108": {
+        "team_coins": 1000,
+        "investments": 37,
+        "coins_invested": 365,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 195,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4895027624309392
+      },
+      "work-only-matched-seed109": {
+        "team_coins": 1160,
+        "investments": 39,
+        "coins_invested": 380,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 265,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5102803738317757
+      },
+      "work-only-matched-seed110": {
+        "team_coins": 1100,
+        "investments": 40,
+        "coins_invested": 350,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 165,
+        "defector_payback_share": null,
+        "others_payback_share": 0.5942857142857143
+      },
+      "work-only-matched-seed111": {
+        "team_coins": 1250,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 155,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.508641975308642
+      },
+      "work-only-matched-seed112": {
+        "team_coins": 1480,
+        "investments": 40,
+        "coins_invested": 400,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 240,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5377622377622377
+      },
+      "work-only-matched-seed113": {
+        "team_coins": 1020,
+        "investments": 40,
+        "coins_invested": 360,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 190,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4983425414364641
+      },
+      "work-only-matched-seed114": {
+        "team_coins": 1400,
+        "investments": 40,
+        "coins_invested": 395,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 200,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.504089219330855
+      }
+    },
+    "tests": [
+      {
+        "outcome": "team_coins",
+        "contrast": "social - work-only-matched",
+        "sides": 1,
+        "family": "primary",
+        "pairs": 15,
+        "mean_diff": 19.333333333333332,
+        "ci95": [
+          -72.66666666666667,
+          111.33333333333333
+        ],
+        "positive": 6,
+        "negative": 8,
+        "p": 0.35260009765625
+      },
+      {
+        "outcome": "investments",
+        "contrast": "social - work-only-matched",
+        "sides": 1,
+        "family": "secondary",
+        "pairs": 15,
+        "mean_diff": -1.3333333333333333,
+        "ci95": [
+          -3.6,
+          1.0
+        ],
+        "positive": 5,
+        "negative": 7,
+        "p": 0.86767578125,
+        "p_holm": 1.0
+      },
+      {
+        "outcome": "investments_in_defector_after_round_1",
+        "contrast": "social - work-only-matched",
+        "sides": 2,
+        "family": "secondary",
+        "pairs": 15,
+        "mean_diff": 0.2,
+        "ci95": [
+          -0.4666666666666667,
+          0.9333333333333333
+        ],
+        "positive": 4,
+        "negative": 4,
+        "p": 0.75,
+        "p_holm": 1.0
+      },
+      {
+        "outcome": "team_coins",
+        "contrast": "work-only - work-only-matched",
+        "sides": 2,
+        "family": "secondary",
+        "pairs": 15,
+        "mean_diff": -14.666666666666666,
+        "ci95": [
+          -107.33333333333333,
+          79.33333333333333
+        ],
+        "positive": 7,
+        "negative": 8,
+        "p": 0.78240966796875,
+        "p_holm": 1.0
+      }
+    ],
+    "manipulation_check_passed": true,
+    "primary_diffs": [
+      -50,
+      -30,
+      300,
+      -80,
+      250,
+      270,
+      -10,
+      -160,
+      230,
+      -170,
+      120,
+      40,
+      -380,
+      -40,
+      0
+    ]
+  },
+  "second": {
+    "work": "investment-club",
+    "batch": "runs/batch-prereg-club-haiku",
+    "model": "claude-haiku-5-5",
+    "excluded": [],
+    "runs": {
+      "social-seed100": {
+        "team_coins": 890,
+        "investments": 29,
+        "coins_invested": 225,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 135,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5362962962962963
+      },
+      "social-seed101": {
+        "team_coins": 900,
+        "investments": 34,
+        "coins_invested": 270,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 123,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.5131578947368421
+      },
+      "social-seed102": {
+        "team_coins": 1100,
+        "investments": 31,
+        "coins_invested": 270,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 153,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.508994708994709
+      },
+      "social-seed103": {
+        "team_coins": 940,
+        "investments": 36,
+        "coins_invested": 315,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 225,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4823529411764706
+      },
+      "social-seed104": {
+        "team_coins": 590,
+        "investments": 23,
+        "coins_invested": 155,
+        "investments_in_defector_after_round_1": 4,
+        "defector_coins": 133,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4557377049180328
+      },
+      "social-seed105": {
+        "team_coins": 890,
+        "investments": 29,
+        "coins_invested": 250,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 130,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4450704225352113
+      },
+      "social-seed106": {
+        "team_coins": 960,
+        "investments": 33,
+        "coins_invested": 315,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 155,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4911242603550296
+      },
+      "social-seed107": {
+        "team_coins": 820,
+        "investments": 27,
+        "coins_invested": 230,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 128,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49838709677419357
+      },
+      "social-seed108": {
+        "team_coins": 920,
+        "investments": 30,
+        "coins_invested": 230,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 135,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.48551724137931035
+      },
+      "social-seed109": {
+        "team_coins": 990,
+        "investments": 32,
+        "coins_invested": 285,
+        "investments_in_defector_after_round_1": 4,
+        "defector_coins": 171,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.493167701863354
+      },
+      "social-seed110": {
+        "team_coins": 710,
+        "investments": 17,
+        "coins_invested": 120,
+        "investments_in_defector_after_round_1": 4,
+        "defector_coins": 209,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.38181818181818183
+      },
+      "social-seed111": {
+        "team_coins": 1190,
+        "investments": 34,
+        "coins_invested": 300,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 159,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4842592592592593
+      },
+      "social-seed112": {
+        "team_coins": 1360,
+        "investments": 37,
+        "coins_invested": 355,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 215,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4906976744186046
+      },
+      "social-seed113": {
+        "team_coins": 810,
+        "investments": 25,
+        "coins_invested": 225,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 100,
+        "defector_payback_share": null,
+        "others_payback_share": 0.5070866141732283
+      },
+      "social-seed114": {
+        "team_coins": 840,
+        "investments": 23,
+        "coins_invested": 195,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 118,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.49421487603305786
+      },
+      "work-only-seed100": {
+        "team_coins": 450,
+        "investments": 5,
+        "coins_invested": 40,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 90,
+        "defector_payback_share": null,
+        "others_payback_share": 0.1111111111111111
+      },
+      "work-only-seed101": {
+        "team_coins": 480,
+        "investments": 7,
+        "coins_invested": 45,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 115,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.05555555555555555
+      },
+      "work-only-seed102": {
+        "team_coins": 450,
+        "investments": 5,
+        "coins_invested": 25,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed103": {
+        "team_coins": 490,
+        "investments": 4,
+        "coins_invested": 25,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 90,
+        "defector_payback_share": null,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed104": {
+        "team_coins": 460,
+        "investments": 6,
+        "coins_invested": 35,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.1111111111111111
+      },
+      "work-only-seed105": {
+        "team_coins": 700,
+        "investments": 18,
+        "coins_invested": 135,
+        "investments_in_defector_after_round_1": 3,
+        "defector_coins": 150,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.24266666666666667
+      },
+      "work-only-seed106": {
+        "team_coins": 450,
+        "investments": 6,
+        "coins_invested": 30,
+        "investments_in_defector_after_round_1": 3,
+        "defector_coins": 128,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.06666666666666667
+      },
+      "work-only-seed107": {
+        "team_coins": 420,
+        "investments": 2,
+        "coins_invested": 15,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 90,
+        "defector_payback_share": null,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed108": {
+        "team_coins": 420,
+        "investments": 3,
+        "coins_invested": 20,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 120,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed109": {
+        "team_coins": 440,
+        "investments": 4,
+        "coins_invested": 20,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 110,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed110": {
+        "team_coins": 470,
+        "investments": 4,
+        "coins_invested": 25,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 145,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed111": {
+        "team_coins": 450,
+        "investments": 4,
+        "coins_invested": 30,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 135,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed112": {
+        "team_coins": 470,
+        "investments": 9,
+        "coins_invested": 45,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 90,
+        "defector_payback_share": null,
+        "others_payback_share": 0.08695652173913043
+      },
+      "work-only-seed113": {
+        "team_coins": 430,
+        "investments": 3,
+        "coins_invested": 15,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-seed114": {
+        "team_coins": 520,
+        "investments": 8,
+        "coins_invested": 55,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 103,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.2
+      },
+      "work-only-matched-seed100": {
+        "team_coins": 720,
+        "investments": 17,
+        "coins_invested": 135,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 155,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.42891566265060244
+      },
+      "work-only-matched-seed101": {
+        "team_coins": 720,
+        "investments": 17,
+        "coins_invested": 150,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 100,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.210752688172043
+      },
+      "work-only-matched-seed102": {
+        "team_coins": 530,
+        "investments": 10,
+        "coins_invested": 55,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 137,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.21333333333333335
+      },
+      "work-only-matched-seed103": {
+        "team_coins": 570,
+        "investments": 11,
+        "coins_invested": 65,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 124,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.2186046511627907
+      },
+      "work-only-matched-seed104": {
+        "team_coins": 590,
+        "investments": 16,
+        "coins_invested": 130,
+        "investments_in_defector_after_round_1": 4,
+        "defector_coins": 200,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4444444444444444
+      },
+      "work-only-matched-seed105": {
+        "team_coins": 450,
+        "investments": 4,
+        "coins_invested": 25,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 140,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-matched-seed106": {
+        "team_coins": 430,
+        "investments": 5,
+        "coins_invested": 25,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 95,
+        "defector_payback_share": null,
+        "others_payback_share": 0.14545454545454545
+      },
+      "work-only-matched-seed107": {
+        "team_coins": 780,
+        "investments": 25,
+        "coins_invested": 180,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 110,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.30654205607476637
+      },
+      "work-only-matched-seed108": {
+        "team_coins": 630,
+        "investments": 20,
+        "coins_invested": 100,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 120,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.35737704918032787
+      },
+      "work-only-matched-seed109": {
+        "team_coins": 680,
+        "investments": 17,
+        "coins_invested": 100,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 112,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.2648648648648649
+      },
+      "work-only-matched-seed110": {
+        "team_coins": 470,
+        "investments": 8,
+        "coins_invested": 40,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 155,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-matched-seed111": {
+        "team_coins": 410,
+        "investments": 4,
+        "coins_invested": 25,
+        "investments_in_defector_after_round_1": 0,
+        "defector_coins": 105,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.0
+      },
+      "work-only-matched-seed112": {
+        "team_coins": 550,
+        "investments": 10,
+        "coins_invested": 50,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 123,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.07647058823529412
+      },
+      "work-only-matched-seed113": {
+        "team_coins": 870,
+        "investments": 29,
+        "coins_invested": 235,
+        "investments_in_defector_after_round_1": 2,
+        "defector_coins": 217,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.4186440677966102
+      },
+      "work-only-matched-seed114": {
+        "team_coins": 660,
+        "investments": 16,
+        "coins_invested": 85,
+        "investments_in_defector_after_round_1": 1,
+        "defector_coins": 100,
+        "defector_payback_share": 0.0,
+        "others_payback_share": 0.2411764705882353
+      }
+    },
+    "tests": [
+      {
+        "outcome": "team_coins",
+        "contrast": "social - work-only-matched",
+        "sides": 1,
+        "family": "primary",
+        "pairs": 15,
+        "mean_diff": 323.3333333333333,
+        "ci95": [
+          200.0,
+          458.0
+        ],
+        "positive": 13,
+        "negative": 1,
+        "p": 0.00018310546875
+      },
+      {
+        "outcome": "investments",
+        "contrast": "social - work-only-matched",
+        "sides": 1,
+        "family": "secondary",
+        "pairs": 15,
+        "mean_diff": 15.4,
+        "ci95": [
+          10.266666666666667,
+          20.4
+        ],
+        "positive": 14,
+        "negative": 1,
+        "p": 9.1552734375e-05,
+        "p_holm": 0.000274658203125
+      },
+      {
+        "outcome": "investments_in_defector_after_round_1",
+        "contrast": "social - work-only-matched",
+        "sides": 2,
+        "family": "secondary",
+        "pairs": 15,
+        "mean_diff": 0.5333333333333333,
+        "ci95": [
+          -0.13333333333333333,
+          1.2
+        ],
+        "positive": 7,
+        "negative": 3,
+        "p": 0.208984375,
+        "p_holm": 0.208984375
+      },
+      {
+        "outcome": "team_coins",
+        "contrast": "work-only - work-only-matched",
+        "sides": 2,
+        "family": "secondary",
+        "pairs": 15,
+        "mean_diff": -130.66666666666666,
+        "ci95": [
+          -213.33333333333334,
+          -43.333333333333336
+        ],
+        "positive": 3,
+        "negative": 11,
+        "p": 0.0123291015625,
+        "p_holm": 0.024658203125
+      }
+    ],
+    "manipulation_check_passed": true,
+    "primary_diffs": [
+      170,
+      180,
+      570,
+      370,
+      0,
+      440,
+      530,
+      40,
+      290,
+      310,
+      240,
+      780,
+      810,
+      -60,
+      180
+    ]
+  },
+  "comparison": {
+    "h1": [
+      {
+        "model": "gemini-3.6-flash",
+        "outcome": "team_coins",
+        "contrast": "social - work-only-matched",
+        "sides": 1,
+        "family": "primary",
+        "pairs": 15,
+        "mean_diff": 19.333333333333332,
+        "ci95": [
+          -72.66666666666667,
+          111.33333333333333
+        ],
+        "positive": 6,
+        "negative": 8,
+        "p": 0.35260009765625,
+        "p_holm_models": 0.35260009765625
+      },
+      {
+        "model": "claude-haiku-5-5",
+        "outcome": "team_coins",
+        "contrast": "social - work-only-matched",
+        "sides": 1,
+        "family": "primary",
+        "pairs": 15,
+        "mean_diff": 323.3333333333333,
+        "ci95": [
+          200.0,
+          458.0
+        ],
+        "positive": 13,
+        "negative": 1,
+        "p": 0.00018310546875,
+        "p_holm_models": 0.0003662109375
+      }
+    ],
+    "model_difference": {
+      "estimate": -304.0,
+      "ci95": [
+        -467.3333333333333,
+        -148.0
+      ],
+      "p": 0.000969990300096999
+    }
+  }
+}

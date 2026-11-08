@@ -1,0 +1,61 @@
+{
+  "file": "experiments/prereg-club-haiku.toml",
+  "social": null,
+  "runs": 15,
+  "first_seed": 100,
+  "parallel": 6,
+  "chooser": "claude-haiku-5-5",
+  "rounds": 10,
+  "situations": null,
+  "out": "runs/batch-prereg-club-haiku",
+  "choosers": null,
+  "config": "configs/investment-club-rue-smoke.toml",
+  "conditions": {
+    "work-only-matched": {
+      "social": "off-matched",
+      "situations": [
+        "hidden-skimmer"
+      ]
+    },
+    "social": {
+      "situations": [
+        "hidden-skimmer"
+      ]
+    },
+    "work-only": {
+      "social": "off",
+      "situations": [
+        "hidden-skimmer"
+      ]
+    }
+  },
+  "experiment": {
+    "description": "Confirmatory test of pilot observations, H1 on claude-haiku-5-5 (the model comparison) (docs/experiments/prereg-confirmatory.md, registered alone: Not My Bug stays exploratory): in the Investment Club with a hidden skimmer (bob), does the social layer raise investment and team coins? The pilot was exp/2-club-skimmer (gemini-flash, seeds 0-2). Fresh seeds 100-114. The first condition is the baseline for paired differences.",
+    "config": "configs/investment-club-rue-smoke.toml",
+    "runs": 15,
+    "first_seed": 100,
+    "rounds": 10,
+    "chooser": "claude-haiku-5-5",
+    "parallel": 6,
+    "conditions": {
+      "work-only-matched": {
+        "social": "off-matched",
+        "situations": [
+          "hidden-skimmer"
+        ]
+      },
+      "social": {
+        "situations": [
+          "hidden-skimmer"
+        ]
+      },
+      "work-only": {
+        "social": "off",
+        "situations": [
+          "hidden-skimmer"
+        ]
+      }
+    }
+  },
+  "started": "2026-11-08T18:22:44.200852"
+}

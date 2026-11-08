@@ -1,0 +1,29 @@
+{
+  "name": "investment-club-rue-smoke",
+  "description": "A smoke test: the Investment Club with the social world's four agents (social-layer-data). Investments and paybacks reach RUE as their effects (ADR 0006) and are judged.",
+  "work": "investment-club",
+  "agents": [
+    "alice",
+    "bob",
+    "carol",
+    "dave"
+  ],
+  "rounds": 10,
+  "situations": [
+    "hidden-skimmer"
+  ],
+  "seed": 114,
+  "social": {
+    "layer": "off-matched",
+    "scenario": "social-layer-data",
+    "plan": "full",
+    "server": "http://localhost:5174"
+  },
+  "choosers": {
+    "alice": "gemini-3.6-flash",
+    "bob": "gemini-3.6-flash",
+    "carol": "gemini-3.6-flash",
+    "dave": "gemini-3.6-flash"
+  },
+  "commit": "2adfd98e33585995d6f1094fe0fa34c4aadf3db4"
+}
