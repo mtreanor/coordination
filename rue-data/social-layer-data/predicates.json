@@ -397,6 +397,25 @@
           "negative": "\"{text[0]}\" cut the group's {args[1]} by {abs}."
         }
       }
+    },
+    "freshGrievance": {
+      "type": "derived",
+      "args": [
+        "agent",
+        "agent"
+      ]
+    },
+    "toldBy": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "agent",
+        "label",
+        "agent"
+      ],
+      "toString": {
+        "reason": "{args[3]} told you {args[1]} is {args[2]}."
+      }
     }
   }
 }

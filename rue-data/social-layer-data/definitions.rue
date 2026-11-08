@@ -41,3 +41,28 @@ define "fresh dealings: judged what they said or did"
 define "fresh dealings: judged what was said about them"
   ?A.judged(?A, ?O) [asserted-during: 1] ^ ?A.social_occurrence(?O) ^ ?A.role(?O, OTHER, ?B)
   => freshDealings(?A, ?B)
+
+# A fresh grievance: what keeps a bad feeling from fading (social-drift.rue).
+# ?A has one against ?B when, this round, ?A called something ?B did selfish
+# or careless, something ?A saw ?B do (?B is its credited actor), or ?B
+# confronted ?A or gave ?A the cold shoulder. Good dealings don't keep a
+# grudge alive (exp/3-reform), and nor does blame ?A assigned for something
+# nobody was credited with: in exp/5, passers blamed the one they'd passed to
+# for the team's lost hours every sprint, which kept the grudge, and the
+# passing, going.
+
+define "fresh grievance: called what they did selfish"
+  ?A.judgedAs(?O, "selfish") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B)
+  => freshGrievance(?A, ?B)
+
+define "fresh grievance: called what they did careless"
+  ?A.judgedAs(?O, "careless") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B)
+  => freshGrievance(?A, ?B)
+
+define "fresh grievance: confronted by them"
+  ?A.judged(?A, ?O) [asserted-during: 1] ^ ?A.actionType(?O, "confront someone") ^ ?A.role(?O, SELF, ?B)
+  => freshGrievance(?A, ?B)
+
+define "fresh grievance: given the cold shoulder by them"
+  ?A.judged(?A, ?O) [asserted-during: 1] ^ ?A.actionType(?O, "give someone the cold shoulder") ^ ?A.role(?O, SELF, ?B)
+  => freshGrievance(?A, ?B)

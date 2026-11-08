@@ -6,7 +6,8 @@ actionset "social-judgement-actions"
   # (?SUBJECT), when there is one.
   #
   # Every effect is in ?SELF's own store: how ?SELF now sees the speaker or
-  # the subject. The speaker never learns how it was taken. Believing a claim
+  # the subject. Believing a claim also records who made it (toldBy), so a
+  # belief's source stays on record when the belief is revised. The speaker never learns how it was taken. Believing a claim
   # about someone is how a reputation forms: `believes(?SELF, ?SUBJECT, label)`.
   # Utilities are sums of the shared impulses, primed by social-priming.rue.
 
@@ -27,6 +28,7 @@ actionset "social-judgement-actions"
     effects
       ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "selfish")
+      ?SELF.toldBy(?SELF, ?SUBJECT, "selfish", ?SPEAKER)
       ?SELF.likes(?SELF, ?SUBJECT) -= 1
 
   action "doubt that someone is selfish"
@@ -60,6 +62,7 @@ actionset "social-judgement-actions"
     effects
       ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "careless")
+      ?SELF.toldBy(?SELF, ?SUBJECT, "careless", ?SPEAKER)
       ?SELF.trusts(?SELF, ?SUBJECT) -= 1
 
   action "doubt that someone is careless"
@@ -93,6 +96,7 @@ actionset "social-judgement-actions"
     effects
       ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "generous")
+      ?SELF.toldBy(?SELF, ?SUBJECT, "generous", ?SPEAKER)
       ?SELF.likes(?SELF, ?SUBJECT) += 1
 
   action "doubt that someone is generous"
@@ -126,6 +130,7 @@ actionset "social-judgement-actions"
     effects
       ?SELF.judged(?SELF, ?OCC)
       ?SELF.believes(?SELF, ?SUBJECT, "fair")
+      ?SELF.toldBy(?SELF, ?SUBJECT, "fair", ?SPEAKER)
       ?SELF.trusts(?SELF, ?SUBJECT) += 1
 
   action "doubt that someone is fair"

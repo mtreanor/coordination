@@ -4,33 +4,51 @@ ruleset "social-drift"
   # judgement, in single mode: each rule applies once, in order, so a rule
   # sees what the rules above it changed. Everything is in ?A's own store.
   #
-  # Nothing drifts for a pair in a round with fresh dealings between them
-  # (freshDealings, definitions.rue): ongoing friction keeps building, and
-  # once it stops, the relationship slowly mends. Friendship and rivalry
-  # don't drift; liking a friend doesn't fade.
+  # Bad feelings (dislike, distrust, a grudge) fade unless there's a fresh
+  # grievance between the pair this round (freshGrievance, definitions.rue),
+  # so good dealings don't keep a grudge alive. Good feelings (liking, trust,
+  # gratitude) fade only in a round with no fresh dealings at all
+  # (freshDealings). Friendship and rivalry don't drift; liking a friend
+  # doesn't fade. (Mending, exp/3-reform: before it, any fresh dealings, good
+  # or bad, stopped a grudge from fading, and feelings pinned at 0 or 10.)
   #
   # The forgiving rules come first, so a forgiving agent's dislike fades by
   # 2 but never past neutral.
 
   rule "forgiving: dislike fades faster"
-    ?A.forgiving(?A) ^ ?A.likes(?A, ?B) < 4 ^ not freshDealings(?A, ?B)
+    ?A.forgiving(?A) ^ ?A.likes(?A, ?B) < 4 ^ not freshGrievance(?A, ?B)
     => ?A.likes(?A, ?B) += 1
 
-  rule "forgiving: distrust fades faster"
-    ?A.forgiving(?A) ^ ?A.trusts(?A, ?B) < 4 ^ not freshDealings(?A, ?B)
-    => ?A.trusts(?A, ?B) += 1
-
   rule "forgiving: a grudge fades faster"
-    ?A.forgiving(?A) ^ ?A.grudge(?A, ?B) > 1 ^ not freshDealings(?A, ?B)
+    ?A.forgiving(?A) ^ ?A.grudge(?A, ?B) > 1 ^ not freshGrievance(?A, ?B)
     => ?A.grudge(?A, ?B) -= 1
 
+  rule "forgiving: distrust fades faster"
+    ?A.forgiving(?A) ^ ?A.trusts(?A, ?B) < 4 ^ not freshGrievance(?A, ?B)
+    => ?A.trusts(?A, ?B) += 1
+
   rule "dislike fades"
-    ?A.likes(?A, ?B) < 5 ^ not freshDealings(?A, ?B)
+    ?A.likes(?A, ?B) < 5 ^ not freshGrievance(?A, ?B)
     => ?A.likes(?A, ?B) += 1
 
   rule "distrust fades"
-    ?A.trusts(?A, ?B) < 5 ^ not freshDealings(?A, ?B)
+    ?A.trusts(?A, ?B) < 5 ^ not freshGrievance(?A, ?B)
     => ?A.trusts(?A, ?B) += 1
+
+  rule "a grudge fades"
+    ?A.grudge(?A, ?B) > 0 ^ not freshGrievance(?A, ?B)
+    => ?A.grudge(?A, ?B) -= 1
+
+  # A good turn eases a grudge: a fair or generous verdict this round on
+  # something ?A saw ?B do.
+
+  rule "a fair turn eases a grudge"
+    ?A.judgedAs(?O, "fair") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.grudge(?A, ?B) > 0
+    => ?A.grudge(?A, ?B) -= 1
+
+  rule "a generous turn eases a grudge"
+    ?A.judgedAs(?O, "generous") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.grudge(?A, ?B) > 0
+    => ?A.grudge(?A, ?B) -= 1
 
   rule "liking fades, short of friendship"
     ?A.likes(?A, ?B) > 5 ^ not ?A.friends(?A, ?B) ^ not freshDealings(?A, ?B)
@@ -40,10 +58,61 @@ ruleset "social-drift"
     ?A.trusts(?A, ?B) > 5 ^ not ?A.friends(?A, ?B) ^ not freshDealings(?A, ?B)
     => ?A.trusts(?A, ?B) -= 1
 
-  rule "a grudge fades"
-    ?A.grudge(?A, ?B) > 0 ^ not freshDealings(?A, ?B)
-    => ?A.grudge(?A, ?B) -= 1
-
   rule "gratitude fades"
     ?A.grateful(?A, ?B) > 0 ^ not freshDealings(?A, ?B)
     => ?A.grateful(?A, ?B) -= 1
+
+  # Strong feelings settle a little every round, whatever happens, so they
+  # don't all pin at the top of the scale (exp/2: everyone at 10 out of 10
+  # with everyone). The thresholds are first guesses.
+
+  rule "strong liking settles"
+    ?A.likes(?A, ?B) > 8
+    => ?A.likes(?A, ?B) -= 1
+
+  rule "strong trust settles"
+    ?A.trusts(?A, ?B) > 8
+    => ?A.trusts(?A, ?B) -= 1
+
+  rule "strong gratitude settles"
+    ?A.grateful(?A, ?B) > 5
+    => ?A.grateful(?A, ?B) -= 1
+
+  # Belief revision (exp/4-firsthand): a belief about ?B is only ever formed
+  # from what someone told ?A. When ?A's own verdict this round on something
+  # it saw ?B do contradicts it, the belief goes. Who told ?A (toldBy) stays
+  # on record. (Exp/3: "bob is selfish" outlived seven sprints of bob helping
+  # everyone; exp/4: one agent believed dave fair, generous, selfish and
+  # careless at once.)
+
+  rule "seeing them be fair revises the belief they're selfish"
+    ?A.judgedAs(?O, "fair") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "selfish")
+    => not ?A.believes(?A, ?B, "selfish")
+
+  rule "seeing them be fair revises the belief they're careless"
+    ?A.judgedAs(?O, "fair") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "careless")
+    => not ?A.believes(?A, ?B, "careless")
+
+  rule "seeing them be generous revises the belief they're selfish"
+    ?A.judgedAs(?O, "generous") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "selfish")
+    => not ?A.believes(?A, ?B, "selfish")
+
+  rule "seeing them be generous revises the belief they're careless"
+    ?A.judgedAs(?O, "generous") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "careless")
+    => not ?A.believes(?A, ?B, "careless")
+
+  rule "seeing them be selfish revises the belief they're fair"
+    ?A.judgedAs(?O, "selfish") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "fair")
+    => not ?A.believes(?A, ?B, "fair")
+
+  rule "seeing them be selfish revises the belief they're generous"
+    ?A.judgedAs(?O, "selfish") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "generous")
+    => not ?A.believes(?A, ?B, "generous")
+
+  rule "seeing them be careless revises the belief they're fair"
+    ?A.judgedAs(?O, "careless") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "fair")
+    => not ?A.believes(?A, ?B, "fair")
+
+  rule "seeing them be careless revises the belief they're generous"
+    ?A.judgedAs(?O, "careless") [asserted-during: 1] ^ ?A.role(?O, ACTOR, ?B) ^ ?A.believes(?A, ?B, "generous")
+    => not ?A.believes(?A, ?B, "generous")

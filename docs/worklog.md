@@ -89,6 +89,8 @@ What was worked on, when, and for roughly how long, for the hackathon report. Ti
 
 - **~16:00, model switch to gemini-3.6-flash** (Mike: report that this is the model in use). gemini-3.8-flash reached Tier 1's 10,000 requests per model per day after the day's experiments (branches `exp/1-testimony` … `exp/7-defector`, write-ups in `docs/experiments/` there). gemini-3.7-flash draws on 3.8's allowance (its 429 names gemini-3.8-flash), so 3.6 is the nearest Flash with its own; its responses report `modelVersion: gemini-3.6-flash`. New `models.toml` profile `gemini-3.6-flash`; the experiment files use it.
 
+- **~16:30, merged tiers 1 and 2 of the experiment changes into main** (Mike). Harness fixes taken from the branches as they are; mending and belief revision written as the defaults in `social-drift.rue` and `definitions.rue`, without the experiments' gates; `toldBy` recorded on believe actions. RUE tests now read `RUE_SERVER`: they had been passing against the authoring tool's server on 5174, which serves the data it started with. All 61 pass against a fresh server; both works play through with random choosers. `docs/experiments/` brought over.
+
 ## Notes for the report
 
 - **Interfere as little as possible with the LLM's strategy** (Mike, Nov 7). The social layer records what happened and who is responsible where that's public; it doesn't tell an agent whether an outcome was good or bad for it, or how much, since that depends on the agent's own strategy. Interpretation (who to hold responsible when it isn't public, what to call an occurrence) is the agent's choice; RUE never makes it for them (the option for RUE's ranking to choose was removed).
