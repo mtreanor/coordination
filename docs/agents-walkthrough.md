@@ -29,7 +29,7 @@ Three processes are involved:
 
 1. Python asks RUE to run a tick: `POST /api/play/campfire/step`.
 2. RUE runs its tick plan. Alice's turn comes up. Her priming rules compute urges, her actions are scored, and because Alice is *controlled*, RUE pauses and returns `awaiting-choice` with the ranked candidates.
-3. Python turns the candidates into a **DecisionRequest**: the principal's instructions, a **briefing** (the situation as text), and the **options** (the menu).
+3. Python turns the candidates into a **DecisionRequest**: any special instructions, a **briefing** (the situation as text), and the **options** (the menu).
 4. Alice's **chooser** answers with a **Decision**: a choice id and a rationale. For an LLM chooser, that is one model call with a strict answer schema.
 5. Python logs the request and decision, then sends the pick to RUE: `POST /api/play/campfire/choose` with `{indexes: [0], chooser: {kind: "agent", id: "alice", note: "<rationale>"}}`.
 6. RUE executes the action and records the chooser on the action's **ActionRecord**, so any fact it changed can later be explained back to "chosen by agent alice, because…".
@@ -48,7 +48,7 @@ cd external/rue && npm run server
 # Terminal 2: from the repo root
 uv run scripts/campfire.py                          # RUE's own top pick, no LLM
 uv run scripts/campfire.py --chooser qwen-9b        # every agent uses one profile
-uv run scripts/campfire.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
+uv run scripts/campfire.py --choosers alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
 ```
 
 Other flags: `--ticks N` (default 3), `--seed N` (for the random chooser), `--hide-scores` (don't show RUE's utilities to the model).
@@ -184,7 +184,7 @@ class Option(BaseModel):
 
 class DecisionRequest(BaseModel):
     agent: str
-    instructions: str = ""          # the principal's instructions
+    instructions: str = ""          # special instructions, if any
     briefing: str = ""              # the situation, as text
     options: list[Option]
     show_scores: bool = True        # show RUE's utilities as guidance?
@@ -217,11 +217,11 @@ Two functions turn a DecisionRequest into text: `render_instructions` (the syste
 
 **Instructions:**
 ```
-You are alice, an agent acting on behalf of your principal.
+You are alice.
 Each time you are asked, choose exactly one option from a numbered menu.
 Answer with a short rationale and the id of the option you choose.
 
-Your principal's instructions:
+Special instructions:
 Keep the camp going through the night: keep yourself rested, gather wood, and look after the others.
 ```
 
@@ -458,20 +458,20 @@ A thin wrapper over the Play API using `httpx`. Each method is one endpoint (`re
 
 ## 5. The campfire script (`scripts/campfire.py`)
 
-### Setup: one chooser per principal
+### Setup: one chooser per agent
 
 ```python
 rue.reset()
 rue.start(controlled_agents=[])                 # a throwaway session, just to read the cast
 agents = rue.entities("agent")                  # ['alice', 'bob', 'carol', 'dave']
-assigned = dict(pair.split("=", 1) for pair in args.principals.split(",") if pair)
+assigned = dict(pair.split("=", 1) for pair in args.choosers.split(",") if pair)
 names = {agent: assigned.get(agent, args.chooser) for agent in agents}
 choosers = {agent: make_chooser(name, args.seed) for agent, name in names.items()}
 ...
 rue.start(controlled_agents=agents)             # the real session: every agent's choice pauses
 ```
 
-`make_chooser` maps a name to a chooser: `rue`, `random`, `ask`, or any profile name from `models.toml`. Each principal gets its own chooser object, so four principals can use four different models in one Run.
+`make_chooser` maps a name to a chooser: `rue`, `random`, `ask`, or any profile name from `models.toml`. Each agent gets its own chooser object, so four agents can use four different models in one Run.
 
 ### The tick loop
 
@@ -523,7 +523,7 @@ Still to come with the game design: rendering each agent's *own* view (its priva
 ### The rest of the run
 
 - Before tick 2, the script pushes `energy(carol) = 1` into RUE, standing in for the game mirroring a state change.
-- After the last tick, it prints a per-principal summary (decisions, agreement with RUE, passes, seconds per decision, cost) and the provenance proof for `warmth(bob, alice)`, which ends in the chooser's rationale.
+- After the last tick, it prints a per-agent summary (decisions, agreement with RUE, passes, seconds per decision, cost) and the provenance proof for `warmth(bob, alice)`, which ends in the chooser's rationale.
 
 ---
 

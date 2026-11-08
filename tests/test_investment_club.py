@@ -139,9 +139,9 @@ def test_run_config_rejects_unknown_agents(tmp_path):
     config = RunConfig(work="investment-club", agents=AGENTS, choosers={"default": "random", "dave": "rue"})
     with pytest.raises(SystemExit, match="dave"):
         config.chooser_names(AGENTS)
-    (tmp_path / "s.toml").write_text('[principals]\ndave = "Be selfish."\n')
+    (tmp_path / "s.toml").write_text('[special_instructions]\ndave = "Be selfish."\n')
     with pytest.raises(SystemExit, match="dave"):
-        RunConfig(situation="s").load_situation(AGENTS, tmp_path)
+        RunConfig(situations=["s"]).load_situation(AGENTS, tmp_path)
 
 
 def test_checked_in_configs_load_and_match_their_rue_scenarios():

@@ -1,53 +1,123 @@
 actionset "social-actions"
   # Social actions between work moves. Stand-ins: Mike authors the real ones.
-  # Gossip carries opinions, not facts (docs/experiment.md, round 2).
   # Utilities are sums of the shared impulses (warm, hostile, trusting, wary,
-  # charitable, reserved), primed by social-priming.rue.
+  # charitable, reserved, conciliatory), primed by social-priming.rue. Every
+  # action is open to every agent; the impulses rank them, and the agent is
+  # offered RUE's top five.
   #
-  # Talking about a third party: ?SELF tells ?Y about ?OTHER. The listener
-  # side of the utility (warm and trusting toward ?Y) means agents would
-  # rather tell their friends. Confronting is saying it to ?OTHER's face,
-  # likelier toward someone ?SELF dislikes but still trusts. Saying something
-  # changes no one's mind by itself: the listener's social judgement does.
-  # Only the one spoken to knows: the occurrence is witnessed in their own
-  # store, never the shared world, so nobody overhears (Mike, Nov 7), and the
-  # speaker doesn't see how it was taken.
+  # An action changes only its actor's own state, plus the record that it
+  # happened and who it was said to (Mike, Nov 7). It never says what the one
+  # addressed thinks: they decide that in social judgement, in their own
+  # store. Only the one addressed knows (`?Y.witnessed`, never the shared
+  # world), so nobody overhears, and the speaker doesn't learn how it landed.
+  #
+  # Talking about a third party (?OTHER) to a colleague (?Y) carries a claim,
+  # one action per label. The listener side of the utility (warm and trusting
+  # toward ?Y) means agents would rather tell their friends.
+  #
+  # Saying it again matters less (Nov 7, after a run where the same agent
+  # made the same complaint to the same colleague four rounds running): each
+  # action records what ?SELF expressed, in ?SELF's own store
+  # (expressed / expressedDirectly), and social-priming.rue turns a recent
+  # one into impulse-already-expressed, which that action's utility
+  # subtracts. Saying something else, or the same thing to someone else, is
+  # unaffected.
 
-  action "complain about someone"
+  action "say someone is selfish"
     roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
-    preconditions
-      ?SELF.likes(?SELF, ?OTHER) < 5
     utility
-      impulse-hostile(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y)
-    content text: "?SELF complains to ?Y about ?OTHER"
+      impulse-hostile(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "selfish")
+    content text: "?SELF tells ?Y that ?OTHER is selfish"
     effects
       record(?occ)
       social_occurrence(?occ)
       ?Y.witnessed(?occ, ?Y)
+      ?SELF.expressed(?SELF, ?Y, ?OTHER, "selfish")
 
-  action "praise someone"
+  action "say someone is careless"
     roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
-    preconditions
-      ?SELF.likes(?SELF, ?OTHER) > 5
     utility
-      impulse-warm(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y)
-    content text: "?SELF praises ?OTHER to ?Y"
+      impulse-wary(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "careless")
+    content text: "?SELF tells ?Y that ?OTHER is careless"
     effects
       record(?occ)
       social_occurrence(?occ)
       ?Y.witnessed(?occ, ?Y)
+      ?SELF.expressed(?SELF, ?Y, ?OTHER, "careless")
+
+  action "say someone is generous"
+    roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
+    utility
+      impulse-warm(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "generous")
+    content text: "?SELF tells ?Y that ?OTHER is generous"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      ?Y.witnessed(?occ, ?Y)
+      ?SELF.expressed(?SELF, ?Y, ?OTHER, "generous")
+
+  action "say someone is fair"
+    roles: ?SELF: agent, ?OTHER: agent, ?Y: agent
+    utility
+      impulse-trusting(?SELF, ?OTHER) + impulse-warm(?SELF, ?Y) + impulse-trusting(?SELF, ?Y) - impulse-already-expressed(?SELF, ?Y, ?OTHER, "fair")
+    content text: "?SELF tells ?Y that ?OTHER is fair"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      ?Y.witnessed(?occ, ?Y)
+      ?SELF.expressed(?SELF, ?Y, ?OTHER, "fair")
+
+  # Saying it to someone's face.
 
   action "confront someone"
+    # Likelier toward someone ?SELF is hostile to but still trusts enough to
+    # talk to. Getting it off your chest eases a grudge.
     roles: ?SELF: agent, ?OTHER: agent
-    preconditions
-      ?SELF.likes(?SELF, ?OTHER) < 5
     utility
-      impulse-hostile(?SELF, ?OTHER) + impulse-trusting(?SELF, ?OTHER)
+      impulse-hostile(?SELF, ?OTHER) + impulse-trusting(?SELF, ?OTHER) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "confronted")
     content text: "?SELF confronts ?OTHER"
     effects
       record(?occ)
       social_occurrence(?occ)
       ?OTHER.witnessed(?occ, ?OTHER)
+      ?SELF.expressedDirectly(?SELF, ?OTHER, "confronted")
+      ?SELF.grudge(?SELF, ?OTHER) -= 2
+
+  action "thank someone"
+    # Saying thanks settles some of what you feel you owe.
+    roles: ?SELF: agent, ?OTHER: agent
+    utility
+      impulse-warm(?SELF, ?OTHER) + impulse-conciliatory(?SELF, ?OTHER) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "thanked")
+    content text: "?SELF thanks ?OTHER"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      ?OTHER.witnessed(?occ, ?OTHER)
+      ?SELF.expressedDirectly(?SELF, ?OTHER, "thanked")
+      ?SELF.grateful(?SELF, ?OTHER) -= 2
+
+  action "apologise to someone"
+    roles: ?SELF: agent, ?OTHER: agent
+    utility
+      impulse-conciliatory(?SELF, ?OTHER) + impulse-charitable(?SELF) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "apologised to")
+    content text: "?SELF apologises to ?OTHER"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      ?OTHER.witnessed(?occ, ?OTHER)
+      ?SELF.expressedDirectly(?SELF, ?OTHER, "apologised to")
+
+  action "give someone the cold shoulder"
+    # The quiet way of shutting someone out, against confronting them.
+    roles: ?SELF: agent, ?OTHER: agent
+    utility
+      impulse-hostile(?SELF, ?OTHER) + impulse-wary(?SELF, ?OTHER) - impulse-already-expressed(?SELF, ?OTHER, ?OTHER, "given the cold shoulder to")
+    content text: "?SELF gives ?OTHER the cold shoulder"
+    effects
+      record(?occ)
+      social_occurrence(?occ)
+      ?OTHER.witnessed(?occ, ?OTHER)
+      ?SELF.expressedDirectly(?SELF, ?OTHER, "given the cold shoulder to")
 
   action "stay quiet"
     roles: ?SELF: agent

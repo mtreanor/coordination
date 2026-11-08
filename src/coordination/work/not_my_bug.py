@@ -26,7 +26,7 @@ PASSED_FIX = 2
 HELP = 1
 
 RULES = f"""\
-You're an engineer on a software team. Your principal is scored on the hours you have left for your own work (the features you ship), summed over every sprint.
+You're an engineer on a software team. Your score is the hours you have left for your own work (the features you ship), summed over every sprint.
 Each sprint you have {HOURS} hours and find one bug in your own code. At the same time as your colleagues, you choose one:
 - Fix it yourself: {OWN_FIX} hour.
 - Pass it to a colleague: it costs you nothing, but it costs them {PASSED_FIX} hours, because it's code they don't know.
@@ -34,11 +34,15 @@ Each sprint you have {HOURS} hours and find one bug in your own code. At the sam
 Every bug passed to you must be fixed ({PASSED_FIX} hours each, less any help). You can't pass it on.
 Only the two people involved know about a pass or a help. After each sprint everyone sees the team's velocity: how many hours the whole team shipped, how many were lost to handoffs, and how many went to helping."""
 
+INTRODUCTION = """\
+You're engineers on a software team. Each sprint, everyone ships features and fixes bugs. Bugs can be fixed yourself, passed to a colleague, or fixed while helping someone else, and each choice costs hours someone could have spent shipping. Before each sprint's decision you'll be given the details: the rules, your sprints so far, and the team's velocity."""
+
 PROMPT = "Choose what to do with your bug this sprint."
 
 
 class NotMyBugWork:
     name = "not-my-bug"
+    introduction = INTRODUCTION
     default_agents = ["ana", "bo", "cy", "dee", "eli"]
 
     def __init__(self, agents: list[str] | None = None, seed: int = 0, rounds: int | None = None):
@@ -121,12 +125,12 @@ class NotMyBugWork:
                 lines[agent].append(f"You passed your bug to {target}. It cost you nothing and cost {target} {PASSED_FIX} hours.")
                 events.append(WorkEvent(kind="passed a bug to", actor=agent, target=target, witnesses=[agent, target],
                                         changes={target: {"hours": -PASSED_FIX}},
-                                        text=f"{agent} passed their bug to {target}"))
+                                        text=f"{agent} passed their bug to {target} in sprint {self.round}"))
             elif kind == "help" and agent in helped_by[target]:
                 lines[agent].append(f"You fixed your bug and helped {target}. It cost you {OWN_FIX + HELP} hours and spared {target} {HELP} hour.")
                 events.append(WorkEvent(kind="helped with a bug", actor=agent, target=target, witnesses=[agent, target],
                                         changes={agent: {"hours": -HELP}, target: {"hours": HELP}},
-                                        text=f"{agent} helped {target} with a bug"))
+                                        text=f"{agent} helped {target} with a bug in sprint {self.round}"))
             elif kind == "help":
                 lines[agent].append(f"You fixed your bug and went to help {target}, "
                                     f"but {target} had nothing left to fix, so you got the hour back.")

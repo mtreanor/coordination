@@ -25,6 +25,16 @@ from .social import SocialLayer
 from .work import Work
 
 
+OVERVIEW = """\
+You are {agent}. You're one of a small group of people who work together: you and {colleagues}. Play your part the way a person in this group would. You have a job to do, and you share your working days with the others.
+Your goal is to make your own score as high as you can. The work's rules say what your score is.
+Throughout, you'll be asked to make one decision at a time. Each time you'll see what you know so far and a short list of options. Choose one, and say briefly why."""
+
+
+def _names(names: list[str]) -> str:
+    return names[0] if len(names) == 1 else ", ".join(names[:-1]) + " and " + names[-1]
+
+
 class Run:
     def __init__(self, work: Work, social: SocialLayer, choosers: dict[str, Chooser],
                  situation: Situation, run_dir: str | Path,
@@ -48,10 +58,19 @@ class Run:
         parts.append(prompt)
         return "\n".join(parts)
 
+    def setting(self, agent: str) -> str:
+        """The agent's standing introduction, its system prompt: an overview, the work's
+        own introduction, and the social layer's (none in the work-only condition)."""
+        colleagues = [a for a in self.work.agents if a != agent]
+        parts = [OVERVIEW.format(agent=agent, colleagues=_names(colleagues)), self.work.introduction,
+                 self.social.introduction]
+        return "\n\n".join(p for p in parts if p)
+
     def ask(self, agent: str, phase: str, prompt: str, options: list[Option]) -> Decision:
         """Put one decision to an agent and log it."""
         request = DecisionRequest(
             agent=agent,
+            setting=self.setting(agent),
             instructions=self.situation.instructions_for(agent),
             briefing=self.briefing(agent, phase, prompt),
             options=options,

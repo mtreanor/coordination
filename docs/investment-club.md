@@ -12,9 +12,9 @@ Where the design still needs a decision, it's marked **[open]**.
 
 ## Players and setup
 
-- **8 businesses.** Each is an agent playing for its own principal, known by its business name.
+- **8 businesses.** Each is an agent playing for itself, known by its business name.
 - **10 rounds.** Players aren't told how many rounds there are.
-- Any business can deal with any other in any round. Nobody knows anyone's principal or instructions.
+- Any business can deal with any other in any round. Nobody knows anyone else's instructions.
 
 ## A round
 
@@ -86,7 +86,7 @@ There's no public scoreboard and no public history. Everything a business knows 
 - **Work moves:** `invest(target, amount)` and `pay_back(investor, amount)`.
 - **Work events sent to RUE:** each investment and each payback, witnessed by the two parties only.
 - **Judgement accuracy:** the project returns are logged, so it can be checked whether a business distrusted for small paybacks was actually cheating or just unlucky.
-- **Planted defectors:** for example, 2 of the 8 principals are told to maximize their own coins.
+- **Planted defectors:** for example, 2 of the 8 agents have special instructions to maximize their own coins.
 - **Cost:** about 2 work decisions per business per round, so about 160 per Run before the social channel.
 
 ## Worked example: three players, three rounds

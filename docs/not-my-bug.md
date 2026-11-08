@@ -8,7 +8,7 @@ Mike, Nov 7: when you play a game with a child, or with a spouse who rarely play
 
 ## Players and setup
 
-- **5 engineers** on one team. Each is an agent playing for its own principal.
+- **5 engineers** on one team. Each is an agent, playing for itself.
 - **8 rounds** (sprints). Players aren't told how many.
 - Each engineer starts every round with **10 hours**.
 

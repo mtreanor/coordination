@@ -24,3 +24,20 @@ define "could be responsible: anyone, when ?J knows of no one"
   # ?J holds them responsible.
   ?J.witnessed(?O, ?J) ^ not ?J.responsible(?O, _)
   => couldBeResponsible(?J, ?O, ?X)
+
+define "fresh dealings: held them responsible this round"
+  # Something new between ?A and ?B this round, from ?A's side: ?A holds ?B
+  # responsible for a work occurrence this round (they did it where ?A could
+  # see, or ?A named them), or ?A judged something ?B said or did to ?A, or
+  # something said to ?A about ?B. Feelings about ?B don't drift back toward
+  # neutral in a round like that (social-drift.rue).
+  ?A.responsible(?O, ?B) [asserted-during: 1]
+  => freshDealings(?A, ?B)
+
+define "fresh dealings: judged what they said or did"
+  judged(?A, ?O) [asserted-during: 1] ^ social_occurrence(?O) ^ role(?O, SELF, ?B)
+  => freshDealings(?A, ?B)
+
+define "fresh dealings: judged what was said about them"
+  judged(?A, ?O) [asserted-during: 1] ^ social_occurrence(?O) ^ role(?O, OTHER, ?B)
+  => freshDealings(?A, ?B)

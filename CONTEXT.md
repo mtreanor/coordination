@@ -1,38 +1,42 @@
 # Coordination Testbed
 
-A testbed where LLM agents acting for different principals do work together while living in a symbolically grounded social world, so that the effect of social life on how they work together can be measured and traced.
+A testbed where LLM agents do work together while living in a symbolically grounded social world, so that the effect of social life on how they work together can be measured and traced.
 
-A round: work moves → resolve → mirror → record → work judgement → social actions → social judgement (`docs/framework.md`).
+A round: work moves → resolve → mirror → record → work judgement → social actions → social judgement → drift (`docs/framework.md`).
 
 ## Language
 
 ### Participants
 
-**Principal**:
-The party an agent acts for; it owns the agent's instructions, objective, and model configuration. Exactly one agent per principal.
-_Avoid_: Deployer, owner, player
-
 **Agent**:
-The LLM-driven actor that takes turns on behalf of one principal.
-_Avoid_: Bot, NPC, character
+The LLM-driven actor that takes turns: one member of the group, with a name of its own (not the model's). It acts for itself; nobody stands behind it. Its model is its chooser.
+_Avoid_: Principal (Mike, Nov 7: an agent is just the agent), bot, NPC, character
+
+**Special instructions**:
+Instructions a Situation gives one agent beyond the work's own introduction, e.g. a defector's "get as much as you can for yourself". Just instructions to that agent, not commands from someone it works for. Most agents have none.
+_Avoid_: Principal's instructions, orders
 
 **Briefing**:
 The situation an agent is shown at a decision point: what it may know about the work (its own view and public work state), and a templated rendering of its own private store in RUE (its social world).
 _Avoid_: Prompt, context, observation
 
 **Decision Request**:
-The whole prompt for one agent decision: the principal's instructions, the Briefing, the phase's prompt, the menu of choices, and the answer format.
+The whole prompt for one agent decision: the standing introduction (overview, work, social world), any special instructions, the Briefing, the phase's prompt, the menu of choices, and the answer format.
 _Avoid_: Prompt, query
 
 ### Experiments
 
 **Run**:
-One complete play of some work with some social layer, under one Situation, fixed configuration and seed, with exactly one RUE session modeling every agent in it.
+One complete play of some work with some social layer, under its Situations, fixed configuration and seed, with exactly one RUE session modeling every agent in it.
 _Avoid_: Episode, game, simulation
 
 **Situation**:
-The authored starting conditions of a Run: starting dispositions (seeded, or all neutral), principal instructions, and who knows whom (who witnesses whose work). The social layer's rules are the same in every Situation.
+An authored part of a Run's starting conditions (`situations/*.toml`): starting relationships and traits (e.g. `office-history`), special instructions for an agent (e.g. `bob-defects`), and who knows whom. A Run combines any number, in order; none is the neutral start. The social layer's rules are the same in every Situation.
 _Avoid_: Scenario (RUE's word for a data package), setup
+
+**Experiment**:
+A named set of conditions over one base Run config (`experiments/*.toml`), each condition overriding the social layer, Situations, tick plan or choosers; `scripts/batch.py` plays every condition once per seed, paired by seed.
+_Avoid_: Batch (the output of playing one), study
 
 **Work-only**:
 The condition with the social layer switched off: agents see only the work, and nothing is mirrored, recorded or judged.
@@ -41,7 +45,7 @@ _Avoid_: Game-only, baseline (without saying which)
 ### Work
 
 **Work**:
-The task agents do for their principals, defined and run outside RUE. The work owns its state, decides which work moves are legal, and resolves them. It is the only part of a Run that isn't RUE.
+The task agents do together, defined and run outside RUE. The work owns its state, decides which work moves are legal, and resolves them. It is the only part of a Run that isn't RUE.
 _Avoid_: Game, Coordination Game, simulation
 
 **Work move**:

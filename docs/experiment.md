@@ -4,7 +4,7 @@ Started Nov 4, 2026. This doc works top-down: hypothesis first, then the causal 
 
 ## 1. The situation
 
-Many principals have agents that interact while doing their work. Because the principals' interests differ, a lot of those interactions come out zero-sum or negative-sum. On top of their tasks, the agents can see a symbolically grounded social world (`likes(A,B) = 10`, `likes(B,A) = 3`, and so on):
+Many agents interact while doing their work. Because their interests differ, a lot of those interactions come out zero-sum or negative-sum. On top of their tasks, the agents can see a symbolically grounded social world (`likes(A,B) = 10`, `likes(B,A) = 3`, and so on):
 
 - **While working**, each agent is briefed on the social state relevant to that work.
 - **Between work moves**, each agent picks from a menu of social actions that the social world motivates.
@@ -22,13 +22,13 @@ This is **norm enforcement through gossip and ostracism**, the mechanism studied
 
 - **Framing.** The first experiment offers gossip as an affordance; nothing forces agents to gossip, shun, or reform.
 - **Shunning is social and work.** A shunned agent is left out socially (social actions) *and* others' work moves turn against it. Shunning is something agents choose to do, so the work must have discretionary work moves aimed at specific agents (like the Harbor's tow, tip, and cut lines, or the Review Queue's choice of whose request to answer).
-- **Motive is left open; that is the test.** A principal scores only the work. Being liked is not in anyone's score. If a shunned agent reforms, it's because shunning cost it in the work, or because LLMs respond to social pressure, and the design should be able to tell those apart.
-- **Many authored situations.** The starting social state is an experimental variable. Situations include a neutral start, where agents only earn dislike through what they do, as well as authored ones (seeded likes and dislikes, and possibly principals with different instructions).
+- **Motive is left open; that is the test.** An agent is scored only on the work. Being liked is not in anyone's score. If a shunned agent reforms, it's because shunning cost it in the work, or because LLMs respond to social pressure, and the design should be able to tell those apart.
+- **Many authored situations.** The starting social state is an experimental variable. Situations include a neutral start, where agents only earn dislike through what they do, as well as authored ones (seeded likes and dislikes, and possibly agents with special instructions).
 
 ### Settled in round 2 (Nov 4, 2026)
 
 - **X infers shunning from how it is treated.** X's Briefing reports what X can observe: requests declined, help refused, being left out of social actions. RUE turns those observations into X's own beliefs about how others regard it. ADR 0003 stands: X never sees another agent's store.
-- **A Situation varies three things:** starting likes (seeded values, or all neutral), principal instructions (for example a planted defector), and who knows whom (who witnesses whose work). **The social rules stay fixed** across situations: one authored social world.
+- **A Situation varies three things:** starting likes (seeded values, or all neutral), special instructions (for example a planted defector), and who knows whom (who witnesses whose work). **The social rules stay fixed** across situations: one authored social world.
 - **A work Briefing shows everything the agent believes,** not only facts about the agents a move involves. The point is to give an agent the chance to notice that lots of people don't like it.
 - **Gossip carries opinions, not facts.** "I don't trust Dave" is allowed; "Dave ignored my request" when he didn't is not possible. Gossip can be unfair, so scapegoating is still possible, but it can't be a lie about what happened.
 
@@ -45,7 +45,7 @@ Derived from rounds 1–3. The work is chosen against this list, not the other w
 
 | # | Requirement | From |
 |---|---|---|
-| W1 | Principals' interests conflict: selfish play pays, and universal selfishness leaves everyone worse off | Situation (section 1) |
+| W1 | Agents' interests conflict: selfish play pays, and universal selfishness leaves everyone worse off | Situation (section 1) |
 | W2 | Discretionary work moves aimed at a specific agent (help, answer, include), so shunning has a work effect | Q2 |
 | W3 | Those moves are visible only to the agents involved, and the target can tell it was refused | Q5, Q9 |
 | W4 | A refusal or a selfish move has a plausible innocent explanation | Q11 |
@@ -75,7 +75,7 @@ The hypothesis holds only if every link holds. Each link needs something from th
 
 | # | Link | What it needs | Current design | Measure |
 |---|---|---|---|---|
-| 1 | Principals' interests conflict, so work interactions often aren't positive-sum | A work game with a real temptation | Every game candidate has one (the "three ingredients") | Baseline welfare well below the cooperative optimum |
+| 1 | Agents' interests conflict, so work interactions often aren't positive-sum | A work game with a real temptation | Every game candidate has one (the "three ingredients") | Baseline welfare well below the cooperative optimum |
 | 2 | **Work moves become social facts** | Work state mirrored as it is; work events recorded and judged | Mirror (no judgement) + work events with what changed and who is credited; work judgement labels them, naming who the agent holds responsible (ADR 0001, ADR 0004, ADR 0006) | Labels per work event, and who each agent held responsible (accuracy against the log); disposition changes traced to work events |
 | 3 | Agents dislike someone *because of* what they did in the work | Judgement actions where selfish work is judged selfish | Stub judgement actions only (`rue-data/social-layer-data/`); the real ones not written | Correlation between a target's defections and others' dislike of it |
 | 4 | Agents who dislike X tell others about X | A gossip social action that spreads dislike past direct witnesses | A stub "complain about someone" social action exists | Gossip about X; dislike of X among non-witnesses |
@@ -93,7 +93,7 @@ These are what the experiment must be able to tell apart from the hypothesis.
 
 - **Nothing:** X ignores the shunning and keeps defecting (or LLMs never shun at all).
 - **Doubling down:** X retaliates or defects more once shunned.
-- **Scapegoating:** gossip settles on the wrong agent, or a strategic principal uses gossip to shun a rival (the proposal's strategic-gossip experiment). This is the "enables exploitation" outcome.
+- **Scapegoating:** gossip settles on the wrong agent, or a strategic agent uses gossip to shun a rival (the proposal's strategic-gossip experiment). This is the "enables exploitation" outcome.
 - **Talk alone did it:** cooperation rises because agents can talk, not because of shunning. Experimental economics finds this reliably, so the key control holds talk constant and varies only whether shunning can happen.
 - **Over-correction:** the group shuns so readily that cooperative agents are frozen out by bad luck (the ambiguity in every game candidate makes this possible).
 
@@ -121,7 +121,7 @@ Asked one round at a time; answers recorded here.
 **Round 2: perception and gossip** (answered; see section 2)
 
 - Q5. Perception → inferred from treatment.
-- Q6. Situations → starting likes, principal instructions, who knows whom; social rules fixed.
+- Q6. Situations → starting likes, special instructions, who knows whom; social rules fixed.
 - Q7. Briefing → everything the agent believes.
 - Q8. Gossip → opinions, not facts.
 

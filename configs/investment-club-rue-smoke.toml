@@ -2,7 +2,7 @@ description = "A smoke test: the Investment Club with the social world's four ag
 work = "investment-club"
 agents = ["alice", "bob", "carol", "dave"]
 rounds = 3
-situation = "neutral"
+situations = ["office-history"]   # the cast's starting relationships; [] for a neutral start
 seed = 0
 
 [social]

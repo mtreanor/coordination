@@ -1,0 +1,34 @@
+description = "The group as it is before the first round, with some history: each agent's own traits and its own view of the others, in its own store. Views needn't match: dave counts alice as a friend and is grateful to her; alice counts dave as a friend but owes him nothing; carol holds an old grudge against bob, who sees her as a rival. For the alice, bob, carol, dave cast."
+
+facts = [
+  # alice
+  "alice.loyal(alice)",
+  "alice.gossipy(alice)",
+  "alice.friends(alice, dave)",
+  "alice.likes(alice, dave) = 7",
+  "alice.trusts(alice, dave) = 7",
+  "alice.likes(alice, carol) = 6",
+  "alice.trusts(alice, bob) = 4",
+  # bob
+  "bob.proud(bob)",
+  "bob.suspicious(bob)",
+  "bob.rival(bob, carol)",
+  "bob.likes(bob, carol) = 3",
+  "bob.trusts(bob, carol) = 3",
+  "bob.likes(bob, alice) = 6",
+  # carol
+  "carol.forgiving(carol)",
+  "carol.gossipy(carol)",
+  "carol.grudge(carol, bob) = 3",
+  "carol.likes(carol, bob) = 4",
+  "carol.likes(carol, alice) = 7",
+  "carol.trusts(carol, alice) = 6",
+  # dave
+  "dave.easygoing(dave)",
+  "dave.loyal(dave)",
+  "dave.friends(dave, alice)",
+  "dave.grateful(dave, alice) = 3",
+  "dave.likes(dave, alice) = 7",
+  "dave.likes(dave, bob) = 6",
+  "dave.trusts(dave, carol) = 4",
+]

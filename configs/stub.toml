@@ -1,6 +1,5 @@
 description = "The stub work with the social world (social-layer-data): exercises the loop, not for study."
 work = "stub"
-situation = "neutral"
 seed = 0
 
 [social]

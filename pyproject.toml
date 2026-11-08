@@ -1,7 +1,7 @@
 [project]
 name = "coordination"
 version = "0.1.0"
-description = "A testbed where LLM agents for different principals coordinate within an auditable RUE social world"
+description = "A testbed where LLM agents coordinate within an auditable RUE social world"
 authors = [
     { name = "Mike Treanor", email = "treanor@american.edu" }
 ]

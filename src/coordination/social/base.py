@@ -4,7 +4,7 @@ plus the version that switches it off.
 The social layer holds the social world (dispositions, relationships, beliefs) and runs
 everything social in a round. When it needs an agent to decide something (a judgement
 action, a social action), it calls `ask`, and the Run builds the Decision Request: the
-principal's instructions, the Briefing (the social world, without the work: ADR 0007), the
+agent's standing instructions, the Briefing (the social world, without the work: ADR 0007), the
 phase's prompt, and the menu the social layer supplies.
 """
 
@@ -20,6 +20,9 @@ class Ask(Protocol):
 
 class SocialLayer(Protocol):
     name: str
+    introduction: str
+    """The social world, described for the agents' standing instructions: what kinds of
+    social decision there are, never which choice is worth making. Empty when off."""
 
     def start(self, agents: list[str], facts: list[str]) -> None:
         """Begin a Run with these agents and the Situation's starting facts."""
@@ -43,6 +46,7 @@ class NoSocial:
     """The social layer switched off: the work-only condition."""
 
     name = "off"
+    introduction = ""
 
     def start(self, agents: list[str], facts: list[str]) -> None: ...
 

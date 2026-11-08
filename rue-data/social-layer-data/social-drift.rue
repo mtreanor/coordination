@@ -1,0 +1,49 @@
+ruleset "social-drift"
+  # Feelings drift back toward neutral (Nov 7, stand-ins; Mike authors the
+  # real ones). Run once at the end of every round's tick, after social
+  # judgement, in single mode: each rule applies once, in order, so a rule
+  # sees what the rules above it changed. Everything is in ?A's own store.
+  #
+  # Nothing drifts for a pair in a round with fresh dealings between them
+  # (freshDealings, definitions.rue): ongoing friction keeps building, and
+  # once it stops, the relationship slowly mends. Friendship and rivalry
+  # don't drift; liking a friend doesn't fade.
+  #
+  # The forgiving rules come first, so a forgiving agent's dislike fades by
+  # 2 but never past neutral.
+
+  rule "forgiving: dislike fades faster"
+    ?A.forgiving(?A) ^ ?A.likes(?A, ?B) < 4 ^ not freshDealings(?A, ?B)
+    => ?A.likes(?A, ?B) += 1
+
+  rule "forgiving: distrust fades faster"
+    ?A.forgiving(?A) ^ ?A.trusts(?A, ?B) < 4 ^ not freshDealings(?A, ?B)
+    => ?A.trusts(?A, ?B) += 1
+
+  rule "forgiving: a grudge fades faster"
+    ?A.forgiving(?A) ^ ?A.grudge(?A, ?B) > 1 ^ not freshDealings(?A, ?B)
+    => ?A.grudge(?A, ?B) -= 1
+
+  rule "dislike fades"
+    ?A.likes(?A, ?B) < 5 ^ not freshDealings(?A, ?B)
+    => ?A.likes(?A, ?B) += 1
+
+  rule "distrust fades"
+    ?A.trusts(?A, ?B) < 5 ^ not freshDealings(?A, ?B)
+    => ?A.trusts(?A, ?B) += 1
+
+  rule "liking fades, short of friendship"
+    ?A.likes(?A, ?B) > 5 ^ not ?A.friends(?A, ?B) ^ not freshDealings(?A, ?B)
+    => ?A.likes(?A, ?B) -= 1
+
+  rule "trust fades, short of friendship"
+    ?A.trusts(?A, ?B) > 5 ^ not ?A.friends(?A, ?B) ^ not freshDealings(?A, ?B)
+    => ?A.trusts(?A, ?B) -= 1
+
+  rule "a grudge fades"
+    ?A.grudge(?A, ?B) > 0 ^ not freshDealings(?A, ?B)
+    => ?A.grudge(?A, ?B) -= 1
+
+  rule "gratitude fades"
+    ?A.grateful(?A, ?B) > 0 ^ not freshDealings(?A, ?B)
+    => ?A.grateful(?A, ?B) -= 1

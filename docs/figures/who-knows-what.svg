@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="370" viewBox="0 0 1000 370" role="img" aria-label="An event everyone witnessed goes into the shared world store, which reaches every agent's Briefing. A pass seen only by two agents goes into each of their private stores. A claim about someone goes only into the listener's store. Ground truth, such as who made an uncredited pass, goes only to the Run's log, for analysis afterwards.">
+<style>
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+text { fill: #1b2226; font-size: 12px; }
+.t-title { font-size: 16px; font-weight: 600; }
+.t-h { font-size: 13px; font-weight: 600; }
+.t-m { fill: #5a6670; }
+.t-s { font-size: 11px; }
+.t-cap { font: 500 10.5px "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; fill: #5a6670; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 11px; }
+.ln { stroke: #1b2226; stroke-width: 1.4; fill: none; }
+.ln-m { stroke: #5a6670; stroke-width: 1.2; fill: none; }
+.ln-rue { stroke: #a85f0c; stroke-width: 1.6; fill: none; }
+.dash { stroke-dasharray: 4 4; }
+.b-work { fill: #e3ecf7; stroke: #2c66a8; stroke-width: 1.5; }
+.b-rue { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 1.5; }
+.b-agent { fill: #dcf0e6; stroke: #23805f; stroke-width: 1.5; }
+.b-sit { fill: #efe4f5; stroke: #7d45a0; stroke-width: 1.5; }
+.b-h { fill: #e7ebee; stroke: #56636c; stroke-width: 1.5; }
+.b-plain { fill: #ffffff; stroke: #c4cdd3; stroke-width: 1.2; }
+.b-inner { fill: #ffffff; stroke: #a85f0c; stroke-width: 1; }
+.b-hot { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 2.6; }
+.f-work { fill: #2c66a8; } svg .f-rue { fill: #a85f0c; } svg .f-agent { fill: #23805f; }
+.f-sit { fill: #7d45a0; } svg .f-h { fill: #56636c; }
+.s-work { fill: #e3ecf7; } svg .s-rue { fill: #f7e9d6; } svg .s-sit { fill: #efe4f5; }
+.s-h { fill: #e7ebee; }
+.s-none { fill: none; stroke: #c4cdd3; stroke-dasharray: 4 4; }
+.ah { fill: #1b2226; }
+.ah-m { fill: #5a6670; }
+.ah-rue { fill: #a85f0c; }
+</style>
+<rect width="1000" height="370" fill="#ffffff"/>
+        <defs>
+          <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a4r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-rue" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a4m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-m" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <text class="t-cap" x="20" y="26">WHAT HAPPENS</text>
+        <text class="t-cap" x="370" y="26">WHERE RUE RECORDS IT</text>
+        <text class="t-cap" x="700" y="26">WHOSE BRIEFING SHOWS IT</text>
+
+        <!-- events -->
+        <rect class="b-work" x="20" y="48" width="280" height="44" rx="6"/>
+        <text x="34" y="66">The team lost 2 hours to handoffs</text>
+        <text class="t-s t-m" x="34" y="83">everyone witnessed it; nobody is credited</text>
+        <rect class="b-work" x="20" y="145" width="280" height="44" rx="6"/>
+        <text x="34" y="163">bob passed his bug to alice</text>
+        <text class="t-s t-m" x="34" y="180">only the two of them witnessed it</text>
+        <rect class="b-rue" x="20" y="228" width="280" height="44" rx="6"/>
+        <text x="34" y="246">alice tells dave that bob is selfish</text>
+        <text class="t-s t-m" x="34" y="263">a social action: only dave hears it</text>
+        <rect class="b-h" x="20" y="303" width="280" height="44" rx="6"/>
+        <text x="34" y="321">Who made an uncredited pass; dice</text>
+        <text class="t-s t-m" x="34" y="338">ground truth, and every rationale</text>
+
+        <!-- stores -->
+        <rect class="b-hot" x="370" y="48" width="260" height="44" rx="6"/>
+        <text class="t-h" x="500" y="75" text-anchor="middle">Shared world store</text>
+        <rect class="b-rue" x="370" y="120" width="260" height="40" rx="6"/>
+        <text x="500" y="145" text-anchor="middle">alice's own store</text>
+        <rect class="b-rue" x="370" y="175" width="260" height="40" rx="6"/>
+        <text x="500" y="200" text-anchor="middle">bob's own store</text>
+        <rect class="b-rue" x="370" y="230" width="260" height="40" rx="6"/>
+        <text x="500" y="255" text-anchor="middle">dave's own store</text>
+        <rect class="b-h" x="370" y="305" width="260" height="40" rx="6"/>
+        <text x="500" y="330" text-anchor="middle">The Run's log, outside RUE</text>
+
+        <!-- event -> store -->
+        <line class="ln" x1="302" y1="70" x2="366" y2="70" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="160" x2="366" y2="141" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="174" x2="366" y2="194" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="250" x2="366" y2="250" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="325" x2="366" y2="325" marker-end="url(#a4)"/>
+
+        <!-- briefings -->
+        <rect class="b-agent" x="700" y="120" width="240" height="40" rx="6"/>
+        <text x="820" y="145" text-anchor="middle">alice's Briefing</text>
+        <rect class="b-agent" x="700" y="175" width="240" height="40" rx="6"/>
+        <text x="820" y="200" text-anchor="middle">bob's Briefing</text>
+        <rect class="b-agent" x="700" y="230" width="240" height="40" rx="6"/>
+        <text x="820" y="255" text-anchor="middle">dave's Briefing</text>
+        <rect class="b-plain dash" x="700" y="305" width="240" height="40" rx="6"/>
+        <text class="t-m" x="820" y="323" text-anchor="middle">Analysis afterwards</text>
+        <text class="t-s t-m" x="820" y="338" text-anchor="middle">never in any Briefing</text>
+
+        <!-- store -> briefing -->
+        <line class="ln" x1="632" y1="140" x2="696" y2="140" marker-end="url(#a4)"/>
+        <line class="ln" x1="632" y1="195" x2="696" y2="195" marker-end="url(#a4)"/>
+        <line class="ln" x1="632" y1="250" x2="696" y2="250" marker-end="url(#a4)"/>
+        <line class="ln-m" x1="632" y1="325" x2="696" y2="325" marker-end="url(#a4m)"/>
+
+        <!-- shared bus -->
+        <path class="ln-rue" d="M632,70 H968 V250"/>
+        <line class="ln-rue" x1="968" y1="140" x2="944" y2="140" marker-end="url(#a4r)"/>
+        <line class="ln-rue" x1="968" y1="195" x2="944" y2="195" marker-end="url(#a4r)"/>
+        <line class="ln-rue" x1="968" y1="250" x2="944" y2="250" marker-end="url(#a4r)"/>
+        <text x="820" y="62" text-anchor="middle">every agent's Briefing</text>
+      </svg>

@@ -1,7 +1,7 @@
 description = "The Investment Club, work-only, with two planted defectors (bo and fay)."
 work = "investment-club"
 # agents: the work's eight businesses (ana, bo, cy, dee, eli, fay, gus, hal)
-situation = "club-defectors"
+situations = ["club-defectors"]
 seed = 0
 
 [social]

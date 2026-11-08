@@ -1,2 +1,6 @@
-# No starting state: likes and trusts default to 5 (neutral), so nothing
-# needs asserting. Situations (situations/*.toml) set any departures.
+# The social world starts neutral: no traits, likes and trusts at their default
+# (5), no grudges, no gratitude. Starting relationships are a Situation
+# (situations/*.toml, e.g. office-history), so a Run can start neutral or with
+# a history, and the same scenario serves both.
+
+world

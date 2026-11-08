@@ -11,6 +11,8 @@ Features this project needs from RUE, to be built in the RUE repo as general fea
 
 - Unchanged numeric sets add no history (Nov 7 2026): setting a number to the value it already holds is not recorded, so rules that re-set values every tick don't fill provenance with repeats. Test: `tests/NumericSetHistory.test.js`.
 - Fresh priming (Nov 7 2026): a stage's priming entry with `"fresh": true` first clears the ephemeral numerics its ruleset writes, so priming recomputes from the current facts on every run instead of adding up across loop invocations and stages. A checkbox on each priming rule in the tool's stage editor. See RUE's `docs/actiongraph-tickplan.md#fresh-priming`. Test: `tests/plan/TickPlan.fresh.test.js`.
+- Reasons (Nov 7 2026): `engine.reasonsFor(candidate)` renders the facts behind a candidate's utility (the premises of the rules that set the numerics it reads) with a named text template, marked for or against, with no utility, value or weight; the Play server serves them on every candidate, and `/config` takes `reasonTemplate`. A `{text[N]}` placeholder renders an occurrence's text. See RUE's `docs/actions.md#reasons`. Tests: `tests/Reasons.test.js`.
+- `renderFacts` with `skipDefaults` (Nov 7 2026): leaves out numeric facts at their predicate's default, so a briefing doesn't spell out neutral values.
 
 ## External actions (built Nov 5 2026)
 
@@ -46,3 +48,4 @@ An **external action** is something that happened outside RUE (a work event) and
 - Premise linking: rule-derived facts link to the specific facts that triggered them.
 - A seed parameter on `/play/:scenario/start`.
 - Bulk provenance export for analysis.
+- Perspective in text templates (Mike, Nov 7 2026). Templates now quietly assume their reader is `args[0]`: `friends` renders "You count them as a friend." because every private fact rendered so far is one the reader holds about someone else, and a world fact, or a view rendered for an observer or a log, would come out wrong. The template system should assume nothing about "you". Proposed: a template may give perspective forms, called out explicitly, e.g. `"state": {"third": "{args[0]} likes {args[1]} {value} out of 10.", "second": "You like {args[1]} {value} out of 10."}`; rendering (`renderFact`, `renderFacts`, `reasonsFor`, `POST /render`, served reasons) takes a `viewer`, and uses the `second` form when `args[0]` is the viewer and the template has one, else `third`. A plain-string template stays as it is. Every sentence stays authored and deterministic: no substitution of "you" (it breaks agreement: "you likes"), no NLG outside RUE. Then this project's templates name both people (no "them"), and the `state`/`reason` split in `predicates.json` may collapse into one template.

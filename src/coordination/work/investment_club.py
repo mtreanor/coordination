@@ -25,12 +25,16 @@ RETURNS = (1, 3, 5)
 PAYBACK_SHARES = ((0, "nothing"), (1 / 3, "a third"), (1 / 2, "half"), (2 / 3, "two-thirds"), (1, "all of it"))
 
 RULES = """\
-You run a small business in an investment club. Your principal is scored on the coins you have at the end.
+You run a small business in an investment club. Your score is the coins you have at the end.
 Each round:
 1. Every business gets 10 coins. At the same time as the others, you may invest 5 or 10 of them in one other business's project, or keep them all.
 2. Every project then returns x1, x3 or x5 what was invested in it, each equally likely. Only a business sees its own project's return.
 3. For each business that invested in you, you choose how much of what their coins grew to you send back. You keep the rest.
 Deals are private: only the two businesses involved know about an investment or a payback. An investor learns how much came back, but not what the project returned."""
+
+
+INTRODUCTION = """\
+You each run a small business, and you belong to an investment club together. Each round, members can invest in one another's projects and send back a share of what those investments grew to. Before each decision you'll be given the details: the rules, your coins, and your rounds so far."""
 
 
 def _round_half_up(x: float) -> int:
@@ -39,6 +43,7 @@ def _round_half_up(x: float) -> int:
 
 class InvestmentClubWork:
     name = "investment-club"
+    introduction = INTRODUCTION
     default_agents = ["ana", "bo", "cy", "dee", "eli", "fay", "gus", "hal"]
 
     def __init__(self, agents: list[str] | None = None, seed: int = 0, rounds: int | None = None):
@@ -135,7 +140,7 @@ class InvestmentClubWork:
             events.append(WorkEvent(kind="invested in", actor=agent, target=target, witnesses=[agent, target],
                                     changes={agent: {"coins": -amount}, target: {"coins": amount}},
                                     details={"amount": amount},
-                                    text=f"{agent} invested {amount} coins in {target}"))
+                                    text=f"{agent} invested {amount} coins in {target} in round {self.round}"))
         for agent in self.agents:
             received = [(investor, amount) for investor, (recipient, amount) in self.investments.items()
                         if recipient == agent]
@@ -172,7 +177,7 @@ class InvestmentClubWork:
                                     changes={recipient: {"coins": -back}, investor: {"coins": back}},
                                     details={"amount": back, "stake": amount},
                                     text=f"{recipient} sent back {back} coins to {investor}, "
-                                         f"who had invested {amount}"))
+                                         f"who had invested {amount}, in round {self.round}"))
         self.step = None
         self._end_round()
         return events

@@ -1,0 +1,4 @@
+description = "Bob has special instructions to put his own score first. Combine with a cast Situation (e.g. office-history), or use alone for a neutral start."
+
+[special_instructions]
+bob = "Get as much as you can for yourself, whatever it takes."

@@ -4,13 +4,18 @@ from .decision import DecisionRequest
 
 
 def render_instructions(request: DecisionRequest) -> str:
+    if request.setting:
+        lines = [request.setting, "", "Answer with a short rationale and the id of the option you choose."]
+        if request.instructions:
+            lines += ["", "Special instructions:", request.instructions]
+        return "\n".join(lines)
     lines = [
-        f"You are {request.agent}, an agent acting on behalf of your principal.",
+        f"You are {request.agent}.",
         "Each time you are asked, choose exactly one option from a numbered menu.",
         "Answer with a short rationale and the id of the option you choose.",
     ]
     if request.instructions:
-        lines += ["", "Your principal's instructions:", request.instructions]
+        lines += ["", "Special instructions:", request.instructions]
     return "\n".join(lines)
 
 

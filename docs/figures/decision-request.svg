@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="560" viewBox="0 0 1000 560" role="img" aria-label="A Decision Request, side by side for a work decision and a social decision. Both share the system prompt: overview, work introduction, social introduction, principal's instructions. The work decision's Briefing has the work and the agent's RUE state, then the work's own menu. The social decision's Briefing has only the RUE state, the event to judge, and RUE's top five options with reasons.">
+<style>
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+text { fill: #1b2226; font-size: 12px; }
+.t-title { font-size: 16px; font-weight: 600; }
+.t-h { font-size: 13px; font-weight: 600; }
+.t-m { fill: #5a6670; }
+.t-s { font-size: 11px; }
+.t-cap { font: 500 10.5px "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; fill: #5a6670; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 11px; }
+.ln { stroke: #1b2226; stroke-width: 1.4; fill: none; }
+.ln-m { stroke: #5a6670; stroke-width: 1.2; fill: none; }
+.ln-rue { stroke: #a85f0c; stroke-width: 1.6; fill: none; }
+.dash { stroke-dasharray: 4 4; }
+.b-work { fill: #e3ecf7; stroke: #2c66a8; stroke-width: 1.5; }
+.b-rue { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 1.5; }
+.b-agent { fill: #dcf0e6; stroke: #23805f; stroke-width: 1.5; }
+.b-sit { fill: #efe4f5; stroke: #7d45a0; stroke-width: 1.5; }
+.b-h { fill: #e7ebee; stroke: #56636c; stroke-width: 1.5; }
+.b-plain { fill: #ffffff; stroke: #c4cdd3; stroke-width: 1.2; }
+.b-inner { fill: #ffffff; stroke: #a85f0c; stroke-width: 1; }
+.b-hot { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 2.6; }
+.f-work { fill: #2c66a8; } svg .f-rue { fill: #a85f0c; } svg .f-agent { fill: #23805f; }
+.f-sit { fill: #7d45a0; } svg .f-h { fill: #56636c; }
+.s-work { fill: #e3ecf7; } svg .s-rue { fill: #f7e9d6; } svg .s-sit { fill: #efe4f5; }
+.s-h { fill: #e7ebee; }
+.s-none { fill: none; stroke: #c4cdd3; stroke-dasharray: 4 4; }
+.ah { fill: #1b2226; }
+.ah-m { fill: #5a6670; }
+.ah-rue { fill: #a85f0c; }
+</style>
+<rect width="1000" height="560" fill="#ffffff"/>
+        <!-- legend -->
+        <rect class="f-h" x="20" y="12" width="12" height="12" rx="2"/><text x="38" y="22">Harness</text>
+        <rect class="f-sit" x="110" y="12" width="12" height="12" rx="2"/><text x="128" y="22">Principal (Situation)</text>
+        <rect class="f-work" x="282" y="12" width="12" height="12" rx="2"/><text x="300" y="22">The work</text>
+        <rect class="f-rue" x="378" y="12" width="12" height="12" rx="2"/><text x="396" y="22">RUE</text>
+
+        <text class="t-title" x="250" y="66" text-anchor="middle">A work decision</text>
+        <text class="t-m" x="250" y="84" text-anchor="middle">once per step of the work</text>
+        <text class="t-title" x="750" y="66" text-anchor="middle">A social decision</text>
+        <text class="t-m" x="750" y="84" text-anchor="middle">at each of RUE's three stages</text>
+
+        <!-- Row 1: system prompt (both) -->
+        <rect class="b-plain" x="60" y="100" width="380" height="148" rx="8"/>
+        <rect class="b-plain" x="560" y="100" width="380" height="148" rx="8"/>
+        <text class="t-cap" x="76" y="120">SYSTEM PROMPT</text>
+        <text class="t-cap" x="576" y="120">SYSTEM PROMPT</text>
+        <g>
+          <rect class="s-h" x="76" y="130" width="348" height="24" rx="3"/><rect class="f-h" x="76" y="130" width="5" height="24"/>
+          <text x="90" y="146">Overview: who you are, who your colleagues are</text>
+          <rect class="s-work" x="76" y="158" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="158" width="5" height="24"/>
+          <text x="90" y="174">The work's introduction: the scene, not the rules</text>
+          <rect class="s-rue" x="76" y="186" width="348" height="24" rx="3"/><rect class="f-rue" x="76" y="186" width="5" height="24"/>
+          <text x="90" y="202">The social layer's introduction, abstract</text>
+          <rect class="s-sit" x="76" y="214" width="348" height="24" rx="3"/><rect class="f-sit" x="76" y="214" width="5" height="24"/>
+          <text x="90" y="230">Your principal's instructions</text>
+        </g>
+        <g>
+          <rect class="s-h" x="576" y="130" width="348" height="24" rx="3"/><rect class="f-h" x="576" y="130" width="5" height="24"/>
+          <text x="590" y="146">Overview: who you are, who your colleagues are</text>
+          <rect class="s-work" x="576" y="158" width="348" height="24" rx="3"/><rect class="f-work" x="576" y="158" width="5" height="24"/>
+          <text x="590" y="174">The work's introduction: the scene, not the rules</text>
+          <rect class="s-rue" x="576" y="186" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="186" width="5" height="24"/>
+          <text x="590" y="202">The social layer's introduction, abstract</text>
+          <rect class="s-sit" x="576" y="214" width="348" height="24" rx="3"/><rect class="f-sit" x="576" y="214" width="5" height="24"/>
+          <text x="590" y="230">Your principal's instructions</text>
+        </g>
+        <text class="t-m" x="500" y="178" text-anchor="middle">same</text>
+
+        <!-- Row 2: Briefing -->
+        <rect class="b-plain" x="60" y="262" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="76" y="282">BRIEFING</text>
+        <rect class="s-work" x="76" y="292" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="292" width="5" height="24"/>
+        <text x="90" y="308">The work: rules, your history, team velocity</text>
+        <rect class="s-rue" x="76" y="320" width="348" height="24" rx="3"/><rect class="f-rue" x="76" y="320" width="5" height="24"/>
+        <text x="90" y="336">Your RUE state: the shared world, then your store</text>
+
+        <rect class="b-plain" x="560" y="262" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="576" y="282">BRIEFING</text>
+        <rect class="s-rue" x="576" y="292" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="292" width="5" height="24"/>
+        <text x="590" y="308">Your RUE state: the shared world, then your store</text>
+        <rect class="s-none" x="576" y="320" width="348" height="24" rx="3"/>
+        <text class="t-m" x="590" y="336" font-style="italic">No work Briefing</text>
+
+        <!-- Row 3: the question -->
+        <rect class="b-plain" x="60" y="362" width="380" height="58" rx="8"/>
+        <text class="t-cap" x="76" y="382">THE QUESTION</text>
+        <rect class="s-work" x="76" y="390" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="390" width="5" height="24"/>
+        <text x="90" y="406">“Choose what to do with your bug this sprint.”</text>
+
+        <rect class="b-plain" x="560" y="362" width="380" height="58" rx="8"/>
+        <text class="t-cap" x="576" y="382">THE QUESTION</text>
+        <rect class="s-rue" x="576" y="390" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="390" width="5" height="24"/>
+        <text x="590" y="406">“bob passed their bug to alice.” What do you call it?</text>
+
+        <!-- Row 4: menu -->
+        <rect class="b-plain" x="60" y="434" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="76" y="454">THE MENU</text>
+        <rect class="s-work" x="76" y="464" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="464" width="5" height="24"/>
+        <text x="90" y="480">The work's own menu: every legal move</text>
+        <rect class="s-work" x="76" y="492" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="492" width="5" height="24"/>
+        <text x="90" y="508">costs stated, colleagues shuffled, no scores</text>
+
+        <rect class="b-plain" x="560" y="434" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="576" y="454">THE MENU</text>
+        <rect class="s-rue" x="576" y="464" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="464" width="5" height="24"/>
+        <text x="590" y="480">RUE's top five, shuffled, no scores</text>
+        <rect class="s-rue" x="576" y="492" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="492" width="5" height="24"/>
+        <text x="590" y="508">each with reasons: “You like dave 8 out of 10.”</text>
+
+        <text class="mono" x="250" y="546" text-anchor="middle">→ { rationale, choice }</text>
+        <text class="mono" x="750" y="546" text-anchor="middle">→ { rationale, choice }</text>
+      </svg>

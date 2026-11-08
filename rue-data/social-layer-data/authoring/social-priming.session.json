@@ -7,7 +7,9 @@
     "impulse-trusting",
     "impulse-wary",
     "impulse-charitable",
-    "impulse-reserved"
+    "impulse-reserved",
+    "impulse-conciliatory",
+    "impulse-already-expressed"
   ],
   "consideredPredicates": [
     {
@@ -37,6 +39,58 @@
     {
       "name": "leftAlone",
       "store": "world"
+    },
+    {
+      "name": "forgiving",
+      "store": "private"
+    },
+    {
+      "name": "suspicious",
+      "store": "private"
+    },
+    {
+      "name": "gossipy",
+      "store": "private"
+    },
+    {
+      "name": "proud",
+      "store": "private"
+    },
+    {
+      "name": "loyal",
+      "store": "private"
+    },
+    {
+      "name": "easygoing",
+      "store": "private"
+    },
+    {
+      "name": "grudge",
+      "store": "private"
+    },
+    {
+      "name": "grateful",
+      "store": "private"
+    },
+    {
+      "name": "friends",
+      "store": "private"
+    },
+    {
+      "name": "rival",
+      "store": "private"
+    },
+    {
+      "name": "believes",
+      "store": "private"
+    },
+    {
+      "name": "expressed",
+      "store": "private"
+    },
+    {
+      "name": "expressedDirectly",
+      "store": "private"
     }
   ],
   "excludedPredicates": {
@@ -47,17 +101,19 @@
     "judged, work_occurrence, social_occurrence, actionType": "bookkeeping, no meaning alone"
   },
   "notConsidered": {
-    "responsible": "alone it has no polarity; it gets one with the label (tier 2: judgedAs ^ responsible)",
+    "responsible": "now read without polarity (involvement raises warm and hostile alike, lowers reserved); with polarity it needs the label (tier 2)",
     "witnessed": "alone it has no polarity",
     "role": "work occurrences carry no roles; on social occurrences, being the one talked about is not something ?SELF witnessed, and being confided in needs the speaker (tier 2)",
     "judgedAs careless": "no clear single-premise effect on ?SELF's own charity or reserve",
-    "leftAlone(?B)": "?SELF can't know nobody did anything to ?B"
+    "leftAlone(?B)": "?SELF can't know nobody did anything to ?B",
+    "loyal": "a trait about friends: needs friends(?SELF, ?B) as a second premise (tier 2)"
   },
   "notes": [
     "Every stage binds the agent choosing as ?SELF; RUE keeps same-type variables distinct, so rules are written about ?SELF.",
     "judgedAs label slots must be literals: a variable there matches nothing (labels are strings, not entities).",
     "Label rules use [asserted-during: 2] (this round and last) so permanent label records don't pile up over a long run.",
-    "First pass chosen without item-by-item review (Mike, Nov 7: he reviews later)."
+    "First pass chosen without item-by-item review (Mike, Nov 7: he reviews later).",
+    "In judgement stages ?OCC is the occurrence being judged; a rule over a fresh ?O can never match it (distinct variables), so rules about the event being judged use ?OCC."
   ],
   "tier": 1,
   "queue": [
@@ -241,7 +297,8 @@
       "ruleName": "had no real opinion lately: more reserved",
       "ruleText": "rule \"had no real opinion lately: more reserved\"\n    ?SELF.judgedAs(?O, \"no real opinion\") [asserted-during: 2]\n    => impulse-reserved(?SELF) += 1",
       "weight": 1,
-      "status": "approved"
+      "status": "excluded",
+      "note": "Removed Nov 7 after a gemini-flash run: each neutral verdict became a reason for the next, and neutrality locked in."
     },
     {
       "id": 15,
@@ -255,6 +312,432 @@
       "ruleText": "rule \"left alone this round: more reserved\"\n    leftAlone(?SELF)\n    => impulse-reserved(?SELF) += 1",
       "weight": 1,
       "status": "approved"
+    },
+    {
+      "id": 16,
+      "tier": 1,
+      "target": "impulse-warm",
+      "considered": "responsible",
+      "store": "private",
+      "binding": "?SELF.responsible(?OCC, ?B) [asserted-during: 1]",
+      "count": true,
+      "ruleName": "someone did something you know of: warmer toward them",
+      "ruleText": "rule \"someone did something you know of: warmer toward them\"\n    ?SELF.responsible(?OCC, ?B) [asserted-during: 1]\n    => impulse-warm(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Added Nov 7: involvement without direction, so options other than neutral have pull."
+    },
+    {
+      "id": 17,
+      "tier": 1,
+      "target": "impulse-hostile",
+      "considered": "responsible",
+      "store": "private",
+      "binding": "?SELF.responsible(?OCC, ?B) [asserted-during: 1]",
+      "count": true,
+      "ruleName": "someone did something you know of: more hostile toward them",
+      "ruleText": "rule \"someone did something you know of: more hostile toward them\"\n    ?SELF.responsible(?OCC, ?B) [asserted-during: 1]\n    => impulse-hostile(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Added Nov 7: involvement without direction, so options other than neutral have pull."
+    },
+    {
+      "id": 18,
+      "tier": 1,
+      "target": "impulse-reserved",
+      "considered": "responsible",
+      "store": "private",
+      "binding": "?SELF.responsible(?OCC, ?B) [asserted-during: 1]",
+      "count": true,
+      "ruleName": "someone did something you know of: less reserved",
+      "ruleText": "rule \"someone did something you know of: less reserved\"\n    ?SELF.responsible(?OCC, ?B) [asserted-during: 1]\n    => impulse-reserved(?SELF) -= 1",
+      "weight": -1,
+      "status": "approved",
+      "note": "Added Nov 7: involvement without direction, so options other than neutral have pull."
+    },
+    {
+      "id": 19,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "forgiving",
+      "store": "private",
+      "binding": "?SELF.forgiving(?SELF)",
+      "count": false,
+      "ruleName": "forgiving: gives the benefit of the doubt",
+      "ruleText": "rule \"forgiving: gives the benefit of the doubt\"\n  ?SELF.forgiving(?SELF)\n  => impulse-charitable(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 20,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "suspicious",
+      "store": "private",
+      "binding": "?SELF.suspicious(?SELF)",
+      "count": false,
+      "ruleName": "suspicious: slow to give the benefit of the doubt",
+      "ruleText": "rule \"suspicious: slow to give the benefit of the doubt\"\n  ?SELF.suspicious(?SELF)\n  => impulse-charitable(...) -= 1",
+      "weight": -1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 21,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "proud",
+      "store": "private",
+      "binding": "?SELF.proud(?SELF)",
+      "count": false,
+      "ruleName": "proud: slow to give the benefit of the doubt",
+      "ruleText": "rule \"proud: slow to give the benefit of the doubt\"\n  ?SELF.proud(?SELF)\n  => impulse-charitable(...) -= 1",
+      "weight": -1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 22,
+      "tier": 1,
+      "target": "impulse-reserved",
+      "considered": "gossipy",
+      "store": "private",
+      "binding": "?SELF.gossipy(?SELF)",
+      "count": false,
+      "ruleName": "gossipy: likes to talk",
+      "ruleText": "rule \"gossipy: likes to talk\"\n  ?SELF.gossipy(?SELF)\n  => impulse-reserved(...) -= 2",
+      "weight": -2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 23,
+      "tier": 1,
+      "target": "impulse-charitable",
+      "considered": "easygoing",
+      "store": "private",
+      "binding": "?SELF.easygoing(?SELF)",
+      "count": false,
+      "ruleName": "easygoing: gives the benefit of the doubt",
+      "ruleText": "rule \"easygoing: gives the benefit of the doubt\"\n  ?SELF.easygoing(?SELF)\n  => impulse-charitable(...) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 24,
+      "tier": 1,
+      "target": "impulse-reserved",
+      "considered": "easygoing",
+      "store": "private",
+      "binding": "?SELF.easygoing(?SELF)",
+      "count": false,
+      "ruleName": "easygoing: content to keep out of it",
+      "ruleText": "rule \"easygoing: content to keep out of it\"\n  ?SELF.easygoing(?SELF)\n  => impulse-reserved(...) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 25,
+      "tier": 1,
+      "target": "impulse-hostile",
+      "considered": "grudge",
+      "store": "private",
+      "binding": "?SELF.grudge(?SELF, ?B) > 0",
+      "count": true,
+      "ruleName": "a grudge: hostile",
+      "ruleText": "rule \"a grudge: hostile\"\n  ?SELF.grudge(?SELF, ?B) > 0\n  => impulse-hostile(...) += ?SELF.grudge(?SELF, ?B)",
+      "weight": "?SELF.grudge(?SELF, ?B)",
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 26,
+      "tier": 1,
+      "target": "impulse-conciliatory",
+      "considered": "grudge",
+      "store": "private",
+      "binding": "?SELF.grudge(?SELF, ?B) > 0",
+      "count": true,
+      "ruleName": "a grudge: in no mood to make up",
+      "ruleText": "rule \"a grudge: in no mood to make up\"\n  ?SELF.grudge(?SELF, ?B) > 0\n  => impulse-conciliatory(...) -= 1",
+      "weight": -1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 27,
+      "tier": 1,
+      "target": "impulse-warm",
+      "considered": "grateful",
+      "store": "private",
+      "binding": "?SELF.grateful(?SELF, ?B) > 0",
+      "count": true,
+      "ruleName": "gratitude: warm",
+      "ruleText": "rule \"gratitude: warm\"\n  ?SELF.grateful(?SELF, ?B) > 0\n  => impulse-warm(...) += ?SELF.grateful(?SELF, ?B)",
+      "weight": "?SELF.grateful(?SELF, ?B)",
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 28,
+      "tier": 1,
+      "target": "impulse-conciliatory",
+      "considered": "grateful",
+      "store": "private",
+      "binding": "?SELF.grateful(?SELF, ?B) > 0",
+      "count": true,
+      "ruleName": "gratitude: wants things good between you",
+      "ruleText": "rule \"gratitude: wants things good between you\"\n  ?SELF.grateful(?SELF, ?B) > 0\n  => impulse-conciliatory(...) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 29,
+      "tier": 1,
+      "target": "impulse-conciliatory",
+      "considered": "likes",
+      "store": "private",
+      "binding": "?SELF.likes(?SELF, ?B) > 5",
+      "count": true,
+      "ruleName": "liking: wants things good between you",
+      "ruleText": "rule \"liking: wants things good between you\"\n  ?SELF.likes(?SELF, ?B) > 5\n  => impulse-conciliatory(...) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 30,
+      "tier": 1,
+      "target": "impulse-warm",
+      "considered": "friends",
+      "store": "private",
+      "binding": "?SELF.friends(?SELF, ?B)",
+      "count": true,
+      "ruleName": "a friend: warm",
+      "ruleText": "rule \"a friend: warm\"\n  ?SELF.friends(?SELF, ?B)\n  => impulse-warm(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 31,
+      "tier": 1,
+      "target": "impulse-trusting",
+      "considered": "friends",
+      "store": "private",
+      "binding": "?SELF.friends(?SELF, ?B)",
+      "count": true,
+      "ruleName": "a friend: trusting",
+      "ruleText": "rule \"a friend: trusting\"\n  ?SELF.friends(?SELF, ?B)\n  => impulse-trusting(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 32,
+      "tier": 1,
+      "target": "impulse-conciliatory",
+      "considered": "friends",
+      "store": "private",
+      "binding": "?SELF.friends(?SELF, ?B)",
+      "count": true,
+      "ruleName": "a friend: wants things good between you",
+      "ruleText": "rule \"a friend: wants things good between you\"\n  ?SELF.friends(?SELF, ?B)\n  => impulse-conciliatory(...) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 33,
+      "tier": 1,
+      "target": "impulse-hostile",
+      "considered": "rival",
+      "store": "private",
+      "binding": "?SELF.rival(?SELF, ?B)",
+      "count": true,
+      "ruleName": "a rival: hostile",
+      "ruleText": "rule \"a rival: hostile\"\n  ?SELF.rival(?SELF, ?B)\n  => impulse-hostile(...) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 34,
+      "tier": 1,
+      "target": "impulse-wary",
+      "considered": "rival",
+      "store": "private",
+      "binding": "?SELF.rival(?SELF, ?B)",
+      "count": true,
+      "ruleName": "a rival: wary",
+      "ruleText": "rule \"a rival: wary\"\n  ?SELF.rival(?SELF, ?B)\n  => impulse-wary(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 35,
+      "tier": 1,
+      "target": "impulse-hostile",
+      "considered": "believes",
+      "store": "private",
+      "binding": "?SELF.believes(?SELF, ?B, \"selfish\")",
+      "count": true,
+      "ruleName": "believes they're selfish: hostile",
+      "ruleText": "rule \"believes they're selfish: hostile\"\n  ?SELF.believes(?SELF, ?B, \"selfish\")\n  => impulse-hostile(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 36,
+      "tier": 1,
+      "target": "impulse-wary",
+      "considered": "believes",
+      "store": "private",
+      "binding": "?SELF.believes(?SELF, ?B, \"careless\")",
+      "count": true,
+      "ruleName": "believes they're careless: wary",
+      "ruleText": "rule \"believes they're careless: wary\"\n  ?SELF.believes(?SELF, ?B, \"careless\")\n  => impulse-wary(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 37,
+      "tier": 1,
+      "target": "impulse-warm",
+      "considered": "believes",
+      "store": "private",
+      "binding": "?SELF.believes(?SELF, ?B, \"generous\")",
+      "count": true,
+      "ruleName": "believes they're generous: warm",
+      "ruleText": "rule \"believes they're generous: warm\"\n  ?SELF.believes(?SELF, ?B, \"generous\")\n  => impulse-warm(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 38,
+      "tier": 1,
+      "target": "impulse-trusting",
+      "considered": "believes",
+      "store": "private",
+      "binding": "?SELF.believes(?SELF, ?B, \"fair\")",
+      "count": true,
+      "ruleName": "believes they're fair: trusting",
+      "ruleText": "rule \"believes they're fair: trusting\"\n  ?SELF.believes(?SELF, ?B, \"fair\")\n  => impulse-trusting(...) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Second pass, Nov 7: traits and the richer relationships."
+    },
+    {
+      "id": 39,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressed",
+      "store": "private",
+      "binding": "?SELF.expressed(?SELF, ?Y, ?B, \"selfish\") [asserted-during: 3]",
+      "ruleName": "told them someone is selfish recently: less to add",
+      "ruleText": "rule \"told them someone is selfish recently: less to add\"\n  ?SELF.expressed(?SELF, ?Y, ?B, \"selfish\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?Y, ?B, \"selfish\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 40,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressed",
+      "store": "private",
+      "binding": "?SELF.expressed(?SELF, ?Y, ?B, \"careless\") [asserted-during: 3]",
+      "ruleName": "told them someone is careless recently: less to add",
+      "ruleText": "rule \"told them someone is careless recently: less to add\"\n  ?SELF.expressed(?SELF, ?Y, ?B, \"careless\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?Y, ?B, \"careless\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 41,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressed",
+      "store": "private",
+      "binding": "?SELF.expressed(?SELF, ?Y, ?B, \"generous\") [asserted-during: 3]",
+      "ruleName": "told them someone is generous recently: less to add",
+      "ruleText": "rule \"told them someone is generous recently: less to add\"\n  ?SELF.expressed(?SELF, ?Y, ?B, \"generous\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?Y, ?B, \"generous\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 42,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressed",
+      "store": "private",
+      "binding": "?SELF.expressed(?SELF, ?Y, ?B, \"fair\") [asserted-during: 3]",
+      "ruleName": "told them someone is fair recently: less to add",
+      "ruleText": "rule \"told them someone is fair recently: less to add\"\n  ?SELF.expressed(?SELF, ?Y, ?B, \"fair\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?Y, ?B, \"fair\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 43,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressedDirectly",
+      "store": "private",
+      "binding": "?SELF.expressedDirectly(?SELF, ?B, \"confronted\") [asserted-during: 3]",
+      "ruleName": "confronted them recently: less to add",
+      "ruleText": "rule \"confronted them recently: less to add\"\n  ?SELF.expressedDirectly(?SELF, ?B, \"confronted\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?B, ?B, \"confronted\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 44,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressedDirectly",
+      "store": "private",
+      "binding": "?SELF.expressedDirectly(?SELF, ?B, \"thanked\") [asserted-during: 3]",
+      "ruleName": "thanked them recently: less to add",
+      "ruleText": "rule \"thanked them recently: less to add\"\n  ?SELF.expressedDirectly(?SELF, ?B, \"thanked\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?B, ?B, \"thanked\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 45,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressedDirectly",
+      "store": "private",
+      "binding": "?SELF.expressedDirectly(?SELF, ?B, \"apologised to\") [asserted-during: 3]",
+      "ruleName": "apologised to them recently: less to add",
+      "ruleText": "rule \"apologised to them recently: less to add\"\n  ?SELF.expressedDirectly(?SELF, ?B, \"apologised to\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?B, ?B, \"apologised to\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 46,
+      "tier": 1,
+      "target": "impulse-already-expressed",
+      "considered": "expressedDirectly",
+      "store": "private",
+      "binding": "?SELF.expressedDirectly(?SELF, ?B, \"given the cold shoulder to\") [asserted-during: 3]",
+      "ruleName": "given the cold shoulder to them recently: less to add",
+      "ruleText": "rule \"given the cold shoulder to them recently: less to add\"\n  ?SELF.expressedDirectly(?SELF, ?B, \"given the cold shoulder to\") [asserted-during: 3]\n  => impulse-already-expressed(?SELF, ?B, ?B, \"given the cold shoulder to\") += 3",
+      "weight": 3,
+      "status": "approved",
+      "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
     }
   ]
 }

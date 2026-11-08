@@ -8,6 +8,7 @@ ruleset "social-priming"
   #   impulse-wary(?A, ?B)      the pull toward doubting what ?B says
   #   impulse-charitable(?A)    the pull toward the benefit of the doubt
   #   impulse-reserved(?A)      the pull toward keeping out of it
+  #   impulse-conciliatory(?A, ?B) the pull toward mending things with ?B
   # Impulses are ephemeral (reset every tick) and may go negative.
   #
   # The priming rules of all three stages (work judgement, social actions,
@@ -90,9 +91,6 @@ ruleset "social-priming"
     ?SELF.judgedAs(?O, "bad luck") [asserted-during: 2]
     => impulse-charitable(?SELF) += 1
 
-  rule "had no real opinion lately: more reserved"
-    ?SELF.judgedAs(?O, "no real opinion") [asserted-during: 2]
-    => impulse-reserved(?SELF) += 1
 
   # Left alone: nobody did anything to ?SELF this round that ?SELF can put a
   # name to, so less to say.
@@ -100,3 +98,155 @@ ruleset "social-priming"
   rule "left alone this round: more reserved"
     leftAlone(?SELF)
     => impulse-reserved(?SELF) += 1
+
+  # Involvement: someone ?SELF holds responsible for something this round (they
+  # did something ?SELF witnessed, publicly or not, or ?SELF named them) gives
+  # ?SELF something to say about them, either way: it raises warm and hostile
+  # alike and lowers reserved. It never says whether what they did was good or
+  # bad; the agent's choice does (Nov 7, after a run where neutrality locked
+  # in: no other option had any pull, and each neutral verdict fed the next).
+  # Written with ?OCC: a judgement stage binds the occurrence being judged as
+  # ?OCC, so these read that one event there (a fresh ?O could never be it:
+  # RUE keeps same-type variables distinct), and every recent one elsewhere.
+
+  rule "someone did something you know of: warmer toward them"
+    ?SELF.responsible(?OCC, ?B) [asserted-during: 1]
+    => impulse-warm(?SELF, ?B) += 1
+
+  rule "someone did something you know of: more hostile toward them"
+    ?SELF.responsible(?OCC, ?B) [asserted-during: 1]
+    => impulse-hostile(?SELF, ?B) += 1
+
+  rule "someone did something you know of: less reserved"
+    ?SELF.responsible(?OCC, ?B) [asserted-during: 1]
+    => impulse-reserved(?SELF) -= 1
+
+  # ── Tier 1, second pass (Nov 7): traits and the richer relationships ──
+  # Traits are ?SELF's own (in its own store). A trait alone can only move
+  # the impulses about ?SELF (charitable, reserved); how a trait colours a
+  # particular relationship (loyal to a friend) needs a second premise, tier 2.
+
+  rule "forgiving: gives the benefit of the doubt"
+    ?SELF.forgiving(?SELF)
+    => impulse-charitable(?SELF) += 2
+
+  rule "suspicious: slow to give the benefit of the doubt"
+    ?SELF.suspicious(?SELF)
+    => impulse-charitable(?SELF) -= 1
+
+  rule "proud: slow to give the benefit of the doubt"
+    ?SELF.proud(?SELF)
+    => impulse-charitable(?SELF) -= 1
+
+  rule "gossipy: likes to talk"
+    ?SELF.gossipy(?SELF)
+    => impulse-reserved(?SELF) -= 2
+
+  rule "easygoing: gives the benefit of the doubt"
+    ?SELF.easygoing(?SELF)
+    => impulse-charitable(?SELF) += 1
+
+  rule "easygoing: content to keep out of it"
+    ?SELF.easygoing(?SELF)
+    => impulse-reserved(?SELF) += 1
+
+  # A grudge and gratitude, in proportion to how strongly ?SELF holds them.
+
+  rule "a grudge: hostile"
+    ?SELF.grudge(?SELF, ?B) > 0
+    => impulse-hostile(?SELF, ?B) += ?SELF.grudge(?SELF, ?B)
+
+  rule "a grudge: in no mood to make up"
+    ?SELF.grudge(?SELF, ?B) > 0
+    => impulse-conciliatory(?SELF, ?B) -= 1
+
+  rule "gratitude: warm"
+    ?SELF.grateful(?SELF, ?B) > 0
+    => impulse-warm(?SELF, ?B) += ?SELF.grateful(?SELF, ?B)
+
+  rule "gratitude: wants things good between you"
+    ?SELF.grateful(?SELF, ?B) > 0
+    => impulse-conciliatory(?SELF, ?B) += 1
+
+  rule "liking: wants things good between you"
+    ?SELF.likes(?SELF, ?B) > 5
+    => impulse-conciliatory(?SELF, ?B) += 1
+
+  # Friends and rivals.
+
+  rule "a friend: warm"
+    ?SELF.friends(?SELF, ?B)
+    => impulse-warm(?SELF, ?B) += 2
+
+  rule "a friend: trusting"
+    ?SELF.friends(?SELF, ?B)
+    => impulse-trusting(?SELF, ?B) += 2
+
+  rule "a friend: wants things good between you"
+    ?SELF.friends(?SELF, ?B)
+    => impulse-conciliatory(?SELF, ?B) += 1
+
+  rule "a rival: hostile"
+    ?SELF.rival(?SELF, ?B)
+    => impulse-hostile(?SELF, ?B) += 1
+
+  rule "a rival: wary"
+    ?SELF.rival(?SELF, ?B)
+    => impulse-wary(?SELF, ?B) += 2
+
+  # What ?SELF has come to believe about someone (from gossip it believed).
+
+  rule "believes they're selfish: hostile"
+    ?SELF.believes(?SELF, ?B, "selfish")
+    => impulse-hostile(?SELF, ?B) += 2
+
+  rule "believes they're careless: wary"
+    ?SELF.believes(?SELF, ?B, "careless")
+    => impulse-wary(?SELF, ?B) += 2
+
+  rule "believes they're generous: warm"
+    ?SELF.believes(?SELF, ?B, "generous")
+    => impulse-warm(?SELF, ?B) += 2
+
+  rule "believes they're fair: trusting"
+    ?SELF.believes(?SELF, ?B, "fair")
+    => impulse-trusting(?SELF, ?B) += 2
+
+  # ── Repetition (Nov 7) ──
+  # Something ?SELF expressed in the last three rounds (this one included)
+  # pulls less the next time: impulse-already-expressed, which that action's
+  # utility subtracts. Only the same thing to the same person; a different
+  # claim, or the same claim to someone else, is unaffected. One rule per
+  # label, since a variable in a label slot matches nothing.
+
+  rule "told them someone is selfish recently: less to add"
+    ?SELF.expressed(?SELF, ?Y, ?B, "selfish") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?Y, ?B, "selfish") += 3
+
+  rule "told them someone is careless recently: less to add"
+    ?SELF.expressed(?SELF, ?Y, ?B, "careless") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?Y, ?B, "careless") += 3
+
+  rule "told them someone is generous recently: less to add"
+    ?SELF.expressed(?SELF, ?Y, ?B, "generous") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?Y, ?B, "generous") += 3
+
+  rule "told them someone is fair recently: less to add"
+    ?SELF.expressed(?SELF, ?Y, ?B, "fair") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?Y, ?B, "fair") += 3
+
+  rule "confronted them recently: less to add"
+    ?SELF.expressedDirectly(?SELF, ?B, "confronted") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?B, ?B, "confronted") += 3
+
+  rule "thanked them recently: less to add"
+    ?SELF.expressedDirectly(?SELF, ?B, "thanked") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?B, ?B, "thanked") += 3
+
+  rule "apologised to them recently: less to add"
+    ?SELF.expressedDirectly(?SELF, ?B, "apologised to") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?B, ?B, "apologised to") += 3
+
+  rule "given the cold shoulder to them recently: less to add"
+    ?SELF.expressedDirectly(?SELF, ?B, "given the cold shoulder to") [asserted-during: 3]
+    => impulse-already-expressed(?SELF, ?B, ?B, "given the cold shoulder to") += 3

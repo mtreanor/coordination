@@ -34,6 +34,10 @@ class RueClient:
         stages ([] or None: any stage). With no agents and no stages, RUE chooses everything."""
         self._post("/config", {"controlled": {"agents": agents, "stages": stages or []}})
 
+    def set_reason_template(self, template: str) -> None:
+        """The text template RUE renders served candidates' reasons with."""
+        self._post("/config", {"reasonTemplate": template})
+
     def set_plan(self, phases: list[dict] | None) -> None:
         """Replace what the next tick runs: [{actionGraph, loop?, bindings?} | {ruleset}], or None
         for the scenario's default tick plan."""
@@ -67,8 +71,12 @@ class RueClient:
         """The text of every active fact whose predicate has the named template, from the
         world store or one entity's private store (RUE's predicate toString templates), in
         the order asserted; with skip_defaults, not numeric facts at their default."""
+        return [r["text"] for r in self.render_facts(template, owner, skip_defaults)]
+
+    def render_facts(self, template: str, owner: str | None = None, skip_defaults: bool = False) -> list[dict]:
+        """Like render, with each fact: {name, args, value, negated, text}."""
         body = {"template": template, "skipDefaults": skip_defaults, **({"owner": owner} if owner else {})}
-        return [r["text"] for r in self._post("/render", body)["rendered"]]
+        return self._post("/render", body)["rendered"]
 
     def entities(self, entity_type: str) -> list[str]:
         """The names of every entity of one type in the running session."""

@@ -30,8 +30,11 @@ class DecisionRequest(BaseModel):
     """Everything an agent is shown for one decision (see CONTEXT.md: Decision Request)."""
 
     agent: str
+    setting: str = ""
+    """The agent's standing introduction: who it is, the work, and the social world.
+    Empty for callers that don't set one (render_instructions then says less)."""
     instructions: str = ""
-    """The principal's instructions to its agent."""
+    """Special instructions for this agent (a Situation's), if any."""
     briefing: str = ""
     """The situation the agent is shown, already rendered as text."""
     options: list[Option]

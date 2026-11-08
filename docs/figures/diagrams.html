@@ -1,0 +1,584 @@
+<title>Coordination Testbed Diagrams</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Serif:wght@500;600&display=swap">
+<style>
+/* Layout: one reading column of figures; each figure scrolls sideways on its own on a phone.
+   Color encodes where a thing comes from: the work (blue), RUE (ochre), the agents (green),
+   the principal's Situation (violet), the harness (slate). */
+:root {
+  --bg: #f4f6f7;
+  --surface: #ffffff;
+  --fg: #1b2226;
+  --muted: #5a6670;
+  --line: #c4cdd3;
+  --work: #2c66a8;  --work-bg: #e3ecf7;
+  --rue: #a85f0c;   --rue-bg: #f7e9d6;
+  --agent: #23805f; --agent-bg: #dcf0e6;
+  --sit: #7d45a0;   --sit-bg: #efe4f5;
+  --harness: #56636c; --harness-bg: #e7ebee;
+  --display: "IBM Plex Serif", Georgia, serif;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12171a; --surface: #1a2125; --fg: #e3e8ea; --muted: #9aa6ae; --line: #3a454c;
+    --work: #78a9e2; --work-bg: #1a2a3c;
+    --rue: #e2a259; --rue-bg: #392815;
+    --agent: #5fc59e; --agent-bg: #15302a;
+    --sit: #c391e0; --sit-bg: #2d2137;
+    --harness: #9aa6ae; --harness-bg: #232b30;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12171a; --surface: #1a2125; --fg: #e3e8ea; --muted: #9aa6ae; --line: #3a454c;
+  --work: #78a9e2; --work-bg: #1a2a3c;
+  --rue: #e2a259; --rue-bg: #392815;
+  --agent: #5fc59e; --agent-bg: #15302a;
+  --sit: #c391e0; --sit-bg: #2d2137;
+  --harness: #9aa6ae; --harness-bg: #232b30;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font: 16px/1.6 var(--sans);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+}
+main { max-width: 1120px; margin: 0 auto; display: grid; gap: 56px; }
+header { max-width: 68ch; display: grid; gap: 10px; }
+.eyebrow { font: 500 12px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 600 clamp(28px, 4.4vw, 40px)/1.15 var(--display); margin: 0; text-wrap: balance; }
+h2 { font: 600 24px/1.25 var(--display); margin: 0; text-wrap: balance; }
+p { margin: 0; }
+.lede { color: var(--muted); font-size: 17px; }
+section { display: grid; gap: 16px; }
+section > .text { max-width: 68ch; display: grid; gap: 10px; }
+.num { font: 500 13px/1 var(--mono); color: var(--muted); }
+code { font: 0.9em var(--mono); }
+
+figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.scroll { overflow-x: auto; padding: 20px 20px 8px; }
+figure svg { display: block; width: 100%; min-width: 780px; height: auto; color: var(--fg); font-family: var(--sans); }
+figcaption { padding: 12px 20px 18px; color: var(--muted); font-size: 14.5px; max-width: 80ch; }
+
+/* SVG vocabulary */
+svg text { fill: var(--fg); font-size: 12px; }
+svg .t-title { font-size: 16px; font-weight: 600; }
+svg .t-h { font-size: 13px; font-weight: 600; }
+svg .t-m { fill: var(--muted); }
+svg .t-s { font-size: 11px; }
+svg .t-cap { font: 500 10.5px var(--mono); letter-spacing: .08em; fill: var(--muted); }
+svg .mono { font-family: var(--mono); font-size: 11px; }
+svg .ln { stroke: currentColor; stroke-width: 1.4; fill: none; }
+svg .ln-m { stroke: var(--muted); stroke-width: 1.2; fill: none; }
+svg .ln-rue { stroke: var(--rue); stroke-width: 1.6; fill: none; }
+svg .dash { stroke-dasharray: 4 4; }
+svg .b-work { fill: var(--work-bg); stroke: var(--work); stroke-width: 1.5; }
+svg .b-rue { fill: var(--rue-bg); stroke: var(--rue); stroke-width: 1.5; }
+svg .b-agent { fill: var(--agent-bg); stroke: var(--agent); stroke-width: 1.5; }
+svg .b-sit { fill: var(--sit-bg); stroke: var(--sit); stroke-width: 1.5; }
+svg .b-h { fill: var(--harness-bg); stroke: var(--harness); stroke-width: 1.5; }
+svg .b-plain { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+svg .b-inner { fill: var(--surface); stroke: var(--rue); stroke-width: 1; }
+svg .b-hot { fill: var(--rue-bg); stroke: var(--rue); stroke-width: 2.6; }
+svg .f-work { fill: var(--work); } svg .f-rue { fill: var(--rue); } svg .f-agent { fill: var(--agent); }
+svg .f-sit { fill: var(--sit); } svg .f-h { fill: var(--harness); }
+svg .s-work { fill: var(--work-bg); } svg .s-rue { fill: var(--rue-bg); } svg .s-sit { fill: var(--sit-bg); }
+svg .s-h { fill: var(--harness-bg); }
+svg .s-none { fill: none; stroke: var(--line); stroke-dasharray: 4 4; }
+svg .ah { fill: currentColor; }
+svg .ah-m { fill: var(--muted); }
+svg .ah-rue { fill: var(--rue); }
+
+/* The worked example */
+.example { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; }
+.example > div { padding: 20px; min-width: 0; display: grid; gap: 12px; align-content: start; }
+.example > div + div { border-left: 1px solid var(--line); }
+.label { font: 500 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.facts { margin: 0; padding: 0; list-style: none; font: 13px/1.55 var(--mono); display: grid; gap: 2px; }
+.facts li { padding-left: 14px; text-indent: -14px; }
+.facts li::before { content: "- "; color: var(--muted); }
+.ask { font-size: 15px; border-left: 3px solid var(--rue); padding: 4px 0 4px 12px; }
+.menu { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; counter-reset: opt; }
+.menu li { counter-increment: opt; background: var(--rue-bg); border-radius: 6px; padding: 8px 12px 9px 40px; position: relative; }
+.menu li::before { content: counter(opt); position: absolute; left: 12px; top: 8px; font: 500 13px var(--mono); color: var(--rue); }
+.menu li.picked { outline: 2px solid var(--agent); }
+.menu .opt { font-weight: 500; }
+.menu .why { font: 12.5px/1.5 var(--mono); color: var(--muted); }
+.menu .why.none { font-style: italic; font-family: var(--sans); }
+.answer { font: 13px/1.5 var(--mono); background: var(--agent-bg); border-radius: 6px; padding: 8px 12px; }
+.chip { display: inline-block; font: 500 11px/1 var(--mono); padding: 4px 7px; border-radius: 4px; background: var(--harness-bg); color: var(--muted); }
+@media (max-width: 760px) {
+  .example { grid-template-columns: minmax(0, 1fr); }
+  .example > div + div { border-left: 0; border-top: 1px solid var(--line); }
+}
+</style>
+
+<main>
+  <header>
+    <div class="eyebrow">Coordination testbed · Nov 7, 2026</div>
+    <h1>How a Run works</h1>
+    <p class="lede">Agents, each working for its own principal, do a piece of work together. Alongside the work runs a separate social channel, modeled in RUE. These diagrams show how the two meet, what happens inside one RUE tick, and what an agent is shown when it has to choose.</p>
+  </header>
+
+  <!-- 1. Overview -->
+  <section>
+    <div class="text">
+      <span class="num">1</span>
+      <h2>The system</h2>
+      <p>The work and RUE never talk to each other directly. The Run sits between them and is the only part that asks the agents anything. The numbers on the arrows are a round's phases, in order.</p>
+    </div>
+    <figure>
+      <div class="scroll">
+      <svg viewBox="0 0 1100 550" role="img" aria-label="The Run sits between the work, RUE and the agents. The work reports events and state to the Run, the Run mirrors them into RUE, RUE returns ranked social menus with reasons, and the Run sends every Decision Request to the agents and logs everything.">
+        <defs>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a1m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-m" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <!-- Run config -->
+        <rect class="b-h" x="420" y="14" width="260" height="62" rx="8"/>
+        <text class="t-h" x="550" y="40" text-anchor="middle">Run config (TOML)</text>
+        <text class="t-s t-m" x="550" y="60" text-anchor="middle">work, agents, Situation, choosers, seed</text>
+        <line class="ln" x1="550" y1="76" x2="550" y2="166" marker-end="url(#a1)"/>
+        <text class="t-s t-m" x="558" y="126">sets up</text>
+
+        <!-- The Run -->
+        <rect class="b-h" x="420" y="170" width="260" height="170" rx="10"/>
+        <text class="t-title" x="550" y="198" text-anchor="middle">The Run</text>
+        <text class="t-m" x="550" y="217" text-anchor="middle">the Python harness</text>
+        <text x="550" y="248" text-anchor="middle">sequences every round</text>
+        <text x="550" y="268" text-anchor="middle">builds each Decision Request</text>
+        <text x="550" y="288" text-anchor="middle">shuffles menus, hides RUE's scores</text>
+        <text x="550" y="308" text-anchor="middle">writes the log</text>
+
+        <!-- The work -->
+        <rect class="b-work" x="20" y="150" width="260" height="210" rx="10"/>
+        <text class="t-title" x="150" y="178" text-anchor="middle">The work</text>
+        <text class="t-m" x="150" y="197" text-anchor="middle">outside RUE, rules in code</text>
+        <text x="150" y="228" text-anchor="middle">owns its state and its clock</text>
+        <text x="150" y="248" text-anchor="middle">gives each agent a menu</text>
+        <text x="150" y="268" text-anchor="middle">resolves all moves at once</text>
+        <rect class="b-plain" x="34" y="290" width="106" height="24" rx="4"/>
+        <text class="t-s" x="87" y="306" text-anchor="middle">Investment Club</text>
+        <rect class="b-plain" x="146" y="290" width="82" height="24" rx="4"/>
+        <text class="t-s" x="187" y="306" text-anchor="middle">Not My Bug</text>
+        <rect class="b-plain" x="234" y="290" width="38" height="24" rx="4"/>
+        <text class="t-s" x="253" y="306" text-anchor="middle">Stub</text>
+        <text class="t-s t-m" x="150" y="340" text-anchor="middle">switched by one line of config</text>
+
+        <!-- RUE -->
+        <rect class="b-rue" x="820" y="150" width="260" height="210" rx="10"/>
+        <text class="t-title" x="950" y="178" text-anchor="middle">RUE</text>
+        <text class="t-m" x="950" y="197" text-anchor="middle">the social layer</text>
+        <rect class="b-inner" x="840" y="210" width="220" height="26" rx="4"/>
+        <text x="950" y="227" text-anchor="middle">shared world store</text>
+        <rect class="b-inner" x="840" y="242" width="220" height="26" rx="4"/>
+        <text x="950" y="259" text-anchor="middle">a private store per agent</text>
+        <text class="t-m" x="950" y="292" text-anchor="middle">one tick per round:</text>
+        <text x="950" y="311" text-anchor="middle">work judgement → social actions</text>
+        <text x="950" y="329" text-anchor="middle">→ social judgement</text>
+        <text class="t-s t-m" x="950" y="380" text-anchor="middle" font-style="italic">switched off in the work-only condition</text>
+
+        <!-- Run ↔ work -->
+        <line class="ln" x1="418" y1="215" x2="284" y2="215" marker-end="url(#a1)"/>
+        <text x="351" y="205" text-anchor="middle">1 · work decisions</text>
+        <line class="ln" x1="282" y1="290" x2="416" y2="290" marker-end="url(#a1)"/>
+        <text x="351" y="308" text-anchor="middle">2 · work events,</text>
+        <text x="351" y="324" text-anchor="middle">work state</text>
+
+        <!-- Run ↔ RUE -->
+        <line class="ln" x1="682" y1="215" x2="816" y2="215" marker-end="url(#a1)"/>
+        <text x="751" y="173" text-anchor="middle">3 · mirror state</text>
+        <text x="751" y="189" text-anchor="middle">4 · record events</text>
+        <text x="751" y="205" text-anchor="middle">agents' choices</text>
+        <line class="ln" x1="818" y1="290" x2="684" y2="290" marker-end="url(#a1)"/>
+        <text x="751" y="308" text-anchor="middle">5–7 · top-five menus</text>
+        <text x="751" y="324" text-anchor="middle">with reasons; state</text>
+
+        <!-- Run ↔ agents -->
+        <rect class="b-agent" x="400" y="440" width="300" height="98" rx="10"/>
+        <text class="t-h" x="550" y="462" text-anchor="middle">Agents</text>
+        <g>
+          <circle class="b-agent" cx="470" cy="492" r="16"/><text class="t-s" x="470" y="496" text-anchor="middle">ana</text>
+          <circle class="b-agent" cx="510" cy="492" r="16"/><text class="t-s" x="510" y="496" text-anchor="middle">bo</text>
+          <circle class="b-agent" cx="550" cy="492" r="16"/><text class="t-s" x="550" y="496" text-anchor="middle">cy</text>
+          <circle class="b-agent" cx="590" cy="492" r="16"/><text class="t-s" x="590" y="496" text-anchor="middle">dee</text>
+          <circle class="b-agent" cx="630" cy="492" r="16"/><text class="t-s" x="630" y="496" text-anchor="middle">eli</text>
+        </g>
+        <text class="t-s t-m" x="550" y="528" text-anchor="middle">one LLM per principal</text>
+        <line class="ln" x1="500" y1="342" x2="500" y2="436" marker-end="url(#a1)"/>
+        <text x="492" y="385" text-anchor="end">Decision Request</text>
+        <text class="t-s t-m" x="492" y="401" text-anchor="end">system prompt, Briefing, menu</text>
+        <line class="ln" x1="570" y1="438" x2="570" y2="344" marker-end="url(#a1)"/>
+        <text x="578" y="385">an answer</text>
+        <text class="t-s t-m" x="578" y="401">rationale + choice</text>
+
+        <!-- log -->
+        <path class="ln-m" d="M682,335 H700 V420 H950 V446" marker-end="url(#a1m)"/>
+        <text class="t-s t-m" x="826" y="412" text-anchor="middle">logs everything</text>
+        <rect class="b-plain" x="820" y="450" width="260" height="86" rx="10"/>
+        <text class="mono" x="950" y="474" text-anchor="middle" font-weight="500">runs/&lt;time&gt;/</text>
+        <text class="t-s" x="950" y="495" text-anchor="middle">every request, answer and event</text>
+        <text class="t-s t-m" x="950" y="514" text-anchor="middle">plus ground truth: who did it, dice</text>
+      </svg>
+      </div>
+      <figcaption>A round: (1) each agent picks a work move from the work's own menu; (2) the work resolves them and reports events and state; (3) the Run mirrors the state into RUE, nothing judged; (4) records each event as an occurrence its witnesses can judge; (5–7) one RUE tick, where each agent chooses from RUE's menus. Agents deliberate freely in the work. RUE only ranks options; it never chooses for an agent.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 2. RUE -->
+  <section>
+    <div class="text">
+      <span class="num">2</span>
+      <h2>One RUE tick: three stages where agents choose</h2>
+      <p>Each round, the social layer runs one tick of the tick plan <code>full</code>. Its three stages differ in who is asked and what the choices do. They share one machinery for building the menu, shown underneath.</p>
+    </div>
+    <figure>
+      <div class="scroll">
+      <svg viewBox="0 0 1080 604" role="img" aria-label="Three RUE stages run in order each round: work judgement, social actions, social judgement. Labels from work judgement feed the social actions; what is said becomes an occurrence only its listener knows and judges. Inside every stage, facts feed priming rules, which set seven impulses; each option's utility sums its impulses; the agent sees the top five, shuffled, with reasons, and chooses; the choice's effects become facts.">
+        <defs>
+          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a2r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-rue" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a2m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-m" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <!-- Stage cards -->
+        <g>
+          <rect class="b-rue" x="20" y="40" width="300" height="282" rx="10"/>
+          <text class="t-title" x="40" y="70">1 · Work judgement</text>
+          <text class="t-m" x="40" y="92">each witness, for each work event it saw</text>
+          <line class="ln-m" x1="40" y1="106" x2="300" y2="106"/>
+          <text class="t-cap" x="40" y="128">OPTIONS</text>
+          <text x="40" y="148">call it selfish of X</text>
+          <text x="40" y="166">call it careless of X</text>
+          <text x="40" y="184">call it fair / generous of X</text>
+          <text x="40" y="202">bad luck · no real opinion</text>
+          <text class="t-cap" x="40" y="232">EFFECTS, IN THE JUDGE'S STORE</text>
+          <text class="mono" x="40" y="252">judgedAs(occ, label)</text>
+          <text class="mono" x="40" y="270">naming X → responsible(occ, X)</text>
+          <text x="40" y="288">liking, trust, grudge, gratitude</text>
+          <text x="40" y="304">toward X move</text>
+        </g>
+        <g>
+          <rect class="b-rue" x="390" y="40" width="300" height="282" rx="10"/>
+          <text class="t-title" x="410" y="70">2 · Social actions</text>
+          <text class="t-m" x="410" y="92">every agent, once</text>
+          <line class="ln-m" x1="410" y1="106" x2="670" y2="106"/>
+          <text class="t-cap" x="410" y="128">OPTIONS</text>
+          <text x="410" y="148">tell Y that X is selfish / careless</text>
+          <text x="410" y="166">tell Y that X is generous / fair</text>
+          <text x="410" y="184">confront · thank · apologise to X</text>
+          <text x="410" y="202">give X the cold shoulder · stay quiet</text>
+          <text class="t-cap" x="410" y="232">EFFECTS</text>
+          <text x="410" y="252">a social occurrence, known only</text>
+          <text x="410" y="270">to the one addressed</text>
+          <text x="410" y="288">changes only the speaker's state</text>
+          <text x="410" y="304">the speaker never learns the reply</text>
+        </g>
+        <g>
+          <rect class="b-rue" x="760" y="40" width="300" height="282" rx="10"/>
+          <text class="t-title" x="780" y="70">3 · Social judgement</text>
+          <text class="t-m" x="780" y="92">the one addressed, for each thing said</text>
+          <line class="ln-m" x1="780" y1="106" x2="1040" y2="106"/>
+          <text class="t-cap" x="780" y="128">OPTIONS</text>
+          <text x="780" y="148">believe or doubt the claim</text>
+          <text x="780" y="166">take a confrontation to heart, or resent it</text>
+          <text x="780" y="184">accept or brush off thanks, an</text>
+          <text x="780" y="202">apology, the cold shoulder · no opinion</text>
+          <text class="t-cap" x="780" y="232">EFFECTS, IN THE LISTENER'S STORE</text>
+          <text class="mono" x="780" y="252">believes(me, X, label)</text>
+          <text x="780" y="270">liking, trust, grudges toward</text>
+          <text x="780" y="288">the speaker or the one talked</text>
+          <text x="780" y="304">about move</text>
+        </g>
+        <line class="ln-rue" x1="322" y1="168" x2="386" y2="168" marker-end="url(#a2r)"/>
+        <line class="ln-rue" x1="692" y1="168" x2="756" y2="168" marker-end="url(#a2r)"/>
+        <text x="355" y="338" text-anchor="middle">labels, responsibility,</text>
+        <text x="355" y="354" text-anchor="middle">liking and trust</text>
+        <text x="725" y="338" text-anchor="middle">what was said,</text>
+        <text x="725" y="354" text-anchor="middle">to the one addressed</text>
+        <text class="t-m" x="910" y="338" text-anchor="middle">all of it: next round's</text>
+        <text class="t-m" x="910" y="354" text-anchor="middle">Briefings and priming</text>
+
+        <!-- Inside every stage -->
+        <line class="ln-m dash" x1="20" y1="382" x2="1060" y2="382"/>
+        <text class="t-h" x="20" y="410">Inside every stage, for each decision</text>
+
+        <rect class="b-rue" x="20" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="90" y="452" text-anchor="middle">Facts</text>
+        <text x="90" y="474" text-anchor="middle">the shared world</text>
+        <text x="90" y="490" text-anchor="middle">+ the agent's</text>
+        <text x="90" y="506" text-anchor="middle">own store</text>
+
+        <rect class="b-rue" x="198" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="268" y="452" text-anchor="middle">Priming rules</text>
+        <text class="mono" x="268" y="474" text-anchor="middle">social-priming</text>
+        <text x="268" y="490" text-anchor="middle">cleared and rerun</text>
+        <text x="268" y="506" text-anchor="middle">for the one choosing</text>
+
+        <rect class="b-rue" x="376" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="446" y="452" text-anchor="middle">Seven impulses</text>
+        <text class="t-s" x="446" y="470" text-anchor="middle">warm · hostile</text>
+        <text class="t-s" x="446" y="485" text-anchor="middle">trusting · wary</text>
+        <text class="t-s" x="446" y="500" text-anchor="middle">charitable · reserved</text>
+        <text class="t-s" x="446" y="515" text-anchor="middle">conciliatory</text>
+
+        <rect class="b-rue" x="554" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="624" y="452" text-anchor="middle">Utilities</text>
+        <text x="624" y="474" text-anchor="middle">each option sums</text>
+        <text x="624" y="490" text-anchor="middle">the impulses</text>
+        <text x="624" y="506" text-anchor="middle">it reads</text>
+
+        <rect class="b-hot" x="732" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="802" y="452" text-anchor="middle">Top five</text>
+        <text x="802" y="474" text-anchor="middle">shuffled, no scores,</text>
+        <text x="802" y="490" text-anchor="middle">each with reasons</text>
+        <text x="802" y="506" text-anchor="middle">rendered by RUE</text>
+
+        <rect class="b-agent" x="910" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="980" y="452" text-anchor="middle">The agent</text>
+        <text class="t-h" x="980" y="468" text-anchor="middle">chooses</text>
+        <text x="980" y="490" text-anchor="middle">freely, and says</text>
+        <text x="980" y="506" text-anchor="middle">why</text>
+
+        <line class="ln" x1="162" y1="476" x2="194" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="340" y1="476" x2="372" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="518" y1="476" x2="550" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="696" y1="476" x2="728" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="874" y1="476" x2="906" y2="476" marker-end="url(#a2)"/>
+
+        <path class="ln-m" d="M980,526 V564 H90 V528" marker-end="url(#a2m)"/>
+        <text class="t-m" x="535" y="586" text-anchor="middle">the choice's effects are written back as facts</text>
+      </svg>
+      </div>
+      <figcaption>Every action changes only its actor's own state; what the one addressed makes of it is decided in social judgement, in their own store. The priming rules run fresh before every choice, so a label given in work judgement already shapes this tick's social actions. The cut to five is the one place where RUE's ranking shapes a choice: it decides what the agent considers, not what it picks. The reasons are the facts behind the rules that fired, each rendered through its predicate's template, for or against, with no numbers about the ranking.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 3. Briefings: anatomy -->
+  <section>
+    <div class="text">
+      <span class="num">3</span>
+      <h2>What an agent is shown</h2>
+      <p>Agents are stateless. Every decision arrives as one complete Decision Request, built from up to four sources. A work decision and a social decision share the system prompt but differ below it.</p>
+    </div>
+    <figure>
+      <div class="scroll">
+      <svg viewBox="0 0 1000 560" role="img" aria-label="A Decision Request, side by side for a work decision and a social decision. Both share the system prompt: overview, work introduction, social introduction, principal's instructions. The work decision's Briefing has the work and the agent's RUE state, then the work's own menu. The social decision's Briefing has only the RUE state, the event to judge, and RUE's top five options with reasons.">
+        <!-- legend -->
+        <rect class="f-h" x="20" y="12" width="12" height="12" rx="2"/><text x="38" y="22">Harness</text>
+        <rect class="f-sit" x="110" y="12" width="12" height="12" rx="2"/><text x="128" y="22">Principal (Situation)</text>
+        <rect class="f-work" x="282" y="12" width="12" height="12" rx="2"/><text x="300" y="22">The work</text>
+        <rect class="f-rue" x="378" y="12" width="12" height="12" rx="2"/><text x="396" y="22">RUE</text>
+
+        <text class="t-title" x="250" y="66" text-anchor="middle">A work decision</text>
+        <text class="t-m" x="250" y="84" text-anchor="middle">once per step of the work</text>
+        <text class="t-title" x="750" y="66" text-anchor="middle">A social decision</text>
+        <text class="t-m" x="750" y="84" text-anchor="middle">at each of RUE's three stages</text>
+
+        <!-- Row 1: system prompt (both) -->
+        <rect class="b-plain" x="60" y="100" width="380" height="148" rx="8"/>
+        <rect class="b-plain" x="560" y="100" width="380" height="148" rx="8"/>
+        <text class="t-cap" x="76" y="120">SYSTEM PROMPT</text>
+        <text class="t-cap" x="576" y="120">SYSTEM PROMPT</text>
+        <g>
+          <rect class="s-h" x="76" y="130" width="348" height="24" rx="3"/><rect class="f-h" x="76" y="130" width="5" height="24"/>
+          <text x="90" y="146">Overview: who you are, who your colleagues are</text>
+          <rect class="s-work" x="76" y="158" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="158" width="5" height="24"/>
+          <text x="90" y="174">The work's introduction: the scene, not the rules</text>
+          <rect class="s-rue" x="76" y="186" width="348" height="24" rx="3"/><rect class="f-rue" x="76" y="186" width="5" height="24"/>
+          <text x="90" y="202">The social layer's introduction, abstract</text>
+          <rect class="s-sit" x="76" y="214" width="348" height="24" rx="3"/><rect class="f-sit" x="76" y="214" width="5" height="24"/>
+          <text x="90" y="230">Your principal's instructions</text>
+        </g>
+        <g>
+          <rect class="s-h" x="576" y="130" width="348" height="24" rx="3"/><rect class="f-h" x="576" y="130" width="5" height="24"/>
+          <text x="590" y="146">Overview: who you are, who your colleagues are</text>
+          <rect class="s-work" x="576" y="158" width="348" height="24" rx="3"/><rect class="f-work" x="576" y="158" width="5" height="24"/>
+          <text x="590" y="174">The work's introduction: the scene, not the rules</text>
+          <rect class="s-rue" x="576" y="186" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="186" width="5" height="24"/>
+          <text x="590" y="202">The social layer's introduction, abstract</text>
+          <rect class="s-sit" x="576" y="214" width="348" height="24" rx="3"/><rect class="f-sit" x="576" y="214" width="5" height="24"/>
+          <text x="590" y="230">Your principal's instructions</text>
+        </g>
+        <text class="t-m" x="500" y="178" text-anchor="middle">same</text>
+
+        <!-- Row 2: Briefing -->
+        <rect class="b-plain" x="60" y="262" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="76" y="282">BRIEFING</text>
+        <rect class="s-work" x="76" y="292" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="292" width="5" height="24"/>
+        <text x="90" y="308">The work: rules, your history, team velocity</text>
+        <rect class="s-rue" x="76" y="320" width="348" height="24" rx="3"/><rect class="f-rue" x="76" y="320" width="5" height="24"/>
+        <text x="90" y="336">Your RUE state: the shared world, then your store</text>
+
+        <rect class="b-plain" x="560" y="262" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="576" y="282">BRIEFING</text>
+        <rect class="s-rue" x="576" y="292" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="292" width="5" height="24"/>
+        <text x="590" y="308">Your RUE state: the shared world, then your store</text>
+        <rect class="s-none" x="576" y="320" width="348" height="24" rx="3"/>
+        <text class="t-m" x="590" y="336" font-style="italic">No work Briefing</text>
+
+        <!-- Row 3: the question -->
+        <rect class="b-plain" x="60" y="362" width="380" height="58" rx="8"/>
+        <text class="t-cap" x="76" y="382">THE QUESTION</text>
+        <rect class="s-work" x="76" y="390" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="390" width="5" height="24"/>
+        <text x="90" y="406">“Choose what to do with your bug this sprint.”</text>
+
+        <rect class="b-plain" x="560" y="362" width="380" height="58" rx="8"/>
+        <text class="t-cap" x="576" y="382">THE QUESTION</text>
+        <rect class="s-rue" x="576" y="390" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="390" width="5" height="24"/>
+        <text x="590" y="406">“bob passed their bug to alice.” What do you call it?</text>
+
+        <!-- Row 4: menu -->
+        <rect class="b-plain" x="60" y="434" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="76" y="454">THE MENU</text>
+        <rect class="s-work" x="76" y="464" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="464" width="5" height="24"/>
+        <text x="90" y="480">The work's own menu: every legal move</text>
+        <rect class="s-work" x="76" y="492" width="348" height="24" rx="3"/><rect class="f-work" x="76" y="492" width="5" height="24"/>
+        <text x="90" y="508">costs stated, colleagues shuffled, no scores</text>
+
+        <rect class="b-plain" x="560" y="434" width="380" height="86" rx="8"/>
+        <text class="t-cap" x="576" y="454">THE MENU</text>
+        <rect class="s-rue" x="576" y="464" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="464" width="5" height="24"/>
+        <text x="590" y="480">RUE's top five, shuffled, no scores</text>
+        <rect class="s-rue" x="576" y="492" width="348" height="24" rx="3"/><rect class="f-rue" x="576" y="492" width="5" height="24"/>
+        <text x="590" y="508">each with reasons: “You like dave 8 out of 10.”</text>
+
+        <text class="mono" x="250" y="546" text-anchor="middle">→ { rationale, choice }</text>
+        <text class="mono" x="750" y="546" text-anchor="middle">→ { rationale, choice }</text>
+      </svg>
+      </div>
+      <figcaption>Nothing in a Briefing is written by a language model. The work writes its own part, and RUE renders the agent's state and each option's reasons from the predicates' text templates. In the work-only condition, the social layer's introduction and the RUE state are both left out, and the agent hears nothing about a social world.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 4. Who knows what -->
+  <section>
+    <div class="text">
+      <span class="num">4</span>
+      <h2>Who knows what</h2>
+      <p>What an agent may know is decided by where RUE records a fact, not by a filter applied later. The work says who witnessed each event. Every Briefing renders the shared world, then that agent's own store.</p>
+    </div>
+    <figure>
+      <div class="scroll">
+      <svg viewBox="0 0 1000 370" role="img" aria-label="An event everyone witnessed goes into the shared world store, which reaches every agent's Briefing. A pass seen only by two agents goes into each of their private stores. A claim about someone goes only into the listener's store. Ground truth, such as who made an uncredited pass, goes only to the Run's log, for analysis afterwards.">
+        <defs>
+          <marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a4r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-rue" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a4m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-m" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+        <text class="t-cap" x="20" y="26">WHAT HAPPENS</text>
+        <text class="t-cap" x="370" y="26">WHERE RUE RECORDS IT</text>
+        <text class="t-cap" x="700" y="26">WHOSE BRIEFING SHOWS IT</text>
+
+        <!-- events -->
+        <rect class="b-work" x="20" y="48" width="280" height="44" rx="6"/>
+        <text x="34" y="66">The team lost 2 hours to handoffs</text>
+        <text class="t-s t-m" x="34" y="83">everyone witnessed it; nobody is credited</text>
+        <rect class="b-work" x="20" y="145" width="280" height="44" rx="6"/>
+        <text x="34" y="163">bob passed his bug to alice</text>
+        <text class="t-s t-m" x="34" y="180">only the two of them witnessed it</text>
+        <rect class="b-rue" x="20" y="228" width="280" height="44" rx="6"/>
+        <text x="34" y="246">alice tells dave that bob is selfish</text>
+        <text class="t-s t-m" x="34" y="263">a social action: only dave hears it</text>
+        <rect class="b-h" x="20" y="303" width="280" height="44" rx="6"/>
+        <text x="34" y="321">Who made an uncredited pass; dice</text>
+        <text class="t-s t-m" x="34" y="338">ground truth, and every rationale</text>
+
+        <!-- stores -->
+        <rect class="b-hot" x="370" y="48" width="260" height="44" rx="6"/>
+        <text class="t-h" x="500" y="75" text-anchor="middle">Shared world store</text>
+        <rect class="b-rue" x="370" y="120" width="260" height="40" rx="6"/>
+        <text x="500" y="145" text-anchor="middle">alice's own store</text>
+        <rect class="b-rue" x="370" y="175" width="260" height="40" rx="6"/>
+        <text x="500" y="200" text-anchor="middle">bob's own store</text>
+        <rect class="b-rue" x="370" y="230" width="260" height="40" rx="6"/>
+        <text x="500" y="255" text-anchor="middle">dave's own store</text>
+        <rect class="b-h" x="370" y="305" width="260" height="40" rx="6"/>
+        <text x="500" y="330" text-anchor="middle">The Run's log, outside RUE</text>
+
+        <!-- event -> store -->
+        <line class="ln" x1="302" y1="70" x2="366" y2="70" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="160" x2="366" y2="141" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="174" x2="366" y2="194" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="250" x2="366" y2="250" marker-end="url(#a4)"/>
+        <line class="ln" x1="302" y1="325" x2="366" y2="325" marker-end="url(#a4)"/>
+
+        <!-- briefings -->
+        <rect class="b-agent" x="700" y="120" width="240" height="40" rx="6"/>
+        <text x="820" y="145" text-anchor="middle">alice's Briefing</text>
+        <rect class="b-agent" x="700" y="175" width="240" height="40" rx="6"/>
+        <text x="820" y="200" text-anchor="middle">bob's Briefing</text>
+        <rect class="b-agent" x="700" y="230" width="240" height="40" rx="6"/>
+        <text x="820" y="255" text-anchor="middle">dave's Briefing</text>
+        <rect class="b-plain dash" x="700" y="305" width="240" height="40" rx="6"/>
+        <text class="t-m" x="820" y="323" text-anchor="middle">Analysis afterwards</text>
+        <text class="t-s t-m" x="820" y="338" text-anchor="middle">never in any Briefing</text>
+
+        <!-- store -> briefing -->
+        <line class="ln" x1="632" y1="140" x2="696" y2="140" marker-end="url(#a4)"/>
+        <line class="ln" x1="632" y1="195" x2="696" y2="195" marker-end="url(#a4)"/>
+        <line class="ln" x1="632" y1="250" x2="696" y2="250" marker-end="url(#a4)"/>
+        <line class="ln-m" x1="632" y1="325" x2="696" y2="325" marker-end="url(#a4m)"/>
+
+        <!-- shared bus -->
+        <path class="ln-rue" d="M632,70 H968 V250"/>
+        <line class="ln-rue" x1="968" y1="140" x2="944" y2="140" marker-end="url(#a4r)"/>
+        <line class="ln-rue" x1="968" y1="195" x2="944" y2="195" marker-end="url(#a4r)"/>
+        <line class="ln-rue" x1="968" y1="250" x2="944" y2="250" marker-end="url(#a4r)"/>
+        <text x="820" y="62" text-anchor="middle">every agent's Briefing</text>
+      </svg>
+      </div>
+      <figcaption>When nobody is credited with an event, its actor never reaches RUE, not even as a name in the event's text. An agent can still hold someone responsible by naming them in a work judgement label. Whether it named the right one is checked afterwards against the log.</figcaption>
+    </figure>
+  </section>
+
+  <!-- 5. Example -->
+  <section>
+    <div class="text">
+      <span class="num">5</span>
+      <h2>One real social decision</h2>
+      <p>alice in sprint 2 of a Not My Bug smoke Run with the RUE social layer (Run <code>20261107-162751</code>, random choosers), from before the social actions were rebuilt to carry a claim. This shortens her Briefing; the menu is exactly what she was offered.</p>
+    </div>
+    <figure>
+      <div class="example">
+        <div>
+          <span class="label">Briefing · in the social world</span>
+          <ul class="facts">
+            <li>alice knows about "The team lost 2 hours to handoffs in sprint 1".</li>
+            <li>"The team lost 2 hours to handoffs in sprint 1" changed alice's team hours lost to handoffs by 2.</li>
+          </ul>
+          <span class="label">Briefing · what you think</span>
+          <ul class="facts">
+            <li>alice knows about "bob passed their bug to alice".</li>
+            <li>"bob passed their bug to alice" changed alice's hours by -2.</li>
+            <li>bob is responsible for "bob passed their bug to alice".</li>
+            <li>"dave helped alice with a bug" changed alice's hours by 1.</li>
+            <li>Your verdict on "bob passed their bug to alice": no real opinion.</li>
+            <li>Your verdict on "dave helped alice with a bug": generous.</li>
+            <li>You like dave 8 out of 10.</li>
+            <li>You trust dave 8 out of 10.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="ask">Between work moves you can say something to a colleague, or say nothing. Choose a social action.</p>
+          <ol class="menu">
+            <li><span class="opt">alice praises carol to dave</span><br><span class="why">for: You like dave 8 out of 10. · You trust dave 8 out of 10.</span></li>
+            <li><span class="opt">alice confronts dave</span><br><span class="why">for: You trust dave 8 out of 10. · You like dave 8 out of 10.</span></li>
+            <li><span class="opt">alice complains to dave about bob</span><br><span class="why">for: You like dave 8 out of 10. · You trust dave 8 out of 10.</span></li>
+            <li class="picked"><span class="opt">alice complains to dave about carol</span><br><span class="why">for: You like dave 8 out of 10. · You trust dave 8 out of 10.</span></li>
+            <li><span class="opt">alice praises bob to dave</span><br><span class="why">for: You like dave 8 out of 10. · You trust dave 8 out of 10.</span></li>
+          </ol>
+          <div class="answer">→ option 4 <span class="chip">random chooser</span></div>
+        </div>
+      </div>
+      <figcaption>Here every reason is about dave, because the impulses that fired were her warmth and trust toward him, and each option reads those impulses. A reason belongs to an impulse, not to an option, so the same facts can appear on several options (ADR 0007). No option shows its score; RUE gave four of these five options 8 and the confrontation 4.</figcaption>
+    </figure>
+  </section>
+</main>

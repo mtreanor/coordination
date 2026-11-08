@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="550" viewBox="0 0 1100 550" role="img" aria-label="The Run sits between the work, RUE and the agents. The work reports events and state to the Run, the Run mirrors them into RUE, RUE returns ranked social menus with reasons, and the Run sends every Decision Request to the agents and logs everything.">
+<style>
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+text { fill: #1b2226; font-size: 12px; }
+.t-title { font-size: 16px; font-weight: 600; }
+.t-h { font-size: 13px; font-weight: 600; }
+.t-m { fill: #5a6670; }
+.t-s { font-size: 11px; }
+.t-cap { font: 500 10.5px "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; fill: #5a6670; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 11px; }
+.ln { stroke: #1b2226; stroke-width: 1.4; fill: none; }
+.ln-m { stroke: #5a6670; stroke-width: 1.2; fill: none; }
+.ln-rue { stroke: #a85f0c; stroke-width: 1.6; fill: none; }
+.dash { stroke-dasharray: 4 4; }
+.b-work { fill: #e3ecf7; stroke: #2c66a8; stroke-width: 1.5; }
+.b-rue { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 1.5; }
+.b-agent { fill: #dcf0e6; stroke: #23805f; stroke-width: 1.5; }
+.b-sit { fill: #efe4f5; stroke: #7d45a0; stroke-width: 1.5; }
+.b-h { fill: #e7ebee; stroke: #56636c; stroke-width: 1.5; }
+.b-plain { fill: #ffffff; stroke: #c4cdd3; stroke-width: 1.2; }
+.b-inner { fill: #ffffff; stroke: #a85f0c; stroke-width: 1; }
+.b-hot { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 2.6; }
+.f-work { fill: #2c66a8; } svg .f-rue { fill: #a85f0c; } svg .f-agent { fill: #23805f; }
+.f-sit { fill: #7d45a0; } svg .f-h { fill: #56636c; }
+.s-work { fill: #e3ecf7; } svg .s-rue { fill: #f7e9d6; } svg .s-sit { fill: #efe4f5; }
+.s-h { fill: #e7ebee; }
+.s-none { fill: none; stroke: #c4cdd3; stroke-dasharray: 4 4; }
+.ah { fill: #1b2226; }
+.ah-m { fill: #5a6670; }
+.ah-rue { fill: #a85f0c; }
+</style>
+<rect width="1100" height="550" fill="#ffffff"/>
+        <defs>
+          <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a1m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-m" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <!-- Run config -->
+        <rect class="b-h" x="420" y="14" width="260" height="62" rx="8"/>
+        <text class="t-h" x="550" y="40" text-anchor="middle">Run config (TOML)</text>
+        <text class="t-s t-m" x="550" y="60" text-anchor="middle">work, agents, Situation, choosers, seed</text>
+        <line class="ln" x1="550" y1="76" x2="550" y2="166" marker-end="url(#a1)"/>
+        <text class="t-s t-m" x="558" y="126">sets up</text>
+
+        <!-- The Run -->
+        <rect class="b-h" x="420" y="170" width="260" height="170" rx="10"/>
+        <text class="t-title" x="550" y="198" text-anchor="middle">The Run</text>
+        <text class="t-m" x="550" y="217" text-anchor="middle">the Python harness</text>
+        <text x="550" y="248" text-anchor="middle">sequences every round</text>
+        <text x="550" y="268" text-anchor="middle">builds each Decision Request</text>
+        <text x="550" y="288" text-anchor="middle">shuffles menus, hides RUE's scores</text>
+        <text x="550" y="308" text-anchor="middle">writes the log</text>
+
+        <!-- The work -->
+        <rect class="b-work" x="20" y="150" width="260" height="210" rx="10"/>
+        <text class="t-title" x="150" y="178" text-anchor="middle">The work</text>
+        <text class="t-m" x="150" y="197" text-anchor="middle">outside RUE, rules in code</text>
+        <text x="150" y="228" text-anchor="middle">owns its state and its clock</text>
+        <text x="150" y="248" text-anchor="middle">gives each agent a menu</text>
+        <text x="150" y="268" text-anchor="middle">resolves all moves at once</text>
+        <rect class="b-plain" x="34" y="290" width="106" height="24" rx="4"/>
+        <text class="t-s" x="87" y="306" text-anchor="middle">Investment Club</text>
+        <rect class="b-plain" x="146" y="290" width="82" height="24" rx="4"/>
+        <text class="t-s" x="187" y="306" text-anchor="middle">Not My Bug</text>
+        <rect class="b-plain" x="234" y="290" width="38" height="24" rx="4"/>
+        <text class="t-s" x="253" y="306" text-anchor="middle">Stub</text>
+        <text class="t-s t-m" x="150" y="340" text-anchor="middle">switched by one line of config</text>
+
+        <!-- RUE -->
+        <rect class="b-rue" x="820" y="150" width="260" height="210" rx="10"/>
+        <text class="t-title" x="950" y="178" text-anchor="middle">RUE</text>
+        <text class="t-m" x="950" y="197" text-anchor="middle">the social layer</text>
+        <rect class="b-inner" x="840" y="210" width="220" height="26" rx="4"/>
+        <text x="950" y="227" text-anchor="middle">shared world store</text>
+        <rect class="b-inner" x="840" y="242" width="220" height="26" rx="4"/>
+        <text x="950" y="259" text-anchor="middle">a private store per agent</text>
+        <text class="t-m" x="950" y="292" text-anchor="middle">one tick per round:</text>
+        <text x="950" y="311" text-anchor="middle">work judgement → social actions</text>
+        <text x="950" y="329" text-anchor="middle">→ social judgement</text>
+        <text class="t-s t-m" x="950" y="380" text-anchor="middle" font-style="italic">switched off in the work-only condition</text>
+
+        <!-- Run ↔ work -->
+        <line class="ln" x1="418" y1="215" x2="284" y2="215" marker-end="url(#a1)"/>
+        <text x="351" y="205" text-anchor="middle">1 · work decisions</text>
+        <line class="ln" x1="282" y1="290" x2="416" y2="290" marker-end="url(#a1)"/>
+        <text x="351" y="308" text-anchor="middle">2 · work events,</text>
+        <text x="351" y="324" text-anchor="middle">work state</text>
+
+        <!-- Run ↔ RUE -->
+        <line class="ln" x1="682" y1="215" x2="816" y2="215" marker-end="url(#a1)"/>
+        <text x="751" y="173" text-anchor="middle">3 · mirror state</text>
+        <text x="751" y="189" text-anchor="middle">4 · record events</text>
+        <text x="751" y="205" text-anchor="middle">agents' choices</text>
+        <line class="ln" x1="818" y1="290" x2="684" y2="290" marker-end="url(#a1)"/>
+        <text x="751" y="308" text-anchor="middle">5–7 · top-five menus</text>
+        <text x="751" y="324" text-anchor="middle">with reasons; state</text>
+
+        <!-- Run ↔ agents -->
+        <rect class="b-agent" x="400" y="440" width="300" height="98" rx="10"/>
+        <text class="t-h" x="550" y="462" text-anchor="middle">Agents</text>
+        <g>
+          <circle class="b-agent" cx="470" cy="492" r="16"/><text class="t-s" x="470" y="496" text-anchor="middle">ana</text>
+          <circle class="b-agent" cx="510" cy="492" r="16"/><text class="t-s" x="510" y="496" text-anchor="middle">bo</text>
+          <circle class="b-agent" cx="550" cy="492" r="16"/><text class="t-s" x="550" y="496" text-anchor="middle">cy</text>
+          <circle class="b-agent" cx="590" cy="492" r="16"/><text class="t-s" x="590" y="496" text-anchor="middle">dee</text>
+          <circle class="b-agent" cx="630" cy="492" r="16"/><text class="t-s" x="630" y="496" text-anchor="middle">eli</text>
+        </g>
+        <text class="t-s t-m" x="550" y="528" text-anchor="middle">one LLM per principal</text>
+        <line class="ln" x1="500" y1="342" x2="500" y2="436" marker-end="url(#a1)"/>
+        <text x="492" y="385" text-anchor="end">Decision Request</text>
+        <text class="t-s t-m" x="492" y="401" text-anchor="end">system prompt, Briefing, menu</text>
+        <line class="ln" x1="570" y1="438" x2="570" y2="344" marker-end="url(#a1)"/>
+        <text x="578" y="385">an answer</text>
+        <text class="t-s t-m" x="578" y="401">rationale + choice</text>
+
+        <!-- log -->
+        <path class="ln-m" d="M682,335 H700 V420 H950 V446" marker-end="url(#a1m)"/>
+        <text class="t-s t-m" x="826" y="412" text-anchor="middle">logs everything</text>
+        <rect class="b-plain" x="820" y="450" width="260" height="86" rx="10"/>
+        <text class="mono" x="950" y="474" text-anchor="middle" font-weight="500">runs/&lt;time&gt;/</text>
+        <text class="t-s" x="950" y="495" text-anchor="middle">every request, answer and event</text>
+        <text class="t-s t-m" x="950" y="514" text-anchor="middle">plus ground truth: who did it, dice</text>
+      </svg>

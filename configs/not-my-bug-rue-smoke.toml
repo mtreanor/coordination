@@ -2,7 +2,7 @@ description = "A smoke test: Not My Bug with the social world's four agents (soc
 work = "not-my-bug"
 agents = ["alice", "bob", "carol", "dave"]
 rounds = 3
-situation = "neutral"
+situations = ["office-history"]   # the cast's starting relationships; [] for a neutral start
 seed = 0
 
 [social]

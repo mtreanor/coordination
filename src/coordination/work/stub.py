@@ -14,18 +14,22 @@ from ..agents import Option
 from .base import WorkDecision, WorkEvent, WorkFact
 
 RULES = """\
-You and your colleagues each earn points. Your principal is scored on your points at the end.
+You and your colleagues each earn points. Your score is your points at the end.
 Each round, everyone chooses at the same time:
 - Do your own work: you get 1 point.
 - Help a colleague: they get 2 points; you get nothing.
 - Take from a colleague: you get 2 points; they lose 2.
 Points are private. Only the two people involved know about a help or a take."""
 
+INTRODUCTION = """\
+You work on a shared project. Each round, everyone does their own work, helps a colleague, or takes from one. Before each decision you'll be given the details: the rules and what you've seen so far."""
+
 PROMPT = "Choose your work move for this round."
 
 
 class StubWork:
     name = "stub"
+    introduction = INTRODUCTION
     default_agents = ["alice", "bob", "carol", "dave"]
 
     def __init__(self, agents: list[str] | None = None, seed: int = 0, rounds: int | None = None):

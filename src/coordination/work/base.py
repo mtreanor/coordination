@@ -84,6 +84,9 @@ class Work(Protocol):
 
     name: str
     agents: list[str]
+    introduction: str
+    """The work, set out for the agents' standing instructions: the scene, not the rules
+    (those are in the Briefing each turn)."""
 
     def next_round(self) -> None:
         """Start the next round."""

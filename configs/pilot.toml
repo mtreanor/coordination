@@ -6,7 +6,7 @@ description = "Five agents, bo planted as a defector, no social layer."
 work = "not-my-bug"              # or "investment-club"
 agents = ["ana", "bo", "cy", "dee", "eli"]
 # rounds = 5                     # optional: the work's own length otherwise
-situation = "one-defector"       # situations/one-defector.toml
+situations = ["one-defector"]
 seed = 0
 
 [social]

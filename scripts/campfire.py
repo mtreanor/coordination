@@ -15,9 +15,9 @@ Then pick who chooses:
     uv run scripts/campfire.py --chooser ask         # you pick at the prompt
     uv run scripts/campfire.py --chooser qwen-9b     # any profile in models.toml
 
-Or give each principal its own chooser (the rest use --chooser):
+Or give each agent its own chooser (the rest use --chooser):
 
-    uv run scripts/campfire.py --principals alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
+    uv run scripts/campfire.py --choosers alice=claude-haiku,bob=gemini-flash-lite,carol=qwen-9b,dave=gemma-12b
 
 Every decision is "controlled": RUE scores the candidates and pauses, and the
 chooser picks, telling RUE who chose and why (recorded on the ActionRecord).
@@ -93,7 +93,7 @@ def print_proof(node: dict, depth: int = 0) -> None:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--chooser", default="rue", help="rue, random, ask, or a profile name from models.toml")
-    parser.add_argument("--principals", default="", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
+    parser.add_argument("--choosers", default="", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
     parser.add_argument("--ticks", type=int, default=3)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--hide-scores", action="store_true", help="don't show RUE's utilities to the chooser")
@@ -105,7 +105,7 @@ def main() -> None:
     rue.reset()
     rue.start(controlled_agents=[])
     agents = rue.entities("agent")
-    assigned = dict(pair.split("=", 1) for pair in args.principals.split(",") if pair)
+    assigned = dict(pair.split("=", 1) for pair in args.choosers.split(",") if pair)
     unknown = set(assigned) - set(agents)
     if unknown:
         raise SystemExit(f"No agent named {sorted(unknown)} in the scenario (agents: {agents})")
@@ -115,7 +115,7 @@ def main() -> None:
     run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-campfire-{label}"
     log = DecisionLog(run_dir / "decisions.jsonl")
 
-    print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in names.items()))
+    print("Choosers: " + ", ".join(f"{agent} -> {name}" for agent, name in names.items()))
     rue.start(controlled_agents=agents)
     stats: list[dict] = []
     for i in range(args.ticks):

@@ -1,6 +1,6 @@
 # Coordination
 
-A testbed where LLM agents, each acting for a different principal, do work together inside a social world they can see. The social world runs in **RUE**, a logic engine that tracks what each agent believes about the others, with full provenance. RUE also ranks the social actions (gossip, praise, staying quiet) and the judgements (resentful, generous, suspicious) available to each agent, and the agent's LLM picks among them. The work itself happens outside RUE: there the LLM deliberates freely, with its view of the social world in its prompt.
+A testbed where LLM agents do work together inside a social world they can see. The social world runs in **RUE**, a logic engine that tracks what each agent believes about the others, with full provenance. RUE also ranks the social actions (gossip, praise, staying quiet) and the judgements (resentful, generous, suspicious) available to each agent, and the agent's LLM picks among them. The work itself happens outside RUE: there the LLM deliberates freely, with its view of the social world in its prompt.
 
 The research question: does a social layer like this improve coordination among agents, open new ways to exploit them, or do nothing? The first hypothesis to test is that **gossip leads to shunning, and shunning leads to reform**.
 
@@ -32,7 +32,7 @@ Still to build: the works, the social world, per-agent Briefings, the experiment
 | `src/coordination/` | The Python package: the Run loop, the work, the social layer, the RUE client, and the agents (LLM, scripted and human choosers) |
 | `rue-data/` | RUE scenarios: `social-layer-data` (the placeholder social world) and `campfire` (an earlier proof of concept) |
 | `scripts/play.py` | Plays one Run from the command line |
-| `situations/` | Authored starting conditions: principals' instructions and starting facts |
+| `situations/` | Authored starting conditions: starting relationships and special instructions, combined per Run |
 | `models.toml` | Named model profiles, local (Ollama) and hosted. API keys go in `.env` |
 | `docs/` | Design notes. Start with `docs/status.md`, `docs/experiment.md` and `docs/framework.md` |
 | `CONTEXT.md` | Glossary of the project's terms |

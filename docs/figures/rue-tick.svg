@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="604" viewBox="0 0 1080 604" role="img" aria-label="Three RUE stages run in order each round: work judgement, social actions, social judgement. Labels from work judgement feed the social actions; what is said becomes an occurrence only its listener knows and judges. Inside every stage, facts feed priming rules, which set seven impulses; each option's utility sums its impulses; the agent sees the top five, shuffled, with reasons, and chooses; the choice's effects become facts.">
+<style>
+text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; }
+text { fill: #1b2226; font-size: 12px; }
+.t-title { font-size: 16px; font-weight: 600; }
+.t-h { font-size: 13px; font-weight: 600; }
+.t-m { fill: #5a6670; }
+.t-s { font-size: 11px; }
+.t-cap { font: 500 10.5px "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; letter-spacing: .08em; fill: #5a6670; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; font-size: 11px; }
+.ln { stroke: #1b2226; stroke-width: 1.4; fill: none; }
+.ln-m { stroke: #5a6670; stroke-width: 1.2; fill: none; }
+.ln-rue { stroke: #a85f0c; stroke-width: 1.6; fill: none; }
+.dash { stroke-dasharray: 4 4; }
+.b-work { fill: #e3ecf7; stroke: #2c66a8; stroke-width: 1.5; }
+.b-rue { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 1.5; }
+.b-agent { fill: #dcf0e6; stroke: #23805f; stroke-width: 1.5; }
+.b-sit { fill: #efe4f5; stroke: #7d45a0; stroke-width: 1.5; }
+.b-h { fill: #e7ebee; stroke: #56636c; stroke-width: 1.5; }
+.b-plain { fill: #ffffff; stroke: #c4cdd3; stroke-width: 1.2; }
+.b-inner { fill: #ffffff; stroke: #a85f0c; stroke-width: 1; }
+.b-hot { fill: #f7e9d6; stroke: #a85f0c; stroke-width: 2.6; }
+.f-work { fill: #2c66a8; } svg .f-rue { fill: #a85f0c; } svg .f-agent { fill: #23805f; }
+.f-sit { fill: #7d45a0; } svg .f-h { fill: #56636c; }
+.s-work { fill: #e3ecf7; } svg .s-rue { fill: #f7e9d6; } svg .s-sit { fill: #efe4f5; }
+.s-h { fill: #e7ebee; }
+.s-none { fill: none; stroke: #c4cdd3; stroke-dasharray: 4 4; }
+.ah { fill: #1b2226; }
+.ah-m { fill: #5a6670; }
+.ah-rue { fill: #a85f0c; }
+</style>
+<rect width="1080" height="604" fill="#ffffff"/>
+        <defs>
+          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a2r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-rue" d="M0,0 L10,5 L0,10 z"/></marker>
+          <marker id="a2m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-m" d="M0,0 L10,5 L0,10 z"/></marker>
+        </defs>
+
+        <!-- Stage cards -->
+        <g>
+          <rect class="b-rue" x="20" y="40" width="300" height="282" rx="10"/>
+          <text class="t-title" x="40" y="70">1 · Work judgement</text>
+          <text class="t-m" x="40" y="92">each witness, for each work event it saw</text>
+          <line class="ln-m" x1="40" y1="106" x2="300" y2="106"/>
+          <text class="t-cap" x="40" y="128">OPTIONS</text>
+          <text x="40" y="148">call it selfish of X</text>
+          <text x="40" y="166">call it careless of X</text>
+          <text x="40" y="184">call it fair / generous of X</text>
+          <text x="40" y="202">bad luck · no real opinion</text>
+          <text class="t-cap" x="40" y="232">EFFECTS, IN THE JUDGE'S STORE</text>
+          <text class="mono" x="40" y="252">judgedAs(occ, label)</text>
+          <text class="mono" x="40" y="270">naming X → responsible(occ, X)</text>
+          <text x="40" y="288">liking, trust, grudge, gratitude</text>
+          <text x="40" y="304">toward X move</text>
+        </g>
+        <g>
+          <rect class="b-rue" x="390" y="40" width="300" height="282" rx="10"/>
+          <text class="t-title" x="410" y="70">2 · Social actions</text>
+          <text class="t-m" x="410" y="92">every agent, once</text>
+          <line class="ln-m" x1="410" y1="106" x2="670" y2="106"/>
+          <text class="t-cap" x="410" y="128">OPTIONS</text>
+          <text x="410" y="148">tell Y that X is selfish / careless</text>
+          <text x="410" y="166">tell Y that X is generous / fair</text>
+          <text x="410" y="184">confront · thank · apologise to X</text>
+          <text x="410" y="202">give X the cold shoulder · stay quiet</text>
+          <text class="t-cap" x="410" y="232">EFFECTS</text>
+          <text x="410" y="252">a social occurrence, known only</text>
+          <text x="410" y="270">to the one addressed</text>
+          <text x="410" y="288">changes only the speaker's state</text>
+          <text x="410" y="304">the speaker never learns the reply</text>
+        </g>
+        <g>
+          <rect class="b-rue" x="760" y="40" width="300" height="282" rx="10"/>
+          <text class="t-title" x="780" y="70">3 · Social judgement</text>
+          <text class="t-m" x="780" y="92">the one addressed, for each thing said</text>
+          <line class="ln-m" x1="780" y1="106" x2="1040" y2="106"/>
+          <text class="t-cap" x="780" y="128">OPTIONS</text>
+          <text x="780" y="148">believe or doubt the claim</text>
+          <text x="780" y="166">take a confrontation to heart, or resent it</text>
+          <text x="780" y="184">accept or brush off thanks, an</text>
+          <text x="780" y="202">apology, the cold shoulder · no opinion</text>
+          <text class="t-cap" x="780" y="232">EFFECTS, IN THE LISTENER'S STORE</text>
+          <text class="mono" x="780" y="252">believes(me, X, label)</text>
+          <text x="780" y="270">liking, trust, grudges toward</text>
+          <text x="780" y="288">the speaker or the one talked</text>
+          <text x="780" y="304">about move</text>
+        </g>
+        <line class="ln-rue" x1="322" y1="168" x2="386" y2="168" marker-end="url(#a2r)"/>
+        <line class="ln-rue" x1="692" y1="168" x2="756" y2="168" marker-end="url(#a2r)"/>
+        <text x="355" y="338" text-anchor="middle">labels, responsibility,</text>
+        <text x="355" y="354" text-anchor="middle">liking and trust</text>
+        <text x="725" y="338" text-anchor="middle">what was said,</text>
+        <text x="725" y="354" text-anchor="middle">to the one addressed</text>
+        <text class="t-m" x="910" y="338" text-anchor="middle">all of it: next round's</text>
+        <text class="t-m" x="910" y="354" text-anchor="middle">Briefings and priming</text>
+
+        <!-- Inside every stage -->
+        <line class="ln-m dash" x1="20" y1="382" x2="1060" y2="382"/>
+        <text class="t-h" x="20" y="410">Inside every stage, for each decision</text>
+
+        <rect class="b-rue" x="20" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="90" y="452" text-anchor="middle">Facts</text>
+        <text x="90" y="474" text-anchor="middle">the shared world</text>
+        <text x="90" y="490" text-anchor="middle">+ the agent's</text>
+        <text x="90" y="506" text-anchor="middle">own store</text>
+
+        <rect class="b-rue" x="198" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="268" y="452" text-anchor="middle">Priming rules</text>
+        <text class="mono" x="268" y="474" text-anchor="middle">social-priming</text>
+        <text x="268" y="490" text-anchor="middle">cleared and rerun</text>
+        <text x="268" y="506" text-anchor="middle">for the one choosing</text>
+
+        <rect class="b-rue" x="376" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="446" y="452" text-anchor="middle">Seven impulses</text>
+        <text class="t-s" x="446" y="470" text-anchor="middle">warm · hostile</text>
+        <text class="t-s" x="446" y="485" text-anchor="middle">trusting · wary</text>
+        <text class="t-s" x="446" y="500" text-anchor="middle">charitable · reserved</text>
+        <text class="t-s" x="446" y="515" text-anchor="middle">conciliatory</text>
+
+        <rect class="b-rue" x="554" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="624" y="452" text-anchor="middle">Utilities</text>
+        <text x="624" y="474" text-anchor="middle">each option sums</text>
+        <text x="624" y="490" text-anchor="middle">the impulses</text>
+        <text x="624" y="506" text-anchor="middle">it reads</text>
+
+        <rect class="b-hot" x="732" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="802" y="452" text-anchor="middle">Top five</text>
+        <text x="802" y="474" text-anchor="middle">shuffled, no scores,</text>
+        <text x="802" y="490" text-anchor="middle">each with reasons</text>
+        <text x="802" y="506" text-anchor="middle">rendered by RUE</text>
+
+        <rect class="b-agent" x="910" y="428" width="140" height="96" rx="8"/>
+        <text class="t-h" x="980" y="452" text-anchor="middle">The agent</text>
+        <text class="t-h" x="980" y="468" text-anchor="middle">chooses</text>
+        <text x="980" y="490" text-anchor="middle">freely, and says</text>
+        <text x="980" y="506" text-anchor="middle">why</text>
+
+        <line class="ln" x1="162" y1="476" x2="194" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="340" y1="476" x2="372" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="518" y1="476" x2="550" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="696" y1="476" x2="728" y2="476" marker-end="url(#a2)"/>
+        <line class="ln" x1="874" y1="476" x2="906" y2="476" marker-end="url(#a2)"/>
+
+        <path class="ln-m" d="M980,526 V564 H90 V528" marker-end="url(#a2m)"/>
+        <text class="t-m" x="535" y="586" text-anchor="middle">the choice's effects are written back as facts</text>
+      </svg>

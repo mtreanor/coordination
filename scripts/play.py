@@ -9,14 +9,14 @@ Then:
     uv run scripts/play.py configs/investment-club.toml          # a Run config
     uv run scripts/play.py configs/investment-club.toml --social off --rounds 2
     uv run scripts/play.py                                       # stub work, RUE social layer, random choosers
-    uv run scripts/play.py configs/stub.toml --chooser claude-haiku --situation grudge
-    uv run scripts/play.py configs/stub.toml --principals alice=claude-haiku,bob=qwen-9b
+    uv run scripts/play.py configs/stub.toml --chooser claude-haiku --situations office-history,bob-defects
+    uv run scripts/play.py configs/stub.toml --choosers alice=claude-haiku,bob=qwen-9b
 
 Flags override the config file. The social round is one tick of the RUE scenario's tick
 plan (plan), so conditions are tick plans in rue-data/<scenario>/tickplans/.
 
 Works are listed in coordination.work.WORKS. Output goes to
-runs/<time>-<work>-<social>-<situation>/, with the resolved settings in config.json.
+runs/<time>-<work>-<social>-<situations>/, with the resolved settings in config.json.
 """
 
 import argparse
@@ -41,13 +41,15 @@ def show(agent, phase, request, decision):
 
 
 def apply_flags(config: RunConfig, args: argparse.Namespace) -> RunConfig:
-    top = {k: getattr(args, k) for k in ("work", "situation", "rounds", "seed") if getattr(args, k) is not None}
+    top = {k: getattr(args, k) for k in ("work", "rounds", "seed") if getattr(args, k) is not None}
     social = {k: v for k, v in {"layer": args.social, "scenario": args.scenario, "plan": args.plan,
                                 "server": args.server}.items() if v is not None}
     choosers = dict(config.choosers)
     if args.chooser:
         choosers["default"] = args.chooser
-    choosers.update(dict(pair.split("=", 1) for pair in (args.principals or "").split(",") if pair))
+    choosers.update(dict(pair.split("=", 1) for pair in (args.choosers or "").split(",") if pair))
+    if args.situations is not None:
+        top["situations"] = [s for s in args.situations.split(",") if s]
     if args.agents:
         top["agents"] = args.agents.split(",")
     return config.model_copy(update={**top, "choosers": choosers,
@@ -61,13 +63,15 @@ def main() -> None:
     parser.add_argument("--agents", help="comma-separated agent names")
     parser.add_argument("--social", help="rue or off")
     parser.add_argument("--scenario", help="the RUE scenario for --social rue")
-    parser.add_argument("--situation", help="a file in situations/, without .toml")
+    parser.add_argument("--situations", help="files in situations/, without .toml, comma-separated, combined in order; \"\" for the neutral start")
     parser.add_argument("--chooser", help="the default chooser: rue, random, ask, or a profile from models.toml")
-    parser.add_argument("--principals", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
+    parser.add_argument("--choosers", help="per-agent choosers, e.g. alice=claude-haiku,bob=qwen-9b")
     parser.add_argument("--rounds", type=int, help="override the work's length, for short test Runs")
     parser.add_argument("--plan", help="the RUE tick plan for the social round (e.g. full)")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--server")
+    parser.add_argument("--out", help="the Run's output directory (default: runs/<time>-<label>)")
+    parser.add_argument("--quiet", action="store_true", help="don't print each decision")
     args = parser.parse_args()
 
     load_dotenv()
@@ -78,20 +82,21 @@ def main() -> None:
     social = config.make_social()
     choosers = config.make_choosers(work.agents)
 
-    run_dir = Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-{config.label()}"
+    run_dir = Path(args.out) if args.out else Path("runs") / f"{datetime.now():%Y%m%d-%H%M%S}-{config.label()}"
     run_dir.mkdir(parents=True, exist_ok=True)
     (run_dir / "config.json").write_text(json.dumps(config.manifest(work.agents), indent=2) + "\n")
-    print(f"Run: {config.name}  Work: {config.work}  Social: {config.social.layer}  Situation: {config.situation}")
-    print("Principals: " + ", ".join(f"{agent} -> {name}" for agent, name in config.chooser_names(work.agents).items()))
+    print(f"Run: {config.name}  Work: {config.work}  Social: {config.social.layer}  Situations: {config.situation_label()}")
+    print("Choosers: " + ", ".join(f"{agent} -> {name}" for agent, name in config.chooser_names(work.agents).items()))
 
-    run = Run(work, social, choosers, situation, run_dir, on_decision=show)
+    run = Run(work, social, choosers, situation, run_dir, on_decision=None if args.quiet else show)
     original_ask = run.ask
     last_round = [0]
 
     def ask(agent, phase, prompt, options):
         if run.round != last_round[0]:
             last_round[0] = run.round
-            print(f"\nRound {run.round}")
+            if not args.quiet:
+                print(f"\nRound {run.round}")
         return original_ask(agent, phase, prompt, options)
 
     run.ask = ask

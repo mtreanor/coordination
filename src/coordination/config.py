@@ -6,7 +6,8 @@ The work's rules are code. A Run config chooses everything else:
     work = "investment-club"          # a name in coordination.work.WORKS
     agents = ["ana", "bo", "cy"]      # optional: the work's default agents otherwise
     rounds = 3                        # optional: the work's own length otherwise (for short test Runs)
-    situation = "neutral"             # a file in situations/, without .toml
+    situations = ["office-history"]   # files in situations/, without .toml, combined in order;
+                                      # none (the default) is the neutral start
     seed = 0
 
     [social]
@@ -49,7 +50,7 @@ class RunConfig(BaseModel):
     work: str = "stub"
     agents: list[str] | None = None
     rounds: int | None = None
-    situation: str = "neutral"
+    situations: list[str] = []
     seed: int = 0
     social: SocialConfig = SocialConfig()
     choosers: dict[str, str] = {"default": "random"}
@@ -63,7 +64,10 @@ class RunConfig(BaseModel):
 
     def label(self) -> str:
         social = self.social.layer if self.social.layer == "off" else f"{self.social.layer}-{self.social.plan}"
-        return f"{self.work}-{social}-{self.situation}"
+        return f"{self.work}-{social}-{self.situation_label()}"
+
+    def situation_label(self) -> str:
+        return "+".join(self.situations) or "neutral"
 
     # Building the parts of a Run
 
@@ -92,10 +96,10 @@ class RunConfig(BaseModel):
                 for i, (agent, name) in enumerate(self.chooser_names(agents).items())}
 
     def load_situation(self, agents: list[str], directory: str | Path = "situations") -> Situation:
-        situation = Situation.load(self.situation, directory)
-        unknown = set(situation.principals) - set(agents)
+        situation = Situation.combine([Situation.load(name, directory) for name in self.situations])
+        unknown = set(situation.special_instructions) - set(agents)
         if unknown:
-            raise SystemExit(f"Situation {self.situation!r} has instructions for agents this Run "
+            raise SystemExit(f"Situations {self.situations} have special instructions for agents this Run "
                              f"doesn't have: {sorted(unknown)} (agents: {agents})")
         return situation
 

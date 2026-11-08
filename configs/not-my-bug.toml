@@ -1,6 +1,6 @@
 description = "Not My Bug: five engineers, work-only, with bo planted as a defector."
 work = "not-my-bug"
-situation = "one-defector"
+situations = ["one-defector"]
 seed = 0
 
 [social]

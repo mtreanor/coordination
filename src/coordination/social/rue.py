@@ -37,12 +37,24 @@ PROMPTS = {
     "social-judgement": "This happened: {occurrence}. Choose how you judge it.",
 }
 
+INTRODUCTION = """\
+Besides the work, you're part of the group's social life. From time to time you'll be asked to:
+- make up your mind about something that happened at work that you know about;
+- say something to a colleague, or keep to yourself;
+- decide how to take something a colleague said to you.
+Each time, you choose from a short list of set options, not free conversation.
+Only the person you speak to hears what you say, and you don't learn how they took it.
+The options you're offered, and the reasons listed with them, come from a model of your social world: what you've seen your colleagues do, what you've been told, and what you've made of it. They describe how you feel; the choice is yours."""
+"""The social world as the agents are told it (ADR 0007): non-normative, and abstract, so
+the actions and labels can change without changing what the agents are told."""
+
 MENU_SIZE = 5
 """How many of RUE's top-ranked options an agent is offered at each decision (ADR 0007)."""
 
 
 class RueSocial:
     name = "rue"
+    introduction = INTRODUCTION
 
     def __init__(self, scenario: str = "social-layer-data", server: str = "http://localhost:5174",
                  plan: str = "full",
@@ -70,18 +82,29 @@ class RueSocial:
         for fact in facts:
             self.rue.assert_fact(fact)
         self.rue.set_controlled(self.agents, self.agent_stages)
+        self.rue.set_reason_template("reason")
 
     def briefing(self, agent: str) -> str:
-        """The agent's RUE state (ADR 0007): the shared world and the agent's own store, each
-        in the order it happened, rendered by RUE's `briefing` templates. Neutral values
-        (a numeric at its default) are left out. All of the shared world is shown, including
-        who knows about what, for now."""
-        sections = []
-        for heading, owner in (("In the social world:", None), ("What you think:", agent)):
-            texts = self.rue.render("briefing", owner=owner, skip_defaults=True)
-            if texts:
-                sections += [heading] + [f"- {text}" for text in texts]
-        return "\n".join(sections)
+        """The agent's social state (ADR 0007): what it is and how it sees each colleague, not
+        the history of what happened (the work Briefing has the work's history, and what
+        happened socially has left its mark on the state). RUE renders every sentence with
+        the predicates' `state` templates, from the shared world and the agent's own store,
+        leaving out neutral values; here they're only grouped: the agent's own traits first,
+        then one line per colleague, by name."""
+        facts = (self.rue.render_facts("state", skip_defaults=True)
+                 + self.rue.render_facts("state", owner=agent, skip_defaults=True))
+        own, about = [], {}
+        for fact in facts:
+            others = [a for a in fact["args"] if a in self.agents and a != agent]
+            if others:
+                about.setdefault(others[0], []).append(fact["text"])
+            else:
+                own.append(fact["text"])
+        lines = ["Your social world:"] if own or about else []
+        if own:
+            lines.append("You: " + " ".join(own))
+        lines += [f"About {other}: " + " ".join(texts) for other, texts in sorted(about.items())]
+        return "\n".join(lines)
 
     def mirror(self, state: list[WorkFact]) -> None:
         for fact in state:
@@ -140,7 +163,7 @@ class RueSocial:
             stage = pending["stageNames"][0]
             candidates = self.menu([c for c in pending["candidates"] if not c["belowFloor"]])
             options = [Option(id=i, label=c["label"], score=c["score"], is_default=c["isDefault"],
-                              reasons=[Reason(text=r["text"], direction=r["direction"]) for r in c.get("reasons", [])])
+                              reasons=[Reason(text=r["text"], direction=r["direction"]) for r in self.relevant(c)])
                        for i, c in enumerate(candidates)]
             prompt = PROMPTS.get(stage, "Choose one.").format(occurrence=self.occurrences.get(binding.get("OCC"), "something"))
             decision = ask(agent, stage.replace("-", " "), prompt, options)
@@ -152,6 +175,25 @@ class RueSocial:
                 # which is the option's label; remember it for the listener's judgement.
                 for occurrence in self._social_occurrences() - known:
                     self.occurrences[occurrence] = chosen[0]["label"]
+
+    def relevant(self, candidate: dict) -> list[dict]:
+        """The candidate's reasons that are about the people in it (ADR 0007): a reason shows
+        when its fact is about the occurrence being judged, or when every agent it names is
+        the one choosing or someone the option names (a fact about some other occurrence
+        must name one of them: an old verdict names no one, so it doesn't show). A reason about anyone else (an
+        impulse like charitable is about the agent alone, so whatever moved it reaches every
+        option that reads it) is left off the menu; the option's ranking is unchanged."""
+        bound = {str(v) for v in candidate.get("binding", {}).values()}
+        people = bound & set(self.agents)
+        def keep(reason: dict) -> bool:
+            args = [str(a) for a in reason["fact"]["args"]]
+            named = {a for a in args if a in self.agents}
+            if set(args) & bound - people:            # about the occurrence being judged
+                return True
+            if any(a in self.occurrences for a in args):  # about some other occurrence:
+                return bool(named) and named <= people    # only if it names the option's people
+            return named <= people
+        return [r for r in candidate.get("reasons", []) if keep(r)]
 
     def menu(self, candidates: list[dict]) -> list[dict]:
         """RUE's top-ranked options, at most `menu_size`, in random order (ADR 0007). RUE lists

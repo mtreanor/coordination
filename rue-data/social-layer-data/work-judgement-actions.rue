@@ -9,8 +9,9 @@ actionset "work-judgement-actions"
   # ?SELF holds them responsible, in ?SELF's own store. "Bad luck" and "no
   # real opinion" name no one.
   #
-  # Stand-in effects on how ?SELF regards ?X: selfish lowers liking and
-  # trust, careless lowers trust, fair raises trust, generous raises both.
+  # Stand-in effects on how ?SELF regards ?X, in ?SELF's own store: selfish
+  # lowers liking and trust and adds to a grudge, careless lowers trust, fair
+  # raises trust, generous raises both and adds to gratitude.
   #
   # No label is hidden because of what changed: whether an outcome was good or
   # bad for ?SELF is for ?SELF's own strategy. Utilities are sums of the
@@ -33,6 +34,7 @@ actionset "work-judgement-actions"
       ?SELF.responsible(?OCC, ?X)
       ?SELF.likes(?SELF, ?X) -= 1
       ?SELF.trusts(?SELF, ?X) -= 1
+      ?SELF.grudge(?SELF, ?X) += 1
 
   action "call it careless"
     roles: ?SELF: agent, ?OCC: occurrence, ?X: agent
@@ -82,6 +84,7 @@ actionset "work-judgement-actions"
       ?SELF.responsible(?OCC, ?X)
       ?SELF.likes(?SELF, ?X) += 1
       ?SELF.trusts(?SELF, ?X) += 1
+      ?SELF.grateful(?SELF, ?X) += 1
 
   action "call it bad luck"
     roles: ?SELF: agent, ?OCC: occurrence

@@ -17,7 +17,8 @@
       "maxValue": 10,
       "default": 5,
       "toString": {
-        "briefing": "You like {args[1]} {value} out of 10."
+        "state": "You like them {value} out of 10.",
+        "reason": "You like {args[1]} {value} out of 10."
       }
     },
     "trusts": {
@@ -30,7 +31,8 @@
       "maxValue": 10,
       "default": 5,
       "toString": {
-        "briefing": "You trust {args[1]} {value} out of 10."
+        "state": "You trust them {value} out of 10.",
+        "reason": "You trust {args[1]} {value} out of 10."
       }
     },
     "actionType": {
@@ -55,7 +57,7 @@
         "agent"
       ],
       "toString": {
-        "briefing": "{args[1]} knows about \"{text[0]}\"."
+        "reason": "{args[1]} knows about \"{text[0]}\"."
       },
       "privateFallback": "world-first"
     },
@@ -85,7 +87,10 @@
         "agent",
         "quantity"
       ],
-      "default": 0
+      "default": 0,
+      "toString": {
+        "reason": "\"{text[0]}\" changed {args[1]}'s {args[2]} by {value}."
+      }
     },
     "responsible": {
       "type": "boolean",
@@ -95,7 +100,7 @@
       ],
       "privateFallback": "world-first",
       "toString": {
-        "briefing": "{args[1]} is responsible for \"{text[0]}\"."
+        "reason": "{args[1]} is responsible for \"{text[0]}\"."
       }
     },
     "judgedAs": {
@@ -105,7 +110,7 @@
         "label"
       ],
       "toString": {
-        "briefing": "Your verdict on \"{text[0]}\": {args[1]}."
+        "reason": "Your verdict on \"{text[0]}\": {args[1]}."
       }
     },
     "leftAlone": {
@@ -114,7 +119,7 @@
         "agent"
       ],
       "toString": {
-        "briefing": "Nobody did anything to you this round that you can put a name to."
+        "reason": "Nobody did anything to you this round that you can put a name to."
       }
     },
     "dealtWith": {
@@ -194,6 +199,182 @@
       "annotations": {
         "ephemeral": true
       }
+    },
+    "forgiving": {
+      "type": "boolean",
+      "args": [
+        "agent"
+      ],
+      "toString": {
+        "state": "You're forgiving: you don't hold on to slights.",
+        "reason": "You're forgiving: you don't hold on to slights."
+      }
+    },
+    "suspicious": {
+      "type": "boolean",
+      "args": [
+        "agent"
+      ],
+      "toString": {
+        "state": "You're suspicious: you look for the catch.",
+        "reason": "You're suspicious: you look for the catch."
+      }
+    },
+    "gossipy": {
+      "type": "boolean",
+      "args": [
+        "agent"
+      ],
+      "toString": {
+        "state": "You like to talk about other people.",
+        "reason": "You like to talk about other people."
+      }
+    },
+    "proud": {
+      "type": "boolean",
+      "args": [
+        "agent"
+      ],
+      "toString": {
+        "state": "You're proud: you don't like being shown up.",
+        "reason": "You're proud: you don't like being shown up."
+      }
+    },
+    "loyal": {
+      "type": "boolean",
+      "args": [
+        "agent"
+      ],
+      "toString": {
+        "state": "You're loyal to your friends.",
+        "reason": "You're loyal to your friends."
+      }
+    },
+    "easygoing": {
+      "type": "boolean",
+      "args": [
+        "agent"
+      ],
+      "toString": {
+        "state": "You're easygoing: little gets to you.",
+        "reason": "You're easygoing: little gets to you."
+      }
+    },
+    "grudge": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 10,
+      "default": 0,
+      "toString": {
+        "state": "You hold a grudge against them ({value} out of 10).",
+        "reason": "You hold a grudge against {args[1]} ({value} out of 10)."
+      }
+    },
+    "grateful": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "minValue": 0,
+      "maxValue": 10,
+      "default": 0,
+      "toString": {
+        "state": "You feel grateful to them ({value} out of 10).",
+        "reason": "You feel grateful to {args[1]} ({value} out of 10)."
+      }
+    },
+    "friends": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "toString": {
+        "state": "You count them as a friend.",
+        "reason": "You count {args[1]} as a friend."
+      }
+    },
+    "rival": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "toString": {
+        "state": "You see them as a rival.",
+        "reason": "You see {args[1]} as a rival."
+      }
+    },
+    "believes": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "agent",
+        "label"
+      ],
+      "toString": {
+        "state": "You've come to believe they're {args[2]}.",
+        "reason": "You've come to believe {args[1]} is {args[2]}."
+      }
+    },
+    "impulse-conciliatory": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "expressed": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "agent",
+        "agent",
+        "label"
+      ],
+      "toString": {
+        "reason": "You've told {args[1]} that {args[2]} is {args[3]} recently."
+      }
+    },
+    "expressedDirectly": {
+      "type": "boolean",
+      "args": [
+        "agent",
+        "agent",
+        "label"
+      ],
+      "toString": {
+        "reason": "You've {args[2]} {args[1]} recently."
+      }
+    },
+    "impulse-already-expressed": {
+      "type": "numeric",
+      "args": [
+        "agent",
+        "agent",
+        "agent",
+        "label"
+      ],
+      "default": 0,
+      "annotations": {
+        "ephemeral": true
+      }
+    },
+    "freshDealings": {
+      "type": "derived",
+      "args": [
+        "agent",
+        "agent"
+      ]
     }
   }
 }

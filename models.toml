@@ -1,4 +1,4 @@
-# Model profiles. A Run assigns each principal a profile by name.
+# Model profiles. A Run assigns each agent a profile by name.
 #
 # Keys: provider, model (required); base_url, temperature, max_tokens, seed,
 # thinking (false | true | "minimal" | "low" | "medium" | "high" | "xhigh"),

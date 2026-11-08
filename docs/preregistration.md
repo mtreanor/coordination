@@ -10,7 +10,7 @@ Not for this study. The framework has been run with stub work and a stub social 
 
 ## 2. Question and hypotheses
 
-**Question.** When LLM agents acting for different principals share work and can see a symbolically grounded social world, does that social layer improve their cooperation? The mechanism under test is norm enforcement through gossip and ostracism (Feinberg, Willer & Schultz 2014): gossip spreads dislike of a selfish agent, others shun it, the shunned agent changes its behaviour, and the group does better.
+**Question.** When LLM agents share work and can see a symbolically grounded social world, does that social layer improve their cooperation? The mechanism under test is norm enforcement through gossip and ostracism (Feinberg, Willer & Schultz 2014): gossip spreads dislike of a selfish agent, others shun it, the shunned agent changes its behaviour, and the group does better.
 
 Each hypothesis is one link of the causal chain (`docs/experiment.md` section 3). X is the planted defector (section 4).
 
@@ -29,7 +29,7 @@ Only H4 is confirmatory. H1–H3 are secondary: their results are reported whate
 
 All are computed per Run from the Run's logs (`decisions.jsonl`, `events.jsonl`, `rounds.jsonl`) and RUE's state, by a script committed before the first confirmatory Run.
 
-**Primary outcome [DECISION 1].** Proposed: **group welfare**, the sum of all principals' final work scores, divided by the score of the all-cooperative strategy in the same work (so 1.0 = full cooperation). Alternative: the cooperation rate (the share of work moves that are cooperative). Group welfare is closer to "the group does better" and harder to game by trivial cooperation.
+**Primary outcome [DECISION 1].** Proposed: **group welfare**, the sum of all agents' final work scores, divided by the score of the all-cooperative strategy in the same work (so 1.0 = full cooperation). Alternative: the cooperation rate (the share of work moves that are cooperative). Group welfare is closer to "the group does better" and harder to game by trivial cooperation.
 
 **Secondary measures.**
 
@@ -58,7 +58,7 @@ Which work moves count as "cooperative", "selfish" and "discretionary help" is f
 
 H4 compares Full with Work-only. Full vs. Social-no-gossip is a secondary comparison that isolates gossip.
 
-**Agents and the planted defector.** Five agents. Four principals have neutral instructions; one (X) is told to put its own score first, as in `situations/defector.toml`. Which agent is X is chosen at random per Run (seeded), so position effects don't line up with the defector. Everyone starts with neutral Dispositions.
+**Agents and the planted defector.** Five agents. Four agents have no special instructions; one (X) has special instructions to put its own score first, as in `situations/bob-defects.toml`. Which agent is X is chosen at random per Run (seeded), so position effects don't line up with the defector. Everyone starts with neutral Dispositions.
 
 **Held constant across conditions:**
 
@@ -66,7 +66,8 @@ H4 compares Full with Work-only. Full vs. Social-no-gossip is a secondary compar
   - **One primary model** carries the confirmatory test (H4) with the full sample. Proposed: Gemini 3.5 Flash-Lite or Claude Haiku 5.5.
   - **Replication models** run the same three conditions with 5 Runs per condition. Their results are reported as effect sizes per model ("does the effect hold across models?"), not as further significance tests. Proposed lineup: Claude Haiku 5.5, Gemini 3.5 Flash-Lite, Gemini 3.8 Flash, Claude Haiku 4.5, Claude Sonnet 5.5, and the local Qwen 3.5 9B, Gemma 4 12B and Granite 4.1 8B.
   - **The list is fixed at registration;** a model that fails (for example, too many invalid answers) is reported as failed, not swapped out.
-- **The prompts:** the principals' instructions, the Briefing format, the Decision Request format.
+- **The prompts:** the standing introduction and special instructions, the Briefing format, the Decision Request format.
+- **The social conditions' system prompt describes the social world; the work-only condition's doesn't.** The description is non-normative (what kinds of social decision exist, who hears what), never what's worth doing (ADR 0007). It is part of what a condition is, not a nudge.
 - **RUE's ranking is hidden** from agents in every condition: no scores, and menus are shuffled and numbered by position. Otherwise only the social conditions would carry numbers next to choices, a confound.
 - **The number of rounds, R.** Proposed R = 10, and **agents are not told R**, to avoid end-game defection.
 - **The work, the RUE scenario and the Situation,** frozen at the registered commit.
@@ -99,7 +100,7 @@ The **unit of analysis is the Run**: agents within a Run aren't independent.
 
 ## 8. Reproducibility
 
-Every Run writes a manifest: condition, seeds, model profiles and their settings, the rendered principal instructions, Run settings, and the commit hashes of this repo and `external/rue`. The analysis script reads only Run directories and manifests. The code, the scenario, the Situations and the analysis script are public with the report.
+Every Run writes a manifest: condition, seeds, model profiles and their settings, the rendered instructions, Run settings, and the commit hashes of this repo and `external/rue`. The analysis script reads only Run directories and manifests. The code, the scenario, the Situations and the analysis script are public with the report.
 
 ## 9. Deviations
 
