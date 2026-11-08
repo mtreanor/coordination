@@ -52,7 +52,7 @@
       ],
       "privateFallback": "world-first",
       "toString": {
-        "reason": "You saw it: \"{text[0]}\"."
+        "reason": "You were there: \"{text[0]}\"."
       }
     },
     "witnessed": {

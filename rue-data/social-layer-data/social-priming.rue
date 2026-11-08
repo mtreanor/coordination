@@ -256,7 +256,7 @@ ruleset "social-priming"
   # (?B is the occurrence's credited actor, as far as ?SELF knows) pulls
   # ?SELF toward the matching view of ?B. What ?SELF saw then weighs against
   # what it's told: a claim that ?B is selfish meets ?SELF's own verdict that
-  # ?B was fair, shown as a reason on the menu ("You saw it: ..."). Blame
+  # ?B was fair, shown as a reason on the menu ("You were there: ..."). Blame
   # ?SELF assigned for something nobody was credited with doesn't count: in
   # exp/5 a first version that counted it amplified self-serving blame.
   # Weights are first guesses, for Mike's review.
@@ -280,3 +280,20 @@ ruleset "social-priming"
   rule "you called what they did careless yourself: wary"
     ?SELF.judgedAs(?O, "careless") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)
     => impulse-wary(?SELF, ?B) += 1
+
+  # ── Tier 2: second premises tier 1 deferred (Nov 8) ──
+  # Loyal is a trait about friends, so alone it says nothing (tier 1 left it
+  # out); with the friendship it pulls ?SELF toward its friends.
+
+  rule "loyal to a friend: warm"
+    ?SELF.loyal(?SELF) ^ ?SELF.friends(?SELF, ?B)
+    => impulse-warm(?SELF, ?B) += 2
+
+  # Being confided in: ?S chose to tell ?SELF something about someone else
+  # (the claim ?SELF is judging, or one made to it this round). Being taken
+  # into someone's confidence pulls toward believing them. Tier 1 left role
+  # out because being confided in needs the speaker.
+
+  rule "confided in: trusting toward them"
+    ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1] ^ ?SELF.role(?OCC, OTHER, ?B)
+    => impulse-trusting(?SELF, ?S) += 1

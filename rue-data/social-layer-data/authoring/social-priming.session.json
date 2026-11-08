@@ -101,12 +101,11 @@
     "judged, work_occurrence, social_occurrence, actionType": "bookkeeping, no meaning alone"
   },
   "notConsidered": {
-    "responsible": "now read without polarity (involvement raises warm and hostile alike, lowers reserved); with polarity it needs the label (tier 2)",
+    "responsible": "read without polarity in tier 1; with polarity in tier 2 through the label and the credited actor (role ACTOR), not responsible, which includes blame ?SELF assigned (exp/5)",
     "witnessed": "alone it has no polarity",
-    "role": "work occurrences carry no roles; on social occurrences, being the one talked about is not something ?SELF witnessed, and being confided in needs the speaker (tier 2)",
+    "role": "work occurrences: read with the label in tier 2 (own verdicts). Social occurrences: being confided in, with the speaker, in tier 2.",
     "judgedAs careless": "no clear single-premise effect on ?SELF's own charity or reserve",
-    "leftAlone(?B)": "?SELF can't know nobody did anything to ?B",
-    "loyal": "a trait about friends: needs friends(?SELF, ?B) as a second premise (tier 2)"
+    "leftAlone(?B)": "?SELF can't know nobody did anything to ?B"
   },
   "notes": [
     "Every stage binds the agent choosing as ?SELF; RUE keeps same-type variables distinct, so rules are written about ?SELF.",
@@ -115,7 +114,7 @@
     "First pass chosen without item-by-item review (Mike, Nov 7: he reviews later).",
     "In judgement stages ?OCC is the occurrence being judged; a rule over a fresh ?O can never match it (distinct variables), so rules about the event being judged use ?OCC."
   ],
-  "tier": 1,
+  "tier": 2,
   "queue": [
     {
       "id": 1,
@@ -738,6 +737,146 @@
       "weight": 3,
       "status": "approved",
       "note": "Repetition, Nov 7: saying the same thing to the same person again pulls less."
+    },
+    {
+      "id": 47,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "you called what they did fair yourself: trusting",
+      "ruleText": "  rule \"you called what they did fair yourself: trusting\"\n    ?SELF.judgedAs(?O, \"fair\") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-trusting(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8 (exp/4-firsthand, merged by Mike): the label with who did it, the tier-1 note on responsible. Counts only a credited actor (exp/5)."
+    },
+    {
+      "id": 48,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"fair\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "you called what they did fair yourself: warm",
+      "ruleText": "  rule \"you called what they did fair yourself: warm\"\n    ?SELF.judgedAs(?O, \"fair\") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-warm(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8 (exp/4-firsthand, merged by Mike): the label with who did it, the tier-1 note on responsible. Counts only a credited actor (exp/5)."
+    },
+    {
+      "id": 49,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"generous\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "you called what they did generous yourself: warm",
+      "ruleText": "  rule \"you called what they did generous yourself: warm\"\n    ?SELF.judgedAs(?O, \"generous\") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-warm(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8 (exp/4-firsthand, merged by Mike): the label with who did it, the tier-1 note on responsible. Counts only a credited actor (exp/5)."
+    },
+    {
+      "id": 50,
+      "tier": 2,
+      "target": "impulse-hostile",
+      "premises": [
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"selfish\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "you called what they did selfish yourself: hostile",
+      "ruleText": "  rule \"you called what they did selfish yourself: hostile\"\n    ?SELF.judgedAs(?O, \"selfish\") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-hostile(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8 (exp/4-firsthand, merged by Mike): the label with who did it, the tier-1 note on responsible. Counts only a credited actor (exp/5)."
+    },
+    {
+      "id": 51,
+      "tier": 2,
+      "target": "impulse-wary",
+      "premises": [
+        {
+          "predicate": "judgedAs",
+          "binding": "?SELF.judgedAs(?O, \"careless\") [asserted-during: 3]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?O, ACTOR, ?B)"
+        }
+      ],
+      "ruleName": "you called what they did careless yourself: wary",
+      "ruleText": "  rule \"you called what they did careless yourself: wary\"\n    ?SELF.judgedAs(?O, \"careless\") [asserted-during: 3] ^ ?SELF.role(?O, ACTOR, ?B)\n    => impulse-wary(?SELF, ?B) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8 (exp/4-firsthand, merged by Mike): the label with who did it, the tier-1 note on responsible. Counts only a credited actor (exp/5)."
+    },
+    {
+      "id": 52,
+      "tier": 2,
+      "target": "impulse-warm",
+      "premises": [
+        {
+          "predicate": "loyal",
+          "binding": "?SELF.loyal(?SELF)"
+        },
+        {
+          "predicate": "friends",
+          "binding": "?SELF.friends(?SELF, ?B)"
+        }
+      ],
+      "ruleName": "loyal to a friend: warm",
+      "ruleText": "  rule \"loyal to a friend: warm\"\n    ?SELF.loyal(?SELF) ^ ?SELF.friends(?SELF, ?B)\n    => impulse-warm(?SELF, ?B) += 2",
+      "weight": 2,
+      "status": "approved",
+      "note": "Nov 8: tier 1 deferred loyal, which needs friends as a second premise."
+    },
+    {
+      "id": 53,
+      "tier": 2,
+      "target": "impulse-trusting",
+      "premises": [
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, SELF, ?S) [asserted-during: 1]"
+        },
+        {
+          "predicate": "role",
+          "binding": "?SELF.role(?OCC, OTHER, ?B)"
+        }
+      ],
+      "ruleName": "confided in: trusting toward them",
+      "ruleText": "  rule \"confided in: trusting toward them\"\n    ?SELF.role(?OCC, SELF, ?S) [asserted-during: 1] ^ ?SELF.role(?OCC, OTHER, ?B)\n    => impulse-trusting(?SELF, ?S) += 1",
+      "weight": 1,
+      "status": "approved",
+      "note": "Nov 8: tier 1 deferred role; being confided in needs the speaker."
     }
   ]
 }
