@@ -1,0 +1,73 @@
+{
+  "file": "experiments/prereg2-club-haiku.toml",
+  "social": null,
+  "runs": 20,
+  "first_seed": 200,
+  "parallel": 6,
+  "chooser": "claude-haiku-5-5",
+  "rounds": 10,
+  "situations": null,
+  "out": "runs/batch-prereg2-club-haiku",
+  "choosers": null,
+  "config": "configs/investment-club-rue-smoke.toml",
+  "conditions": {
+    "work-only-matched": {
+      "social": "off-matched",
+      "situations": [
+        "hidden-skimmer"
+      ]
+    },
+    "paragraph-only": {
+      "social": "off-social",
+      "situations": [
+        "hidden-skimmer"
+      ]
+    },
+    "rue-only": {
+      "social": "rue-matched",
+      "situations": [
+        "hidden-skimmer"
+      ]
+    },
+    "social": {
+      "situations": [
+        "hidden-skimmer"
+      ]
+    }
+  },
+  "experiment": {
+    "description": "Second preregistered study (docs/experiments/prereg2-paragraph-vs-rue.md): does RUE's social world add to the social-life paragraph? A 2x2 on claude-haiku-5-5 in the Investment Club with the hidden skimmer: standing introduction (neutral or social-life) crossed with RUE (off or on). Fresh seeds 200-219. The first condition is the baseline for paired differences.",
+    "config": "configs/investment-club-rue-smoke.toml",
+    "runs": 20,
+    "first_seed": 200,
+    "rounds": 10,
+    "chooser": "claude-haiku-5-5",
+    "parallel": 6,
+    "conditions": {
+      "work-only-matched": {
+        "social": "off-matched",
+        "situations": [
+          "hidden-skimmer"
+        ]
+      },
+      "paragraph-only": {
+        "social": "off-social",
+        "situations": [
+          "hidden-skimmer"
+        ]
+      },
+      "rue-only": {
+        "social": "rue-matched",
+        "situations": [
+          "hidden-skimmer"
+        ]
+      },
+      "social": {
+        "situations": [
+          "hidden-skimmer"
+        ]
+      }
+    }
+  },
+  "started": "2026-11-08T19:15:02.202220"
+}

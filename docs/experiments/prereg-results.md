@@ -18,7 +18,9 @@ The two models' effects differ by 304 coins [148, 467], permutation p = 0.001.
 
 **In one sentence:** on claude-haiku-5-5 the social condition raised the team's coins by about half again (604 → 927 on average), while gemini-3.6-flash already cooperated almost fully without it and gained nothing.
 
-**The central caveat (exploratory, section 7.1).** On Haiku, the gap opens in round 1, before any talk has happened. The only difference at that point is the social-life paragraph in the system prompt. So the result shows that the *social condition* (the paragraph plus RUE's social world) raises cooperation. It does not show which part of it does. The obvious next experiment is the paragraph without RUE, and RUE without the paragraph.
+**The central caveat (exploratory, section 6.2; resolved by study 2, see below).** On Haiku, the gap opens in round 1, before any talk has happened. The only difference at that point is the social-life paragraph in the system prompt. So the result shows that the *social condition* (the paragraph plus RUE's social world) raises cooperation. It does not show which part of it does. The obvious next experiment is the paragraph without RUE, and RUE without the paragraph.
+
+**Study 2 ran that experiment** ([prereg2-results.md](prereg2-results.md)). Both parts raise cooperation: the paragraph alone by +203 and RUE alone by +153. With the paragraph held fixed, RUE adds +109 [+27, +199], p = 0.024. The round-1 split described in section 6.2 didn't recur.
 
 ## 2. What was run
 
@@ -193,6 +195,8 @@ How often investors kept all their coins, out of 60 decisions per round:
 | social | 43 | 20 | 13 | 10 |
 
 ### 6.2 The gap starts before any talk
+
+> **Update after study 2: this didn't recur, and it was most likely noise.** In study 2 the round-1 payback share was 0.35 with the paragraph alone, against 0.39 with the neutral paragraph. Haiku also answered identical prompts differently 34% of the time ([prereg2-results.md](prereg2-results.md), section 5). Study 2 did separate the paragraph from RUE: each raises team coins, and RUE adds +109 with the paragraph held fixed. The rest of this section is kept as written.
 
 Round 1's paybacks happen before the first social round, so in round 1 the conditions differ only in their system prompt. Yet Haiku's round-1 paybacks already split by condition:
 

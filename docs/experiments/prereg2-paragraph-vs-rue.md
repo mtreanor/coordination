@@ -1,6 +1,6 @@
 # Preregistration 2: does RUE's social world add to the social-life paragraph?
 
-**Status: registered Nov 8 2026**, as the commit tagged `prereg2-v1`, before the first confirmatory Run. Changes after that commit go in section 9.
+**Status: registered Nov 8 2026**, as the commit tagged `prereg2-v1`, before the first confirmatory Run. Changes after that commit go in section 9. **Results: [prereg2-results.md](prereg2-results.md).**
 
 **Preliminary, and deliberately cheap**, like the first study: one inexpensive model (claude-haiku-5-5), one work, 20 seeds, about $5. It gives an answer and effect sizes to plan a real study with, not a final result.
 
@@ -144,7 +144,7 @@ uv run scripts/prereg2_analysis.py runs/batch-prereg2-club-haiku
 
 | Date | Change | Reason |
 |---|---|---|
-| | | |
+| | None | |
 
 ## Registration checklist
 
