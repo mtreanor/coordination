@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="996" height="308" viewBox="0 0 996 308" role="img" aria-label="What existed before the hackathon and what was built over the weekend: RUE, its client, the model choosers and the position existed; the harness, the work-RUE interface and Situations were significantly reworked; Briefings, the social world, the works, the experiment tooling, the attack Situations, all studies and this report are new.">
+<svg xmlns="http://www.w3.org/2000/svg" width="996" height="308" viewBox="0 0 996 308" role="img" aria-label="What existed before the hackathon and what was built over the weekend: RUE, its client, the model choosers and the position existed; the harness, the work-RUE interface and Situations were significantly reworked; Briefings, the social world, the works, the experiment tooling, the attack Situations, all studies and the paper are new.">
 <defs><pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><rect width="6" height="6" fill="#ffffff"/><line x1="0" y1="0" x2="0" y2="6" stroke="#56636c" stroke-width="2.4"/></pattern></defs>
 <style>
 text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif; fill: #1b2226; font-size: 12px; }
@@ -49,7 +49,7 @@ text { font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-
 <rect class="c-new" x="672" y="143" width="32" height="16" rx="2"/>
 <text class="t-row" x="716" y="155">Exploratory experiments and pilots</text>
 <rect class="c-new" x="672" y="169" width="32" height="16" rx="2"/>
-<text class="t-row" x="716" y="181">Preregistered study and its analysis</text>
+<text class="t-row" x="716" y="181">Two preregistered studies and analysis</text>
 <rect class="c-new" x="672" y="195" width="32" height="16" rx="2"/>
-<text class="t-row" x="716" y="207">This report</text>
+<text class="t-row" x="716" y="207">The paper</text>
 </svg>

@@ -6,49 +6,30 @@ The social world runs in **RUE**, a symbolic engine (`external/rue`). RUE keeps 
 
 **The research question:** does a social layer like this improve coordination among agents, open new ways to exploit them, or do nothing?
 
-**Paper:** *Grounded Gossip: A Neurosymbolic Testbed with a Social Memory LLM Agents Can't Rewrite, Toward Self-Correcting Agent Populations*, written for the Apart Research Swarm Alignment Hackathon (Nov 6–8, 2026). The PDF will be linked here.
+> **📄 Read the paper: [Grounded Gossip: A Neurosymbolic Testbed with a Social Memory LLM Agents Can't Rewrite, Toward Self-Correcting Agent Populations](Treanor_GroundedGossip_SwarmAlignment2026.pdf)** (PDF), written for the Apart Research Swarm Alignment Hackathon, Nov 6–8, 2026.
 
 ## Results so far (preliminary)
 
 There are two small preregistered studies in the Investment Club, a trust game. Each was registered as a git tag before any of its Runs. Both are deliberately cheap: one work and inexpensive models. They give a first answer and effect sizes for planning a real study, not a final result.
 
-| Contrast | Team coins [95% CI] | Seeds +/−; p |
+| Contrast | Difference in team coins | Seeds ahead / behind; p |
 |---|---|---|
-| Study 1, gemini-3.6-flash: social layer vs matched control | +19 [−73, +111] | 6 / 8; Holm 0.35 |
-| Study 1, claude-haiku-5-5: social layer vs matched control | **+323 [+200, +458]** | 13 / 1; Holm 0.0004 |
+| Study 1, gemini-3.6-flash: social layer vs matched control | +19 [−73, +111] | 6 / 8; 0.35 |
+| Study 1, claude-haiku-5-5: social layer vs matched control | **+323 [+200, +458]** | 13 / 1; 0.0004 |
 | Study 2 (primary): RUE added to the social-life paragraph | **+109 [+27, +199]** | 14 / 6; 0.024 |
-| Study 2: the paragraph alone | +203 [+116, +295] | 16 / 4; Holm 0.0012 |
-| Study 2: RUE alone (neutral paragraph) | +153 [+70, +234] | 16 / 4; Holm 0.010 |
-| Study 2: study 1 replicated on fresh seeds | +312 [+231, +388] | 18 / 2; Holm < 0.0001 |
+| Study 2: the paragraph alone | +203 [+116, +295] | 16 / 4; 0.0012 |
+| Study 2: RUE alone (neutral paragraph) | +153 [+70, +234] | 16 / 4; 0.010 |
+| Study 2: study 1 replicated on fresh seeds | +312 [+231, +388] | 18 / 2; < 0.0001 |
+
+Brackets give the range the true difference plausibly falls in (95%); p is how often chance alone would give a result at least this favorable, adjusted where several comparisons were made.
 
 On claude-haiku-5-5, left alone, cooperation falls apart, and the social layer raised team coins by about half. Both parts of the layer contributed, roughly additively: describing a social life in the system prompt, and RUE's symbolic social world (with that description held fixed). On gemini-3.6-flash, agents already cooperated almost fully, so there was nothing for the layer to raise. The full write-ups are in `docs/experiments/` (preregistrations, results, deviations), and every Run behind them is saved in `prereg-runs/`.
 
 ## What existed before the hackathon, and what was built during it
 
-The git tag **`hackathon-start`** (`7d9ee37`, Nov 6 2026, 00:04 US Eastern) marks the boundary. Everything up to it existed before the hackathon. RUE is a separate, pre-existing project with its own history. `docs/worklog.md` records what was worked on during the weekend, and for roughly how long.
-
-| Part | Before the weekend | Status |
-|---|---|---|
-| **Engine and harness** | | |
-| RUE engine and authoring tool | A separate, mature project | Existed (general features added upstream this weekend: rendered reasons for every option, fresh priming, private occurrences, among others) |
-| RUE client (Play API) | Working | Existed |
-| Model choosers (local and hosted LLMs, scripted, human) | Working | Existed |
-| The Run (the harness) | A skeleton behind stubbed interfaces (ADR 0004) | **Significantly reworked:** filled in, with a work-only switch |
-| Interface between the work and RUE | Work events entered RUE as external actions | **Significantly reworked:** events report effects, credit and witnesses (ADR 0006) |
-| Situations (starting conditions) | Three simple ones | **Significantly reworked:** combinable, with special instructions |
-| Briefings and the Decision Request | None | **New:** menus with reasons, the incentive wording (ADR 0007) |
-| **What runs in it** | | |
-| The social world (authored RUE rules) | A placeholder stub: three stages, a few actions | **New** |
-| The works: Investment Club, Not My Bug | A stub points game | **New** |
-| Run configs, experiment files, batch runner | None | **New** (ADR 0005) |
-| Attack Situations and the auditor | None | **New** |
-| **Studies and writing** | | |
-| Position, research question, related work | A grant proposal (Aug 2026) and a workshop paper draft | Existed |
-| Exploratory experiments and pilots | None | **New** |
-| Two preregistered studies and their analysis | None | **New** (tags `prereg-confirmatory-v1` and `prereg2-v1`, each made before its Runs) |
-| The paper | None | **New** |
-
 ![What existed before the hackathon, and what was built during it](docs/figures/before-and-after.png)
+
+The git tag **`hackathon-start`** (`7d9ee37`, Nov 6 2026, 00:04 US Eastern) marks the boundary: everything up to it existed before the hackathon. RUE is a separate, pre-existing project with its own history; some general features were added to it upstream this weekend (rendered reasons for every option, fresh priming, private occurrences, among others). The two preregistered studies were each tagged before their Runs (`prereg-confirmatory-v1` and `prereg2-v1`). `docs/worklog.md` records what was worked on during the weekend, and for roughly how long.
 
 ## How the testbed works
 
