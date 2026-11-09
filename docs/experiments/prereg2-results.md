@@ -117,7 +117,7 @@ Study 1's exploratory section made much of round 1. With the social paragraph, a
 
 This study also has a built-in measure of the noise. In round 1, RUE hasn't acted yet, so `rue-only` and `work-only-matched` give the agents identical prompts, and so do `social` and `paragraph-only`. All 160 round-1 investment prompts compared were byte-for-byte identical between the paired cells. **Yet Haiku chose differently on the same prompt 34% of the time** (54 of 160).
 
-The provider doesn't honour a sampling seed, so a seed fixes the dice and the menus but not the model's sampling. The round-1 payback share differed between cells that got identical prompts (0.21 against 0.39, and 0.50 against 0.35), and those gaps are pure chance. Study 1's split, on 9 and 10 paybacks, is no larger than that.
+A seed fixes the dice and the menus but not the model's sampling. The round-1 payback share differed between cells that got identical prompts (0.21 against 0.39, and 0.50 against 0.35), and those gaps are pure chance. Study 1's split, on 9 and 10 paybacks, is no larger than that.
 
 So the paragraph's effect doesn't show in round 1. It builds over the Run. Study 1's results document is annotated accordingly. This is the point of confirming exploratory findings: this one, stated with some confidence, was noise.
 
@@ -157,4 +157,4 @@ The Runs are saved in `prereg-runs/study2/` (decision logs gzipped; 8 MB), with 
 uv run scripts/prereg2_analysis.py prereg-runs/study2
 ```
 
-To rerun from scratch, at tag `prereg2-v1`: `uv run scripts/batch.py experiments/prereg2-club-haiku.toml`. Hosted models don't sample deterministically (section 5), so a rerun gives new samples of the same design rather than the same Runs.
+To rerun from scratch, at tag `prereg2-v1`: `uv run scripts/batch.py experiments/prereg2-club-haiku.toml`. The models' sampling isn't fixed by the seed (section 5), so a rerun gives new samples of the same design rather than the same Runs.

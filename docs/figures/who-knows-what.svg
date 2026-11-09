@@ -41,8 +41,8 @@ text { fill: #1b2226; font-size: 12px; }
 
         <!-- events -->
         <rect class="b-work" x="20" y="48" width="280" height="44" rx="6"/>
-        <text x="34" y="66">The team lost 2 hours to handoffs</text>
-        <text class="t-s t-m" x="34" y="83">everyone witnessed it; nobody is credited</text>
+        <text x="34" y="66">Something every agent saw</text>
+        <text class="t-s t-m" x="34" y="83">everyone witnessed it</text>
         <rect class="b-work" x="20" y="145" width="280" height="44" rx="6"/>
         <text x="34" y="163">bob passed his bug to alice</text>
         <text class="t-s t-m" x="34" y="180">only the two of them witnessed it</text>
@@ -50,8 +50,8 @@ text { fill: #1b2226; font-size: 12px; }
         <text x="34" y="246">alice tells dave that bob is selfish</text>
         <text class="t-s t-m" x="34" y="263">a social action: only dave hears it</text>
         <rect class="b-h" x="20" y="303" width="280" height="44" rx="6"/>
-        <text x="34" y="321">Who made an uncredited pass; dice</text>
-        <text class="t-s t-m" x="34" y="338">ground truth, and every rationale</text>
+        <text x="34" y="321">The dice, and every agent's reasons</text>
+        <text class="t-s t-m" x="34" y="338">the ground truth</text>
 
         <!-- stores -->
         <rect class="b-hot" x="370" y="48" width="260" height="44" rx="6"/>

@@ -48,8 +48,8 @@ text { fill: #1b2226; font-size: 12px; }
           <text x="40" y="184">call it fair / generous of X</text>
           <text x="40" y="202">bad luck · no real opinion</text>
           <text class="t-cap" x="40" y="232">EFFECTS, IN THE JUDGE'S STORE</text>
-          <text class="mono" x="40" y="252">judgedAs(occ, label)</text>
-          <text class="mono" x="40" y="270">naming X → responsible(occ, X)</text>
+          <text x="40" y="252">the label it chose</text>
+          <text x="40" y="270">naming X: holds X responsible</text>
           <text x="40" y="288">liking, trust, grudge, gratitude</text>
           <text x="40" y="304">toward X move</text>
         </g>
@@ -80,7 +80,7 @@ text { fill: #1b2226; font-size: 12px; }
           <text x="780" y="184">accept or brush off thanks, an</text>
           <text x="780" y="202">apology, the cold shoulder · no opinion</text>
           <text class="t-cap" x="780" y="232">EFFECTS, IN THE LISTENER'S STORE</text>
-          <text class="mono" x="780" y="252">believes(me, X, label)</text>
+          <text x="780" y="252">whether it believes the claim</text>
           <text x="780" y="270">liking, trust, grudges toward</text>
           <text x="780" y="288">the speaker or the one talked</text>
           <text x="780" y="304">about move</text>
@@ -91,8 +91,8 @@ text { fill: #1b2226; font-size: 12px; }
         <text x="355" y="354" text-anchor="middle">liking and trust</text>
         <text x="725" y="338" text-anchor="middle">what was said,</text>
         <text x="725" y="354" text-anchor="middle">to the one addressed</text>
-        <text class="t-m" x="910" y="338" text-anchor="middle">all of it: next round's</text>
-        <text class="t-m" x="910" y="354" text-anchor="middle">Briefings and priming</text>
+        <text class="t-m" x="910" y="338" text-anchor="middle">then feelings drift;</text>
+        <text class="t-m" x="910" y="354" text-anchor="middle">all of it shapes next round</text>
 
         <!-- Inside every stage -->
         <line class="ln-m dash" x1="20" y1="382" x2="1060" y2="382"/>
@@ -106,7 +106,7 @@ text { fill: #1b2226; font-size: 12px; }
 
         <rect class="b-rue" x="198" y="428" width="140" height="96" rx="8"/>
         <text class="t-h" x="268" y="452" text-anchor="middle">Priming rules</text>
-        <text class="mono" x="268" y="474" text-anchor="middle">social-priming</text>
+        <text class="t-s" x="268" y="474" text-anchor="middle">read the social facts</text>
         <text x="268" y="490" text-anchor="middle">cleared and rerun</text>
         <text x="268" y="506" text-anchor="middle">for the one choosing</text>
 
@@ -127,7 +127,7 @@ text { fill: #1b2226; font-size: 12px; }
         <text class="t-h" x="802" y="452" text-anchor="middle">Top five</text>
         <text x="802" y="474" text-anchor="middle">shuffled, no scores,</text>
         <text x="802" y="490" text-anchor="middle">each with reasons</text>
-        <text x="802" y="506" text-anchor="middle">rendered by RUE</text>
+        <text x="802" y="506" text-anchor="middle">from the rules</text>
 
         <rect class="b-agent" x="910" y="428" width="140" height="96" rx="8"/>
         <text class="t-h" x="980" y="452" text-anchor="middle">The agent</text>

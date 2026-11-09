@@ -37,15 +37,15 @@ text { fill: #1b2226; font-size: 12px; }
 
         <!-- Run config -->
         <rect class="b-h" x="420" y="14" width="260" height="62" rx="8"/>
-        <text class="t-h" x="550" y="40" text-anchor="middle">Run config (TOML)</text>
-        <text class="t-s t-m" x="550" y="60" text-anchor="middle">work, agents, Situations, choosers, seed</text>
+        <text class="t-h" x="550" y="40" text-anchor="middle">Run setup</text>
+        <text class="t-s t-m" x="550" y="60" text-anchor="middle">work, agents, models, Situations, seed</text>
         <line class="ln" x1="550" y1="76" x2="550" y2="166" marker-end="url(#a1)"/>
         <text class="t-s t-m" x="558" y="126">sets up</text>
 
         <!-- The Run -->
         <rect class="b-h" x="420" y="170" width="260" height="170" rx="10"/>
         <text class="t-title" x="550" y="198" text-anchor="middle">The Run</text>
-        <text class="t-m" x="550" y="217" text-anchor="middle">the Python harness</text>
+        <text class="t-m" x="550" y="217" text-anchor="middle">the harness</text>
         <text x="550" y="248" text-anchor="middle">sequences every round</text>
         <text x="550" y="268" text-anchor="middle">builds each Decision Request</text>
         <text x="550" y="288" text-anchor="middle">shuffles menus, hides RUE's scores</text>
@@ -54,17 +54,15 @@ text { fill: #1b2226; font-size: 12px; }
         <!-- The work -->
         <rect class="b-work" x="20" y="150" width="260" height="210" rx="10"/>
         <text class="t-title" x="150" y="178" text-anchor="middle">The work</text>
-        <text class="t-m" x="150" y="197" text-anchor="middle">outside RUE, rules in code</text>
+        <text class="t-m" x="150" y="197" text-anchor="middle">outside RUE</text>
         <text x="150" y="228" text-anchor="middle">owns its state and its clock</text>
         <text x="150" y="248" text-anchor="middle">gives each agent a menu</text>
         <text x="150" y="268" text-anchor="middle">resolves all moves at once</text>
-        <rect class="b-plain" x="34" y="290" width="106" height="24" rx="4"/>
-        <text class="t-s" x="87" y="306" text-anchor="middle">Investment Club</text>
-        <rect class="b-plain" x="146" y="290" width="82" height="24" rx="4"/>
-        <text class="t-s" x="187" y="306" text-anchor="middle">Not My Bug</text>
-        <rect class="b-plain" x="234" y="290" width="38" height="24" rx="4"/>
-        <text class="t-s" x="253" y="306" text-anchor="middle">Stub</text>
-        <text class="t-s t-m" x="150" y="340" text-anchor="middle">switched by one line of config</text>
+        <rect class="b-plain" x="53" y="290" width="106" height="24" rx="4"/>
+        <text class="t-s" x="106" y="306" text-anchor="middle">Investment Club</text>
+        <rect class="b-plain" x="165" y="290" width="82" height="24" rx="4"/>
+        <text class="t-s" x="206" y="306" text-anchor="middle">Not My Bug</text>
+        <text class="t-s t-m" x="150" y="340" text-anchor="middle">either work can be swapped in</text>
 
         <!-- RUE -->
         <rect class="b-rue" x="820" y="150" width="260" height="210" rx="10"/>
@@ -76,23 +74,23 @@ text { fill: #1b2226; font-size: 12px; }
         <text x="950" y="259" text-anchor="middle">a private store per agent</text>
         <text class="t-m" x="950" y="292" text-anchor="middle">one tick per round:</text>
         <text x="950" y="311" text-anchor="middle">work judgement → social actions</text>
-        <text x="950" y="329" text-anchor="middle">→ social judgement</text>
+        <text x="950" y="329" text-anchor="middle">→ social judgement → drift</text>
         <text class="t-s t-m" x="950" y="380" text-anchor="middle" font-style="italic">switched off in the work-only condition</text>
 
         <!-- Run ↔ work -->
         <line class="ln" x1="418" y1="215" x2="284" y2="215" marker-end="url(#a1)"/>
-        <text x="351" y="205" text-anchor="middle">1 · work decisions</text>
+        <text x="351" y="205" text-anchor="middle">work decisions</text>
         <line class="ln" x1="282" y1="290" x2="416" y2="290" marker-end="url(#a1)"/>
-        <text x="351" y="308" text-anchor="middle">2 · work events,</text>
+        <text x="351" y="308" text-anchor="middle">work events,</text>
         <text x="351" y="324" text-anchor="middle">work state</text>
 
         <!-- Run ↔ RUE -->
         <line class="ln" x1="682" y1="215" x2="816" y2="215" marker-end="url(#a1)"/>
-        <text x="751" y="173" text-anchor="middle">3 · mirror state</text>
-        <text x="751" y="189" text-anchor="middle">4 · record events</text>
+        <text x="751" y="173" text-anchor="middle">work state,</text>
+        <text x="751" y="189" text-anchor="middle">work events,</text>
         <text x="751" y="205" text-anchor="middle">agents' choices</text>
         <line class="ln" x1="818" y1="290" x2="684" y2="290" marker-end="url(#a1)"/>
-        <text x="751" y="308" text-anchor="middle">5–7 · top-five menus</text>
+        <text x="751" y="308" text-anchor="middle">top-five menus</text>
         <text x="751" y="324" text-anchor="middle">with reasons; state</text>
 
         <!-- Run ↔ agents -->
@@ -110,13 +108,13 @@ text { fill: #1b2226; font-size: 12px; }
         <text class="t-s t-m" x="492" y="401" text-anchor="end">system prompt, Briefing, menu</text>
         <line class="ln" x1="570" y1="438" x2="570" y2="344" marker-end="url(#a1)"/>
         <text x="578" y="385">an answer</text>
-        <text class="t-s t-m" x="578" y="401">rationale + choice</text>
+        <text class="t-s t-m" x="578" y="401">a reason and a choice</text>
 
         <!-- log -->
         <path class="ln-m" d="M682,335 H700 V420 H950 V446" marker-end="url(#a1m)"/>
         <text class="t-s t-m" x="826" y="412" text-anchor="middle">logs everything</text>
         <rect class="b-plain" x="820" y="450" width="260" height="86" rx="10"/>
-        <text class="mono" x="950" y="474" text-anchor="middle" font-weight="500">runs/&lt;time&gt;/</text>
+        <text class="t-h" x="950" y="474" text-anchor="middle">The Run log</text>
         <text class="t-s" x="950" y="495" text-anchor="middle">every request, answer and event</text>
-        <text class="t-s t-m" x="950" y="514" text-anchor="middle">plus ground truth: who did it, dice</text>
+        <text class="t-s t-m" x="950" y="514" text-anchor="middle">plus ground truth for analysis</text>
       </svg>

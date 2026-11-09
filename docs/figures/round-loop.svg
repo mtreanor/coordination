@@ -35,8 +35,8 @@
 
   <rect x="900" y="130" width="230" height="96" rx="10" fill="#ffffff" stroke="#7b4fa0" stroke-width="1.5"/>
   <text x="1015" y="164" text-anchor="middle" font-size="18" font-weight="bold" fill="#222">4. Record</text>
-  <text x="1015" y="190" text-anchor="middle" font-size="15" fill="#444">each work event becomes</text>
-  <text x="1015" y="210" text-anchor="middle" font-size="15" fill="#444">an external action</text>
+  <text x="1015" y="190" text-anchor="middle" font-size="15" fill="#444">each work event is recorded</text>
+  <text x="1015" y="210" text-anchor="middle" font-size="15" fill="#444">with who witnessed it</text>
 
   <line x1="880" y1="178" x2="896" y2="178" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
 
@@ -45,7 +45,7 @@
   <text x="680" y="330" font-size="18" font-weight="bold" fill="#222">5. Work judgement</text>
   <text x="890" y="330" font-size="15" fill="#444">witnesses judge each event</text>
   <text x="680" y="375" font-size="18" font-weight="bold" fill="#222">6. Social actions</text>
-  <text x="890" y="375" font-size="15" fill="#444">gossip, praise, stay quiet</text>
+  <text x="890" y="375" font-size="15" fill="#444">gossip, confront, thank, stay quiet</text>
   <text x="680" y="420" font-size="18" font-weight="bold" fill="#222">7. Social judgement</text>
   <text x="890" y="420" font-size="15" fill="#444">listeners judge what was said</text>
 
@@ -57,6 +57,6 @@
 
   <!-- Feedback: Briefing -->
   <path d="M890,452 L890,520 L50,520 L50,178 L66,178" fill="none" stroke="#333" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#arrow)"/>
-  <rect x="440" y="506" width="320" height="28" rx="6" fill="#ffffff"/>
-  <text x="600" y="526" text-anchor="middle" font-size="15" fill="#222">next round's Briefing: what each agent believes</text>
+  <rect x="320" y="506" width="560" height="28" rx="6" fill="#ffffff"/>
+  <text x="600" y="526" text-anchor="middle" font-size="15" fill="#222">then feelings drift; next round's Briefing shows what each agent believes</text>
 </svg>
