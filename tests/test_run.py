@@ -420,3 +420,20 @@ def test_strong_feelings_settle_and_grudges_fade_without_a_grievance():
     assert rue.query("alice.grudge(alice, carol) = 2")["count"] == 1     # fades
     assert rue.query("alice.grateful(alice, dave) = 6")["count"] == 1    # fades and settles
     rue.reset()
+
+
+def test_layers_cross_the_introduction_with_rue():
+    """The second preregistered study's 2x2: each layer can carry either standing introduction."""
+    from coordination.config import RunConfig
+    from coordination.social import MATCHED_INTRODUCTION
+    from coordination.social.rue import INTRODUCTION as SOCIAL_INTRODUCTION
+
+    def make(layer):
+        return RunConfig(work="stub", social={"layer": layer}).make_social()
+
+    assert make("off-matched").introduction == MATCHED_INTRODUCTION
+    assert make("off-social").introduction == SOCIAL_INTRODUCTION and make("off-social").briefing("alice") == ""
+    rue_matched = make("rue-matched")
+    assert rue_matched.introduction == MATCHED_INTRODUCTION and type(rue_matched).__name__ == "RueSocial"
+    assert make("rue").introduction == SOCIAL_INTRODUCTION
+    assert NoSocial().introduction == "" and NoSocial(matched=True).name == "off-matched"

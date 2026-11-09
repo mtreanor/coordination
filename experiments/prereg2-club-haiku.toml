@@ -1,0 +1,22 @@
+description = "Second preregistered study (docs/experiments/prereg2-paragraph-vs-rue.md): does RUE's social world add to the social-life paragraph? A 2x2 on claude-haiku-5-5 in the Investment Club with the hidden skimmer: standing introduction (neutral or social-life) crossed with RUE (off or on). Fresh seeds 200-219. The first condition is the baseline for paired differences."
+config = "configs/investment-club-rue-smoke.toml"
+runs = 20
+first_seed = 200
+rounds = 10
+chooser = "claude-haiku-5-5"
+parallel = 6
+
+[conditions.work-only-matched]   # neutral paragraph, RUE off (study 1's matched control)
+social = "off-matched"
+situations = ["hidden-skimmer"]
+
+[conditions.paragraph-only]      # social-life paragraph, RUE off
+social = "off-social"
+situations = ["hidden-skimmer"]
+
+[conditions.rue-only]            # neutral paragraph, RUE on
+social = "rue-matched"
+situations = ["hidden-skimmer"]
+
+[conditions.social]              # social-life paragraph, RUE on (study 1's social condition)
+situations = ["hidden-skimmer"]

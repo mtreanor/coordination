@@ -3,7 +3,7 @@
 from .base import MATCHED_INTRODUCTION, Ask, NoSocial, SocialLayer
 from .rue import RueSocial
 
-SOCIAL_LAYERS = {"off": NoSocial, "off-matched": NoSocial, "rue": RueSocial}
+SOCIAL_LAYERS = {"off": NoSocial, "off-matched": NoSocial, "off-social": NoSocial, "rue": RueSocial, "rue-matched": RueSocial}
 """Every social layer a Run can be configured with, by name. Add a new version here."""
 
 __all__ = ["MATCHED_INTRODUCTION", "SOCIAL_LAYERS", "Ask", "NoSocial", "RueSocial", "SocialLayer"]

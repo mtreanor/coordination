@@ -12,7 +12,8 @@ The work's rules are code. A Run config chooses everything else:
 
     [social]
     layer = "rue"                     # or "off" (the work-only condition), or "off-matched"
-                                      # (work-only with a neutral introduction of matched length)
+                                      # (work-only with a neutral introduction of matched length);
+                                      # "off-social" and "rue-matched" swap the two introductions
     scenario = "social-layer-data"
     plan = "full"
 
@@ -30,7 +31,8 @@ from pydantic import BaseModel, ConfigDict
 
 from .agents import Chooser, make_chooser
 from .situation import Situation
-from .social import NoSocial, RueSocial, SocialLayer
+from .social import MATCHED_INTRODUCTION, NoSocial, RueSocial, SocialLayer
+from .social.rue import INTRODUCTION as RUE_INTRODUCTION
 from .work import WORKS, Work
 
 
@@ -78,12 +80,22 @@ class RunConfig(BaseModel):
         return WORKS[self.work](self.agents, seed=self.seed, rounds=self.rounds)
 
     def make_social(self) -> SocialLayer:
-        if self.social.layer in ("off", "off-matched"):
-            return NoSocial(matched=self.social.layer == "off-matched")
-        if self.social.layer == "rue":
+        # The second preregistered study (docs/experiments/prereg2-paragraph-vs-rue.md) crosses the
+        # standing introduction with the layer: "off-social" is RUE off with RUE's social-life
+        # paragraph, "rue-matched" is RUE on with the matched control's neutral paragraph.
+        layer = self.social.layer
+        if layer in ("off", "off-matched", "off-social"):
+            social = NoSocial(matched=layer == "off-matched")
+            if layer == "off-social":
+                social.name, social.introduction = layer, RUE_INTRODUCTION
+            return social
+        if layer in ("rue", "rue-matched"):
             s = self.social
-            return RueSocial(s.scenario, s.server, plan=s.plan, seed=self.seed)
-        raise SystemExit(f"No social layer {self.social.layer!r} (known: off, rue)")
+            social = RueSocial(s.scenario, s.server, plan=s.plan, seed=self.seed)
+            if layer == "rue-matched":
+                social.name, social.introduction = layer, MATCHED_INTRODUCTION
+            return social
+        raise SystemExit(f"No social layer {layer!r} (known: off, off-matched, off-social, rue, rue-matched)")
 
     def chooser_names(self, agents: list[str]) -> dict[str, str]:
         unknown = set(self.choosers) - set(agents) - {"default"}
