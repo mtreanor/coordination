@@ -1,6 +1,6 @@
 # Results of study 2: does RUE's social world add to the social-life paragraph?
 
-The registered test of [prereg2-paragraph-vs-rue.md](prereg2-paragraph-vs-rue.md) (tag `prereg2-v1`, commit `2bfec50`), run Nov 8 2026, 19:15–19:59. The first study's results are in [prereg-results.md](prereg-results.md).
+The registered test of [prereg2-paragraph-vs-rue.md](prereg2-paragraph-vs-rue.md) (tag `prereg2-v1`, commit `0096a91`), run Nov 8 2026, 19:15–19:59. The first study's results are in [prereg-results.md](prereg-results.md).
 
 **Preliminary**, as registered: one inexpensive model (claude-haiku-5-5), one work, 20 seeds. The registered results (sections 2–3) follow the plan exactly. Sections 5–6 are exploratory.
 
@@ -26,7 +26,7 @@ Mean team coins over 20 seeds, with mean investments (of 40) in brackets:
 
 - **As registered:** the Investment Club; alice, bob (the hidden skimmer), carol and dave; 10 rounds; seeds 200–219.
 - **Conditions:** four.
-- **Runs:** 80, all at the registered commit (`config.json` records `2bfec50`).
+- **Runs:** 80, all at the registered commit (`config.json` records `0096a91`).
 - **Failures, reruns, exclusions: none.** No Run had a decision without a valid choice. Every contrast used all 20 seeds.
 - **Deviations: none.**
 - **Cost:** about $2.50, from the token counts in the decision logs.

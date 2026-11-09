@@ -1,6 +1,6 @@
 # Results: a confirmatory test of pilot observations
 
-The registered test of [prereg-confirmatory.md](prereg-confirmatory.md) (tag `prereg-confirmatory-v1`, commit `2adfd98`), run Nov 8 2026.
+The registered test of [prereg-confirmatory.md](prereg-confirmatory.md) (tag `prereg-confirmatory-v1`, commit `d671125`), run Nov 8 2026.
 
 **Preliminary**, as registered: two inexpensive models, one work, 15 seeds each. The registered results (sections 2–4) follow the plan exactly. Everything in sections 6–7 is exploratory, found after looking at the data, and labelled so.
 
@@ -26,7 +26,7 @@ The two models' effects differ by 304 coins [148, 467], permutation p = 0.001.
 
 - **As registered:** the Investment Club, alice, bob (the hidden skimmer), carol and dave, 10 rounds, seeds 100–114.
 - **Conditions:** three per model (`work-only-matched`, `social`, `work-only`).
-- **Runs:** 90, all at the registered commit (`config.json` records `2adfd98`).
+- **Runs:** 90, all at the registered commit (`config.json` records `d671125`).
   - gemini-3.6-flash first (17:56–18:22), then claude-haiku-5-5 (18:22–18:50).
   - **Failures, reruns, exclusions: none.** No Run had a decision without a valid choice.
 - **Deviations:** one, mechanical (section 9 of the prereg). To analyse the saved copies of the Runs, whose decision logs are gzipped, the analysis script learned to read `.gz` logs. The analysis itself is unchanged, and it reproduces the same numbers from `runs/` and from `prereg-runs/`.

@@ -16,4 +16,4 @@ All: Not My Bug, alice, bob, carol, dave, 10 sprints, gemini-flash, seed 0.
 | `history-defector-social` | rue (`full`) | `office-history`, `bob-defects` | 2 | `runs/batch-goal-2x2/history-defector-seed0` |
 | `oldinstr-workonly` | off | (the old `neutral`) | 2; older code, old default instruction | `runs/20261107-170053-not-my-bug-off-neutral` |
 
-Every Run was made from uncommitted code (commit `2d9a777…-dirty`).
+Every Run was made from uncommitted code (commit `1f94642…-dirty`).

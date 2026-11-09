@@ -25,7 +25,7 @@ On claude-haiku-5-5, left alone, cooperation falls apart, and the social layer r
 
 ## What existed before the hackathon, and what was built during it
 
-The git tag **`hackathon-start`** (`48f9c57`, Nov 6 2026, 00:04 US Eastern) marks the boundary. Everything up to it existed before the hackathon. RUE is a separate, pre-existing project with its own history. `docs/worklog.md` records what was worked on during the weekend, and for roughly how long.
+The git tag **`hackathon-start`** (`7d9ee37`, Nov 6 2026, 00:04 US Eastern) marks the boundary. Everything up to it existed before the hackathon. RUE is a separate, pre-existing project with its own history. `docs/worklog.md` records what was worked on during the weekend, and for roughly how long.
 
 | Part | Before the weekend | Status |
 |---|---|---|
