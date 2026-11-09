@@ -4,3 +4,6 @@ context/
 runs/
 .venv/
 __pycache__/
+# Personal notes, brainstorming, drafts and the report in progress; kept locally, not shared
+private/
+~$*

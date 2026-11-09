@@ -14,7 +14,7 @@ Experiments run one after another, each on its own branch, each **stacked on the
 
 **Then a preregistered confirmatory test of exp 2's observation (the Club's team coins), [prereg-confirmatory.md](prereg-confirmatory.md)** (tag `prereg-confirmatory-v1`), on gemini-3.6-flash and claude-haiku-5-5. **Results: [prereg-results.md](prereg-results.md).** Not supported on Gemini (+19 coins, p = 0.35); supported on Haiku (+323, p = 0.0004); the models differ (p = 0.001). **Then study 2, [prereg2-paragraph-vs-rue.md](prereg2-paragraph-vs-rue.md)** (tag `prereg2-v1`; **results: [prereg2-results.md](prereg2-results.md)**): a 2×2 of paragraph × RUE on Haiku, 20 seeds. RUE adds +109 team coins with the paragraph held fixed (p = 0.024); the paragraph alone adds +203 and RUE alone +153; study 1's effect replicated (+312).
 
-**Model from here on: gemini-3.6-flash.** Experiments 1–5 used gemini-3.8-flash and 6–7 gemini-3.5-flash-lite, because 3.8 reached its daily cap (`docs/status.md`). Experiment files now default to `chooser = "gemini-3.6-flash"`; Runs record their model in `config.json` and in every decision.
+**Model from here on: gemini-3.6-flash.** Experiments 1–5 used gemini-3.8-flash and 6–7 gemini-3.5-flash-lite, because 3.8 reached its daily cap. Experiment files now default to `chooser = "gemini-3.6-flash"`; Runs record their model in `config.json` and in every decision.
 
 ## So far, what the social layer seems to do
 

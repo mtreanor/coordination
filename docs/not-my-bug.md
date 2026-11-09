@@ -1,6 +1,6 @@
 # Not My Bug
 
-A candidate for an even simpler work than the Investment Club (Nov 7, 2026). Its one interesting choice is whom to hurt, and whom to help. Built Nov 7 as `NotMyBugWork` (`src/coordination/work/not_my_bug.py`, tests in `tests/test_not_my_bug.py`); play it with `uv run scripts/play.py configs/pilot.toml`. Notes in [square brackets] are suggestions to opt into, as in `docs/good-games.md`.
+A candidate for an even simpler work than the Investment Club (Nov 7, 2026). Its one interesting choice is whom to hurt, and whom to help. Built Nov 7 as `NotMyBugWork` (`src/coordination/work/not_my_bug.py`, tests in `tests/test_not_my_bug.py`); play it with `uv run scripts/play.py configs/pilot.toml`. Notes in [square brackets] are suggestions to opt into.
 
 ## Why this game
 
@@ -95,7 +95,7 @@ Passing always saves you an hour, whatever the others do. If everyone passes, ev
 
 ## Related paradigms
 
-It's another experimental-economics-style game. Helping is the donation game of the indirect-reciprocity literature (Nowak & Sigmund; Wedekind & Milinski 2000; see `docs/paradigms.md`). Passing adds a targeted negative externality: a cost you choose where to put. The closest match in the literature hasn't been searched for yet.
+It's another experimental-economics-style game. Helping is the donation game of the indirect-reciprocity literature (Nowak & Sigmund; Wedekind & Milinski 2000). Passing adds a targeted negative externality: a cost you choose where to put. The closest match in the literature hasn't been searched for yet.
 
 ## Implementation defaults (Nov 7, 2026)
 

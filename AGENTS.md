@@ -8,7 +8,7 @@ The grant proposal (submitted Aug 4 2026) is `context/schmidt-proposal-submitted
 
 ## Current status
 
-Read `docs/status.md` first: where the build stands, what's next, and the decisions made so far.
+Read `private/docs/status.md` first: where the build stands, what's next, and the decisions made so far. `private/` is gitignored and exists only on Mike's machine (personal notes, brainstorming, candidate games, the report in progress); in a fresh clone, start from `README.md`.
 
 ## Layout
 
@@ -26,6 +26,7 @@ Read `docs/status.md` first: where the build stands, what's next, and the decisi
 - `configs/` — Run configs (TOML): which work, agents, Situation, social layer and choosers a Run uses (ADR 0005).
 - `runs/` — Run output, gitignored.
 - `context/` — source documents (the proposal). Gitignored: it contains collaborators' personal details.
+- `private/` — personal notes, brainstorming, design drafts and the report in progress. Gitignored: the repo is shared publicly, so anything personal or exploratory-in-thought goes here, not in `docs/`.
 - `CONTEXT.md` — domain glossary. Use its terms.
 - `docs/adr/` — architecture decision records (created as needed).
 

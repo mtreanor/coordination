@@ -1,6 +1,6 @@
 # The Investment Club
 
-A candidate for the **simple** work, Work 1 (Nov 6, 2026). It's a trust game with a business theme (Berg, Dickhaut & McCabe, 1995). The complex work, Work 2, is a separate game (the Firm, `docs/firm.md`, is the leading idea).
+A candidate for the **simple** work, Work 1 (Nov 6, 2026). It's a trust game with a business theme (Berg, Dickhaut & McCabe, 1995). The complex work, Work 2, is a separate game, not yet built.
 
 ## Why it replaced the Feinberg game
 

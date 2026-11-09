@@ -1,43 +1,120 @@
-# Coordination
+# Coordination: LLM agents in a grounded social world
 
-A testbed where LLM agents do work together inside a social world they can see. The social world runs in **RUE**, a logic engine that tracks what each agent believes about the others, with full provenance. RUE also ranks the social actions (gossip, praise, staying quiet) and the judgements (resentful, generous, suspicious) available to each agent, and the agent's LLM picks among them. The work itself happens outside RUE: there the LLM deliberates freely, with its view of the social world in its prompt.
+A testbed where LLM agents do work together while living in a social world they can see but can't rewrite.
 
-The research question: does a social layer like this improve coordination among agents, open new ways to exploit them, or do nothing? The first hypothesis to test is that **gossip leads to shunning, and shunning leads to reform**.
+The social world runs in **RUE**, a symbolic engine (`external/rue`). RUE keeps track of who did what to whom, who saw it, who said what about it, and how each agent took it, all with full provenance. At every social decision, RUE ranks the actions open to an agent (praise, accuse, confront, thank, apologise, give the cold shoulder, stay quiet) and how it might judge what it saw or heard. The agent's LLM chooses among them. The work itself happens outside RUE: there the LLM deliberates freely, with its view of the social world in its prompt. Nobody tells the agents to cooperate. They're told only what their own score is.
 
-## Hackathon entry: Swarm Alignment Hackathon, Nov 6–8 2026
+**The research question:** does a social layer like this improve coordination among agents, open new ways to exploit them, or do nothing?
 
-This repo is being entered in the Swarm Alignment Hackathon. **Everything up to the git tag `hackathon-start` existed before the hackathon.** Only commits after it are weekend work. RUE (`external/rue`) is a separate, pre-existing project.
+**Paper:** *Grounded Gossip: A Neurosymbolic Testbed with a Social Memory LLM Agents Can't Rewrite, Toward Self-Correcting Agent Populations*, written for the Apart Research Swarm Alignment Hackathon (Nov 6–8, 2026). The PDF will be linked here.
 
-### What existed before the hackathon
+## Results so far (preliminary)
 
-1. **The idea and the experiment design.** These come from a grant proposal to Schmidt Sciences that wasn't funded, and were developed further in design notes in `docs/` (the experiment, candidate games, decisions).
-2. **RUE**, a separately developed engine with its own test suite and an authoring tool. It runs as a server that this project talks to over HTTP. Just before the hackathon it gained *external actions*, a way to register events that happened outside RUE, with full provenance.
-3. **The testbed's infrastructure, with placeholder content only.** The Run loop, the interfaces for the work and the social layer, the connection to RUE, and the LLM choosers ran end to end with a toy points game and a placeholder social world. No real work, no real social world, and no experiments existed, and nothing had produced a result.
+There are two small preregistered studies in the Investment Club, a trust game. Each was registered as a git tag before any of its Runs. Both are deliberately cheap: one work and inexpensive models. They give a first answer and effect sizes for planning a real study, not a final result.
 
-### What was built during the hackathon
+| Contrast | Team coins [95% CI] | Seeds +/−; p |
+|---|---|---|
+| Study 1, gemini-3.6-flash: social layer vs matched control | +19 [−73, +111] | 6 / 8; Holm 0.35 |
+| Study 1, claude-haiku-5-5: social layer vs matched control | **+323 [+200, +458]** | 13 / 1; Holm 0.0004 |
+| Study 2 (primary): RUE added to the social-life paragraph | **+109 [+27, +199]** | 14 / 6; 0.024 |
+| Study 2: the paragraph alone | +203 [+116, +295] | 16 / 4; Holm 0.0012 |
+| Study 2: RUE alone (neutral paragraph) | +153 [+70, +234] | 16 / 4; Holm 0.010 |
+| Study 2: study 1 replicated on fresh seeds | +312 [+231, +388] | 18 / 2; Holm < 0.0001 |
 
-This list grows as work lands; each item is in the commits after `hackathon-start`.
+On claude-haiku-5-5, left alone, cooperation falls apart, and the social layer raised team coins by about half. Both parts of the layer contributed, roughly additively: describing a social life in the system prompt, and RUE's symbolic social world (with that description held fixed). On gemini-3.6-flash, agents already cooperated almost fully, so there was nothing for the layer to raise. The full write-ups are in `docs/experiments/` (preregistrations, results, deviations), and every Run behind them is saved in `prereg-runs/`.
 
-- **The preregistration** (`docs/preregistration.md`, draft): hypotheses for each link of the causal chain, conditions, measures, analysis plan, sample sizes, and the models.
-- **The choice of Work 1:** a review of Feinberg, Willer & Schultz (2014), the human experiment on gossip and ostracism that Work 1 follows (`docs/feinberg-2014.md`), and a list of other candidate paradigms and benchmarks (`docs/paradigms.md`).
-- **A diagram of one round** (`docs/figures/round-loop.svg`).
+## What existed before the hackathon, and what was built during it
 
-Still to build: the works, the social world, per-agent Briefings, the experiment Runs, the analysis, and the report.
+The git tag **`hackathon-start`** (`48f9c57`, Nov 6 2026, 00:04 US Eastern) marks the boundary. Everything up to it existed before the hackathon. RUE is a separate, pre-existing project with its own history. `docs/worklog.md` records what was worked on during the weekend, and for roughly how long.
 
-## Layout
+| Part | Before the weekend | Status |
+|---|---|---|
+| **Engine and harness** | | |
+| RUE engine and authoring tool | A separate, mature project | Existed (general features added upstream this weekend: rendered reasons for every option, fresh priming, private occurrences, among others) |
+| RUE client (Play API) | Working | Existed |
+| Model choosers (local and hosted LLMs, scripted, human) | Working | Existed |
+| The Run (the harness) | A skeleton behind stubbed interfaces (ADR 0004) | **Significantly reworked:** filled in, with a work-only switch |
+| Interface between the work and RUE | Work events entered RUE as external actions | **Significantly reworked:** events report effects, credit and witnesses (ADR 0006) |
+| Situations (starting conditions) | Three simple ones | **Significantly reworked:** combinable, with special instructions |
+| Briefings and the Decision Request | None | **New:** menus with reasons, the incentive wording (ADR 0007) |
+| **What runs in it** | | |
+| The social world (authored RUE rules) | A placeholder stub: three stages, a few actions | **New** |
+| The works: Investment Club, Not My Bug | A stub points game | **New** |
+| Run configs, experiment files, batch runner | None | **New** (ADR 0005) |
+| Attack Situations and the auditor | None | **New** |
+| **Studies and writing** | | |
+| Position, research question, related work | A grant proposal (Aug 2026) and a workshop paper draft | Existed |
+| Exploratory experiments and pilots | None | **New** |
+| Two preregistered studies and their analysis | None | **New** (tags `prereg-confirmatory-v1` and `prereg2-v1`, each made before its Runs) |
+| The paper | None | **New** |
 
-| Path | What it is |
+![What existed before the hackathon, and what was built during it](docs/figures/before-and-after.png)
+
+## How the testbed works
+
+![The system at a glance](docs/figures/system-overview.png)
+
+Each round runs the same steps:
+
+1. **Work moves.** Every agent chooses its work move at the same time, from a menu that the work decides. Nothing on the menu is scored or recommended.
+2. **Resolve.** The work applies the moves and updates the scores.
+3. **Mirror.** The work's state is copied into RUE. Nothing is judged at this step.
+4. **Record.** Each work event becomes an occurrence in RUE, with its witnesses, what it changed, and who gets credit for it.
+5. **One RUE tick**, in four stages:
+   - work judgement: each agent labels what it saw;
+   - social actions: claims, confrontations, thanks and so on;
+   - social judgement: each agent believes or doubts, takes to heart or resents, what it heard;
+   - drift: feelings fade and mend over time.
+
+Each agent gets a **Briefing** at every decision: its view of the work, plus its own state in RUE, rendered from text templates. No language model writes any part of a Briefing. For social decisions, the Briefing shows RUE's top options, shuffled and without scores, each with its *reasons*: the provenance of why RUE ranked it. The agent is free to pick any of them.
+
+The social layer records facts and never judges outcomes for agents. A work event says what literally changed and who is credited, never whether it was good or bad; interpreting it is the agent's choice. `docs/framework.md` explains how a Run is put together. `CONTEXT.md` defines the project's terms.
+
+## Finding your way around
+
+| Path | What's there |
 |---|---|
+| `src/coordination/` | The Python package |
+| `src/coordination/run.py` | The Run loop: the round described above |
+| `src/coordination/work/` | The works: `investment_club.py`, `not_my_bug.py`, and a `stub.py` for testing. A new work implements the interface in `base.py` |
+| `src/coordination/social/` | The social layer: `rue.py` (RUE) behind the interface in `base.py`. Turning the layer off gives the work-only condition |
+| `src/coordination/agents/` | Choosers: anything that answers a Decision Request (LLMs through Pydantic AI, scripted, random, or a human at the prompt) |
+| `src/coordination/rue_client.py` | The client for the RUE server's Play API |
+| `src/coordination/situation.py` | Loads Situations |
 | `external/rue/` | The RUE engine (git submodule) |
-| `src/coordination/` | The Python package: the Run loop, the work, the social layer, the RUE client, and the agents (LLM, scripted and human choosers) |
-| `rue-data/` | RUE scenarios: `social-layer-data` (the placeholder social world) and `campfire` (an earlier proof of concept) |
-| `scripts/play.py` | Plays one Run from the command line |
-| `situations/` | Authored starting conditions: starting relationships and special instructions, combined per Run |
-| `models.toml` | Named model profiles, local (Ollama) and hosted. API keys go in `.env` |
-| `docs/` | Design notes. Start with `docs/status.md`, `docs/experiment.md` and `docs/framework.md` |
+| `rue-data/social-layer-data/` | **The social world:** the authored RUE rules, actions, judgements and text templates |
+| `rue-data/campfire/` | An earlier proof of concept |
+| `situations/` | Starting conditions, combined per Run: starting relationships (`office-history`, `grudge`), hidden defectors (`bob-defects`, `hidden-skimmer`), and reputation attacks (`attack-*`) |
+| `configs/` | Run configs: which work, agents, Situations, social layer and models a Run uses |
+| `experiments/` | Experiment files: a base Run config plus named conditions, played as paired Runs by `scripts/batch.py` |
+| `models.toml` | Named model profiles, local (Ollama) and hosted. API keys go in `.env` (see `.env.example`) |
+| `scripts/` | Entry points: `play.py` (one Run), `batch.py` (an experiment), `prereg_analysis.py` and `prereg2_analysis.py` (the registered analyses), `analyze_exp.py`, `analyze_attacks.py` and `summarise_runs.py` (exploratory summaries), `export_figures.py` |
+| `tests/` | The test suite |
+| `prereg-runs/` | Every Run behind the two preregistered studies, with each analysis's output (`analysis.json`) |
+| `exploratory-runs/` | Saved Runs behind `docs/exploratory-notes.md` |
+| `docs/experiments/` | The studies: two preregistrations and their results, seven exploratory experiments (each on an `exp/*` branch), and what was merged from them |
+| `docs/adr/` | Architecture decision records: why the testbed is built the way it is |
+| `docs/framework.md` | How a Run is put together, and how to plug in a new work or social layer |
+| `docs/investment-club.md`, `docs/not-my-bug.md` | The two works: rules, and why each was chosen |
+| `docs/experiment.md` | The experiment design, worked top-down from the hypothesis |
+| `docs/preregistration.md` | An earlier draft design, never registered; superseded by the studies in `docs/experiments/` |
+| `docs/agents-walkthrough.md` | How an LLM agent's decision flows through the code (as of Oct 2026) |
+| `docs/exploratory-notes.md` | Observations from early Runs (not findings) |
+| `docs/references.md` | Checked references |
+| `docs/rue-upstream.md` | Features this project needed from RUE |
+| `docs/worklog.md` | What was worked on during the hackathon, and when |
+| `docs/figures/` | The figures, drawn in `diagrams.html` |
 | `CONTEXT.md` | Glossary of the project's terms |
 
+Some older notes and commits mention design notes (candidate games, brainstorming, status snapshots) that are kept private and aren't in the repo.
+
 ## Running it
+
+You need [uv](https://docs.astral.sh/uv/) and Node.js. Clone with the submodule:
+
+```bash
+git clone --recurse-submodules git@github.com:mtreanor/coordination.git
+```
 
 Start the RUE server:
 
@@ -45,13 +122,31 @@ Start the RUE server:
 cd external/rue && npm install && npm run server
 ```
 
-Then, in another terminal, play a Run with the stub work and the stub social world:
+Then, in another terminal, play a Run. With random choosers it needs no API key:
 
 ```bash
-uv run scripts/play.py --chooser random --rounds 4
+uv run scripts/play.py configs/investment-club.toml --chooser random --rounds 4
 ```
 
-`--chooser` also takes a model profile name from `models.toml`, and `--social off` runs the work with no social layer. Output goes to `runs/`. Run the tests with:
+`--chooser` also takes a profile name from `models.toml` (copy `.env.example` to `.env` and add the keys for the providers you use), and `--social off` plays the work with no social layer. Output goes to `runs/`.
+
+Reproduce the registered analyses from the saved Runs (no server or API key needed):
+
+```bash
+uv run scripts/prereg_analysis.py prereg-runs/gemini prereg-runs/haiku
+```
+
+```bash
+uv run scripts/prereg2_analysis.py prereg-runs/study2
+```
+
+Rerun a study from scratch (this calls the model APIs):
+
+```bash
+uv run scripts/batch.py experiments/prereg2-club-haiku.toml
+```
+
+Run the tests:
 
 ```bash
 uv run pytest

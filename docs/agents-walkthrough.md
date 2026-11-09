@@ -574,6 +574,6 @@ What they cover: a valid choice and its RUE chooser object; native output mode; 
 
 This is the agent layer, tested on a toy scenario. Not built yet, roughly in order:
 
-- **Update (Nov 4, 2026):** the framework for the rest now exists, with stubs for both the work and the social layer: see `docs/framework.md`. What's left is the real work (`docs/work-design.md` and the candidates) and the real social world (`docs/social-model-design.md`), plus external occurrences in RUE so recorded work events carry external provenance.
+- **Update (Nov 4, 2026):** the framework for the rest now exists, with stubs for both the work and the social layer: see `docs/framework.md`. What's left is the real work and the real social world, plus external occurrences in RUE so recorded work events carry external provenance.
 
 Related reading: `CONTEXT.md` (the project's vocabulary), `docs/adr/` (the major decisions), `external/rue/docs/server-api.md` (the RUE API).
