@@ -99,7 +99,7 @@ These are what the experiment must be able to tell apart from the hypothesis.
 
 ## 5. Conditions (draft)
 
-The hackathon study's conditions, measures and analysis are in `docs/preregistration.md` (draft, Nov 6, 2026); there, "social, no shunning" became "social, no gossip," because shunning in the work stays possible in every condition.
+The hackathon study's conditions, measures and analysis were in an earlier draft preregistration (Nov 6, 2026, not public; superseded by `docs/experiments/prereg-confirmatory.md`); there, "social, no shunning" became "social, no gossip," because shunning in the work stays possible in every condition.
 
 | Condition | Social world | Gossip and shunning | Role |
 |---|---|---|---|

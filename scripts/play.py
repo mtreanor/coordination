@@ -9,8 +9,8 @@ Then:
     uv run scripts/play.py configs/investment-club.toml          # a Run config
     uv run scripts/play.py configs/investment-club.toml --social off --rounds 2
     uv run scripts/play.py                                       # stub work, RUE social layer, random choosers
-    uv run scripts/play.py configs/stub.toml --chooser claude-haiku --situations office-history,bob-defects
-    uv run scripts/play.py configs/stub.toml --choosers alice=claude-haiku,bob=qwen-9b
+    uv run scripts/play.py configs/investment-club.toml --chooser claude-haiku --situations office-history,bob-defects
+    uv run scripts/play.py configs/investment-club.toml --choosers alice=claude-haiku,bob=qwen-9b
 
 Flags override the config file. The social round is one tick of the RUE scenario's tick
 plan (plan), so conditions are tick plans in rue-data/<scenario>/tickplans/.

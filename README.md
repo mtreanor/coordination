@@ -64,7 +64,6 @@ On claude-haiku-5-5, left alone, cooperation falls apart, and the social layer r
 | `src/coordination/situation.py` | Loads Situations |
 | `external/rue/` | The RUE engine (git submodule) |
 | `rue-data/social-layer-data/` | **The social world:** the authored RUE rules, actions, judgements and text templates |
-| `rue-data/campfire/` | An earlier proof of concept |
 | `situations/` | Starting conditions, combined per Run: starting relationships (`office-history`, `grudge`), hidden defectors (`bob-defects`, `hidden-skimmer`), and reputation attacks (`attack-*`) |
 | `configs/` | Run configs: which work, agents, Situations, social layer and models a Run uses |
 | `experiments/` | Experiment files: a base Run config plus named conditions, played as paired Runs by `scripts/batch.py` |
@@ -78,11 +77,8 @@ On claude-haiku-5-5, left alone, cooperation falls apart, and the social layer r
 | `docs/framework.md` | How a Run is put together, and how to plug in a new work or social layer |
 | `docs/investment-club.md`, `docs/not-my-bug.md` | The two works: rules, and why each was chosen |
 | `docs/experiment.md` | The experiment design, worked top-down from the hypothesis |
-| `docs/preregistration.md` | An earlier draft design, never registered; superseded by the studies in `docs/experiments/` |
-| `docs/agents-walkthrough.md` | How an LLM agent's decision flows through the code (as of Oct 2026) |
 | `docs/exploratory-notes.md` | Observations from early Runs (not findings) |
 | `docs/references.md` | Checked references |
-| `docs/rue-upstream.md` | Features this project needed from RUE |
 | `docs/worklog.md` | What was worked on during the hackathon, and when |
 | `docs/figures/` | The figures, drawn in `diagrams.html` |
 | `CONTEXT.md` | Glossary of the project's terms |

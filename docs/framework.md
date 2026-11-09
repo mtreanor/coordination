@@ -54,7 +54,6 @@ A Run's settings are a TOML file in `configs/` (`src/coordination/config.py`): t
 
 | Config | What it is |
 |---|---|
-| `configs/stub.toml` | The stub work with the RUE social world |
 | `configs/investment-club.toml` | The Investment Club's eight businesses, work-only, with two planted defectors (`situations/club-defectors.toml`) |
 | `configs/pilot.toml` | Five agents with bo as a planted defector (`situations/one-defector.toml`), work-only. Switch games by changing `work` alone |
 | `configs/not-my-bug.toml` | Not My Bug's five engineers, work-only, random choosers |

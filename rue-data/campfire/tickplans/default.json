@@ -1,6 +1,0 @@
-{
-  "entityType": "agent",
-  "phases": [
-    { "actionGraph": "take-turn", "loop": ["SELF"], "bindings": {} }
-  ]
-}

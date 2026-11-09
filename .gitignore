@@ -7,3 +7,6 @@ __pycache__/
 # Personal notes, brainstorming, drafts and the report in progress; kept locally, not shared
 private/
 ~$*
+# Instructions for coding agents; kept locally
+AGENTS.md
+CLAUDE.md

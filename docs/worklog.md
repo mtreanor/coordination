@@ -12,6 +12,8 @@ What was worked on, when, and for roughly how long, for the hackathon report. Ti
 | Work design and build: paradigms survey, the Investment Club (design, code, tests), steps in a round, Run configs (ADR 0005), first LLM pilot | 1.5 h | Nov 6, 23:20 – Nov 7, 00:40 |
 | Work design and build: Not My Bug (design, code, tests), pilot config, LLM pilot and menu fixes | 0.75 h | Nov 7, 09:35–10:20 |
 | Interface between the work and RUE (social layer) | 3.5 h so far | Nov 7, 10:24–13:45 |
+| Two preregistered studies: design, registration, Runs, analysis and write-ups | 3 h | Nov 8, 17:10–20:05 |
+| The paper: results, framing, references, Word fixes, rewrites, cut to 8 pages; public README | 5 h | Nov 8, 20:05 – Nov 9, 01:00 |
 
 ## Before the hackathon
 
@@ -105,6 +107,18 @@ What was worked on, when, and for roughly how long, for the hackathon report. Ti
 - **~19:00–19:15, study 2 designed and registered** (Mike: "one more try"). `docs/experiments/prereg2-paragraph-vs-rue.md`: a 2×2 on claude-haiku-5-5 (the introduction × RUE), primary RUE vs no RUE with the social paragraph, two-sided, 20 seeds (200–219). New layers `off-social` and `rue-matched`; `experiments/prereg2-club-haiku.toml`; `scripts/prereg2_analysis.py`. Pipeline-checked with random choosers and Haiku (2 rounds, seed 900; counts only). Commit `0096a91`, tag `prereg2-v1`.
 - **~19:15–19:59, study 2 run** (80 Runs, no failures, about $2.50). H2 supported: RUE adds +109 [+27, +199], 14 of 20, p = 0.024. The paragraph alone +203 (Holm p = 0.001), RUE alone +153 (Holm p = 0.010), interaction n.s.; study 1's H1 replicated (+312, 18 of 20).
 - **~19:59–20:05, study 2 written up** (`docs/experiments/prereg2-results.md`), with the case study (seed 211: a thank-you after a good payback becomes a partnership whose rationales cite RUE's trust and gratitude) and the finding that study 1's round-1 split was noise: paired cells got byte-identical round-1 prompts, yet Haiku chose differently 34% of the time. Study 1's write-up annotated. Runs saved in `prereg-runs/study2/`.
+
+### Nov 8, evening – Nov 9: the paper
+
+- **~20:05–20:45, study 2 into the paper.** The report outline and the paper updated with study 2's results and new figures (commit `55bed00`).
+- **~20:45–21:30, framing and references** (Mike). The two studies merged into one results section with a combined table, framed as one configuration of first-draft layers: the testbed is a platform for experimenting with social authoring and work models, and this is what one weekend produced. The multi-principal framing moved out of the introduction's lead. Every reference not by Mike checked against Crossref, arXiv, NBER, RePEc, OpenReview and METR's page: two fixed (Hertwig & Ortmann's pages; Horton's co-authors and DOI), the Ensemble paper left for Mike to confirm. The project's origin as an August 2026 proposal to Schmidt Sciences noted.
+- **~21:30–22:30, the paper wouldn't open cleanly in Word.** Word reported unreadable content. Found by building test copies that each held one change: table cells with no paragraph in them (the author block, and later the title block after a line was removed). Fixed by giving every cell a paragraph; leftover revision records from the template removed.
+- **~22:30–23:00, the abstract rewritten** from Mike's comments in Word: motivate the problem, say what we asked and what we found, define every term before using it (the hidden skimmer, coins), no unexplained statistics, no overstated claims about agents' social lives. The "With Apart Research" line removed.
+- **~23:00–23:30, an edit pass for voice and clarity** across the whole paper: plain declarative sentences, no rhetorical openers or "X, not Y" flourishes, terms defined before use, and every result connected to why it matters.
+- **~23:30 – Nov 9 00:15, cut to 8 pages and reframed around the testbed.** The introduction now opens with the Hugging Face incident (agents that formed norms, attacked together and "did frequently make attempts to edit their transcripts", quote checked against METR's page) and pitches a social memory agents can't rewrite; the discussion ends on what the record offers oversight. The per-seed plot and the before-and-after figure moved to an appendix, the attack-pilot table folded into prose, and the discussion, limitations and conclusion tightened.
+- **~00:15–00:35, results made readable for a cold reader** (Mike). Study 1 and study 2 rewritten to explain the game, the skimmer, the social-life paragraph and the matched control before any numbers, and to say plainly what study 2 separates. The reputation-attack section dropped from the results: the attacks are now future work, piloted but not studied. A sentence on the sense in which the testbed is neurosymbolic (loosely coupled; nothing trained jointly). The key p-values recomputed independently (a fresh brute-force sign-flip and SciPy's permutation test; both match), and the statistics jargon replaced with plain wording.
+- **~00:40–00:55, public repo and README.** Personal notes and drafts moved to a gitignored `private/`; the README links the paper PDF (`Treanor_GroundedGossip_SwarmAlignment2026.pdf`) and shows the before-and-after figure, its labels updated, in place of the table.
+- **~01:00, submitted.**
 
 ## Notes for the report
 

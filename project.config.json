@@ -1,7 +1,6 @@
 {
   "active": "social-layer-data",
   "scenarios": {
-    "campfire": "rue-data/campfire",
     "social-layer-data": "rue-data/social-layer-data"
   }
 }
